@@ -30,10 +30,10 @@ Status legend: ✅ = exists and working, 🆕 = to be created by Claude Code.
 raiku-revenue-model/
 ├── CLAUDE.md                ← You are here (project guide)
 ├── config.py             ✅ ← API keys, business parameters, scenarios
-├── run_pipeline.py       🆕 ← Master orchestrator (extract → transform → model → output)
+├── run_pipeline.py       ✅ ← Master orchestrator (extract → transform → model → output)
 │
 ├── 01_extract/
-│   ├── extract_trillium.py 🆕 ← CREATE FIRST: PRIMARY data source (epochs 553+)
+│   ├── extract_trillium.py ✅ ← PRIMARY data source (epochs 553+)
 │   ├── dune_client.py    ✅ ← Dune API wrapper (tested, working)
 │   ├── dune_epochs.py    ✅ ← Epoch economics query 6773409
 │   ├── dune_validators.py ✅ ← Commission/validators query 6773227
@@ -41,18 +41,18 @@ raiku-revenue-model/
 │   └── coingecko_prices.py ✅ ← SOL price + FDV
 │
 ├── 02_transform/
-│   └── build_database.py 🆕 ← Merge Trillium + Dune + CoinGecko, all computations in Python
+│   └── build_database.py ✅ ← Merge Trillium + Dune + CoinGecko, all computations in Python
 │
 ├── 03_model/
-│   ├── aot_revenue.py    🆕 ← AOT: top-down + bottom-up (6 archetypes), use real data
-│   └── jit_revenue.py    🆕 ← JIT: Jito TAM from Trillium × share × fee
+│   ├── aot_revenue.py    ✅ ← AOT: top-down + bottom-up (6 archetypes), use real data
+│   └── jit_revenue.py    ✅ ← JIT: Total Jito tips × market share × protocol fee
 │
 ├── 04_output/
 │   └── sheets_export.py  🆕 ← Push results to Google Sheets (Phase 4)
 │
 ├── data/
 │   ├── raw/                 ← Never edit manually. Re-extractable.
-│   │   ├── trillium_epoch_data.csv         🆕 (will be created by extract_trillium.py)
+│   │   ├── trillium_epoch_data.csv         ✅ (382 epochs, 553-934)
 │   │   ├── dune_epoch_data_v2.csv        ✅ (785 rows, epochs 150-935)
 │   │   ├── dune_commission_validators_v2.csv ✅ (785 rows)
 │   │   ├── coingecko_sol_price.csv       ✅ (365 days)
@@ -142,7 +142,7 @@ Partially replaced by Trillium `sol_price_usd` for epoch-level data.
 
 ## Existing Solana Database (to enrich)
 
-Located at: `C:\Users\Utilisateur\OneDrive\RAIKU\08 - Revenue - Economics\Raiku - Revenues estimations\`
+Located at: `C:\Users\Utilisateur\Dev-RAIKU\raiku-revenue-model\`
 Build script: `build_final_data.py`
 
 **Current structure**: ONE Excel sheet, epochs 150-935 (~785 rows)
@@ -171,10 +171,10 @@ Build script: `build_final_data.py`
 8. Validator economics from Trillium `/validator_rewards/{epoch}` (for profitability model)
 
 ### Phase 3: Build Revenue Model
-9. **JIT model**: TAM (Jito tips total from Trillium `total_mev_earned`) x market_share x protocol_fee
-10. **AOT model top-down**: Priority fees TAM x addressable_pct x RAIKU_capture_rate
-11. **AOT model bottom-up (3D)**: Stake% x Slots/yr x CU_reserved% x Fee/CU x SOL_price, by 6 archetypes
-12. **Scenario matrix**: TAM x share x fee x stake combinations (see `config.py` SCENARIOS)
+9. **JIT model**: Total Jito tips (from Trillium `total_mev_earned`) × market_share × protocol_fee
+10. **AOT model top-down**: Total priority fees × latency_sensitive_share × RAIKU_capture
+11. **AOT model bottom-up (3D)**: Stake% × Slots/yr × CU_reserved% × Fee/CU × SOL_price, by 6 archetypes
+12. **Scenario matrix**: total_market × share × fee × stake combinations (see `config.py` SCENARIOS)
 13. **Sanity check**: top-down ~ bottom-up (order of magnitude)
 
 ### Phase 4: Output
@@ -199,10 +199,10 @@ JIT_Revenue = Total_Jito_Tips × RAIKU_Market_Share × Protocol_Fee
 
 ### AOT Revenue — Top-Down
 ```
-AOT_Revenue = Priority_Fees_TAM × Addressable_Pct × RAIKU_Capture
+AOT_Revenue = Total_Priority_Fees × Latency_Sensitive_Share × RAIKU_Capture
 ```
-- Priority_Fees_TAM: from Trillium `total_validator_priority_fees`, annualized
-- Addressable_Pct: % of fees from latency-sensitive programs (from Dune fee/CU data)
+- Total_Priority_Fees: from Trillium `total_validator_priority_fees`, annualized
+- Latency_Sensitive_Share: % of fees from latency-sensitive programs (from Dune fee/CU data)
 - RAIKU_Capture: market share assumption
 
 ### AOT Revenue — Bottom-Up (3D Framework)
@@ -249,7 +249,7 @@ Total Revenue (100%)
 
 ---
 
-## Real Data Already Extracted
+## Real Data Already to be Extract 
 
 ### Fee/CU by Program (7-day, from `dune_fee_per_cu_by_program.csv`)
 - BisonFi (PropAMM): median 24.28 L/CU — PropAMMs pay 100-400x more than regular DeFi

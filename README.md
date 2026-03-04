@@ -18,7 +18,7 @@ Python = computation engine │ Google Sheets = presentation layer
 
 Trillium API ─────┐         Merge on epoch key        JIT Revenue Model      Google Sheets
   (PRIMARY)       │         Cross-check sources        ──────────────        (formatted,
-  141 fields/     │         Build processed CSV         Jito TAM × share     shareable,
+  141 fields/     │         Build processed CSV         Total Jito tips ×    shareable,
   epoch           │                                     × protocol fee       scenarios)
                   │
 Dune Analytics ───┤         data/processed/            AOT Revenue Model
@@ -36,7 +36,7 @@ CoinGecko ────────┘
 
 | Source | Role | Data | Status |
 |--------|------|------|--------|
-| **Trillium API** | PRIMARY | Epoch economics, MEV breakdown, APY, validators, CU stats | 🔲 Phase 1 |
+| **Trillium API** | PRIMARY | Epoch economics, MEV breakdown, APY, validators, CU stats | ✅ Extracted (382 epochs) |
 | **Dune** (6773409) | Secondary | Epoch rewards, fees, MEV (epochs 150-935) | ✅ Extracted |
 | **Dune** (6773227) | Secondary | Validator commissions, count | ✅ Extracted |
 | **Dune** (6776267) | Secondary | Active stake per epoch | ✅ Extracted |
@@ -67,7 +67,7 @@ raiku-revenue-model/
 ├── run_pipeline.py        ← Master entry point
 │
 ├── 01_extract/            ← Data extraction (API calls)
-│   ├── extract_trillium.py    ← PRIMARY (epochs 553+, ~380 epochs) [TO CREATE]
+│   ├── extract_trillium.py    ← PRIMARY (epochs 553-934, 382 epochs) ✅
 │   ├── dune_client.py         ← Dune API wrapper
 │   ├── dune_epochs.py         ← Epoch economics (query 6773409)
 │   ├── dune_validators.py     ← Commission/validators (query 6773227)
@@ -79,7 +79,7 @@ raiku-revenue-model/
 │
 ├── 03_model/              ← Revenue estimation
 │   ├── aot_revenue.py         ← AOT: top-down + bottom-up (6 archetypes)
-│   └── jit_revenue.py         ← JIT: Jito TAM × share × fee
+│   └── jit_revenue.py         ← JIT: Total Jito tips × share × fee
 │
 ├── 04_output/             ← Google Sheets export (presentation layer)
 │
