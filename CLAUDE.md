@@ -317,9 +317,23 @@ Savings = E_regular - E_AOT
 
 ---
 
+## Before You Start (IMPORTANT)
+
+**Before creating any 🆕 file**, read the existing ✅ files to understand patterns:
+
+1. **Read `config.py`** — All constants, API URLs, business parameters, CSV settings
+2. **Read `01_extract/dune_client.py`** — Dune API wrapper pattern (stdlib urllib, retry logic, CSV output)
+3. **Skim `01_extract/dune_epochs.py`** — How extraction scripts are structured (argparse, incremental vs --full, progress output)
+4. **Skim `01_extract/coingecko_prices.py`** — Another extraction pattern example
+5. **Check a raw CSV** (e.g. first 5 lines of `data/raw/dune_epoch_data_v2.csv`) — Understand the semicolon format, column naming
+
+This ensures your new code is **consistent** with what already exists (same CSV format, same import patterns, same error handling style).
+
+---
+
 ## Quick Start
 
-To begin Phase 1 Step 1:
+Phase 1 Step 1 — create and run:
 ```bash
 cd "C:/Dev/RAIKU/Revenue Estimation/raiku-revenue-model"
 python 01_extract/extract_trillium.py --full
@@ -330,3 +344,15 @@ This should:
 2. Select relevant fields (see list above)
 3. Save to `data/raw/trillium_epoch_data.csv` (semicolon-delimited)
 4. Print progress and summary stats
+
+---
+
+## Working Style
+
+- **Plan first**: For any non-trivial task (3+ steps), plan before coding
+- **If something breaks, stop and re-plan** — don't push through a failing approach
+- **Verify before done**: Never mark a task complete without running the code and proving it works
+- **Simplicity first**: Make every change as simple as possible. Minimal code impact.
+- **Find root causes**: No temporary fixes. Fix the actual problem.
+- **Autonomous**: When you see an error, just fix it. Don't ask for hand-holding.
+- **Track lessons**: If a mistake happens, note the pattern to avoid repeating it
