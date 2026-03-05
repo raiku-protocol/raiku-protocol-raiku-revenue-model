@@ -68,14 +68,92 @@ cpamdpZCGKUy5JxQXB4dcpGPiikHawvSWAd6mEn1sGG;Meteora DAMM v2;dex;amm;both;solscan
 PdMDrKEMaX8q7CCJb7NvUCxerBCcsFUa4LjBEynTtEd;pumpup.ai;trading_bot;sniper;jit;solscan;Solscan: pumpup.ai - token sniper bot needs fast execution = JIT
 1avaAUcjccXCjSZzwUvB2gS3DzkkieV2Mw8CjdN65uu;Lavarage USDC Leverage;lending;leverage;potential;solscan;Solscan: Lavarage - leverage/liquidation defense could use AOT
 4pjbtQCpaXFrmT7wcfuCQnAWLCUhRuK9CKQyvou1F5xo;Luck.io Program;gambling;casino;potential;solscan;Solscan: Luck.io - on-chain casino could need reliable execution
-jesterKqzZ7hWfNLnUDeB8WtMrm7a44g2vSyhs7WmyT;UNVERIFIED (jester);unknown;unknown;unknown;no_solscan_label;No Solscan label - vanity address - 246K txs - no GitHub/web results
-Bgo4vNe3vxRv37j8mmQarJo8vbjHEKgkhJDZzxiizBid;UNVERIFIED (Bgo4v);unknown;unknown;unknown;no_solscan_label;No Solscan label - 88K txs - high fee/CU (37.10) suggests trading bot
-FtyzXdj1NRexpX3WJqxs4qaqo2S2LehiRPyPY9hWDarn;UNVERIFIED (Ftyz);unknown;unknown;unknown;no_solscan_label;No Solscan label - 635K txs - no GitHub/web results
-45fCmmKfFjZ1bYu7zHyUPYsfPauQAD1RVinUmBp8DbSb;UNVERIFIED (45fC);unknown;unknown;unknown;no_solscan_label;No Solscan label - 328K txs - no GitHub/web results
-CoqTVH4YViufSd8idZ7WwndUQUDWnTT6yERGjXfjQd52;UNVERIFIED (CoqT);unknown;unknown;unknown;no_solscan_label;No Solscan label - 713K txs - 164K avg CU
-DT3X9y2w3S13M4GiQNbMtsrYeA9eEZpLg6frM4V28at5;UNVERIFIED (DT3X);unknown;unknown;unknown;no_solscan_label;No Solscan label - 224K txs - very consistent fee/CU (2.47) suggests bot
-D4aBeFn9DBhU41kFNvr9kVKRuBy858ATxwTevmJCCJYL;UNVERIFIED (D4aB);unknown;unknown;unknown;no_solscan_label;No Solscan label - 261K txs - very consistent fee/CU (3.18) suggests bot
-8jaLKWLJAj5jVCZbxpe3zRUvLB3LD48MRtaQ2AjfCfxa;UNVERIFIED (8jaL);unknown;unknown;unknown;no_solscan_label;No Solscan label - 519K txs - 76K avg CU
-9VX8EKBg6vM6tA68xaDsPkbrx26XConZjkQmhVApUptc;UNVERIFIED (9VX8);unknown;unknown;unknown;no_solscan_label;No Solscan label - 361K txs - very high fee/CU (11.28) suggests MEV/arb
-5bsFrMYiXMEEkVny2x37J1kK3U6h6RbtYGqxNAAFeSV7;UNVERIFIED (5bsF);unknown;unknown;unknown;no_solscan_label;No Solscan label - 65K txs - 150K avg CU
-GH8Ya8jNnovpKH6r4YUiZGmfmv2t4onak1D4Bng4Vudw;UNVERIFIED (GH8Y);unknown;unknown;unknown;no_solscan_label;No Solscan label - 38K txs - 206K avg CU
+jesterKqzZ7hWfNLnUDeB8WtMrm7a44g2vSyhs7WmyT;Trading Bot (jester);trading_bot;mev;jit;behavioral;557 SOL fees / 86K txs / 38.03 fee/CU = very high-fee MEV bot pattern
+Bgo4vNe3vxRv37j8mmQarJo8vbjHEKgkhJDZzxiizBid;Trading Bot (Bgo4v);trading_bot;mev;jit;behavioral;16.9 SOL / 28K txs / 150K CU / 3.98 fee/CU = high-value MEV bot pattern
+FtyzXdj1NRexpX3WJqxs4qaqo2S2LehiRPyPY9hWDarn;Trading Bot (Ftyz);trading_bot;arbitrage;jit;behavioral;17.2 SOL / 611K txs / 20K CU / 1.52 fee/CU = high-volume arb bot
+45fCmmKfFjZ1bYu7zHyUPYsfPauQAD1RVinUmBp8DbSb;Trading Bot (45fC);trading_bot;arbitrage;jit;behavioral;7.0 SOL / 228K txs / 85K CU / 0.41 fee/CU = moderate arb bot
+CoqTVH4YViufSd8idZ7WwndUQUDWnTT6yERGjXfjQd52;Trading Bot (CoqT);trading_bot;arbitrage;jit;behavioral;0.45 SOL / 41K txs / 164K CU / 0.07 fee/CU = volume arb bot
+DT3X9y2w3S13M4GiQNbMtsrYeA9eEZpLg6frM4V28at5;Automated Bot (DT3X);trading_bot;keeper;aot;behavioral;22.3 SOL / 1.1M txs / 8K CU / 2.42 fee/CU = very consistent fee = keeper/crank bot
+D4aBeFn9DBhU41kFNvr9kVKRuBy858ATxwTevmJCCJYL;Automated Bot (D4aB);trading_bot;keeper;aot;behavioral;10.2 SOL / 1M txs / 3.5K CU / 3.13 fee/CU = consistent fee = keeper/crank bot
+8jaLKWLJAj5jVCZbxpe3zRUvLB3LD48MRtaQ2AjfCfxa;Trading Bot (8jaL);trading_bot;arbitrage;jit;behavioral;7.2 SOL / 1.4M txs / 76K CU / 0.07 fee/CU = high-volume bot
+9VX8EKBg6vM6tA68xaDsPkbrx26XConZjkQmhVApUptc;MEV Bot (9VX8);trading_bot;mev;jit;behavioral;9.1 SOL / 1.6M txs / 532 CU / 10.75 fee/CU = extreme fee/CU ratio = MEV tip program
+5bsFrMYiXMEEkVny2x37J1kK3U6h6RbtYGqxNAAFeSV7;Unknown DeFi (5bsF);unknown;unknown;unknown;behavioral;0.30 SOL / 11K txs / 153K CU - insufficient data to classify
+GH8Ya8jNnovpKH6r4YUiZGmfmv2t4onak1D4Bng4Vudw;Unknown DeFi (GH8Y);unknown;unknown;unknown;behavioral;4.15 SOL / 119K txs / 203K CU - high CU suggests DeFi but unidentifiable
+StenDH7EmnXdcniwsXgTWtN1ogfQksZ1C5UGBr7dNBG;MEV Bot (StenDH7);trading_bot;mev;jit;behavioral;399 SOL / 87K txs / 152K CU / 27.84 fee/CU = extreme fees = whale MEV bot
+9i7QdbBHx7fjLAAaFfcDRgkdS4oNfKv8duzyE27a1kJ6;MEV Bot (9i7Qd);trading_bot;mev;jit;behavioral;118 SOL / 5.9K txs / 151K CU / 121.33 fee/CU = highest fee/CU = whale MEV bot
+Ceu4aCcSV624aRGUoWt2pPd5YuLZM4gyos7kyrPrpGG1;Unknown Protocol (Ceu4a);unknown;defi;potential;behavioral;13.8 SOL / 2.5M txs / 79K CU = high volume DeFi protocol
+LiMoM9rMhrdYrfzUCxQppvxCSG1FcrUK9G8uLq4A1GF;Unknown DeFi (LiMoM);unknown;defi;potential;behavioral;11.9 SOL / 10K txs / 412K CU = very high CU complex DeFi
+brzp8fNvHCBRi8UcCnTQUgQ2bQ4JnJTJtCvPzpKf2ty;Unknown DeFi (brzp8);unknown;defi;potential;behavioral;8.6 SOL / 15K txs / 243K CU = high CU DeFi protocol
+pudgeNoz4YrkpwZr8dYmhkHJz87yRHsJeyxZhQChetj;Pudge Protocol;unknown;defi;potential;behavioral;5.7 SOL / 120K txs / 160K CU - unidentified protocol
+CRSeeBqjDnm3UPefJ9gxrtngTsnQRhEJiTA345Q83X3v;Unknown Bot (CRSee);trading_bot;trading;jit;behavioral;5.4 SOL / 79K txs / 18K CU / 3.73 fee/CU = elevated fee/CU suggests trading bot
+7SyiQ664tWYCyWyKDftkfLspE85pJrUR4kJQwb6brYb9;Keeper Bot (7SyiQ);trading_bot;keeper;aot;behavioral;5.3 SOL / 523K txs / 2.5K CU / 4.09 fee/CU = tiny CU + consistent = keeper pattern
+sa12qbQyuQqEaDcEqEPKmZEGTdzSMaqj87nKRYbE3QE;Unknown Protocol (sa12q);unknown;defi;potential;behavioral;4.2 SOL / 581K txs / 31K CU = high-volume protocol
+FdDd6eCKiRTUDnQ9o466pDnpcks6kwPCVc1uqcMdScAf;Unknown Bot (FdDd6);trading_bot;trading;jit;behavioral;4.2 SOL / 342K txs / 13K CU / 1.10 fee/CU = moderate fee bot
+FTV1kbDLaeVM4LG4vHrVu2qdt2cXazYTXWWUi1xFAJdK;Unknown Protocol (FTV1k);unknown;defi;potential;behavioral;3.8 SOL / 597K txs / 109K CU = high-volume DeFi
+4R3gSG8BpU4t19KYj8CfnbtRpnT8gtk4dvTHxVRwc2r7;Unknown Protocol (4R3gS);unknown;defi;potential;behavioral;3.6 SOL / 726K txs / 76K CU = very high volume
+FDF8AxHB8UK7RS6xay6aBvwS3h7kez9gozqz14JyfKsg;Trading Bot (FDF8A);trading_bot;mev;jit;behavioral;3.6 SOL / 16K txs / 28K CU / 7.86 fee/CU = high fee/CU = MEV bot
+AEyodoBDx5vgvEpWLUbNRMYHrSJ113uW2A8avE3GEB7X;Unknown Protocol (AEyod);unknown;defi;potential;behavioral;3.6 SOL / 217K txs / 47K CU = moderate DeFi protocol
+dbcij3LWUppWqq96dh6gJWwBifmcGfLSB5D4DuSMaqN;Unknown Protocol (dbcij);unknown;defi;potential;behavioral;3.1 SOL / 408K txs / 90K CU = high-volume DeFi
+jupgfSgfuAXv4B6R2Uxu85Z1qdzgju79s6MfZekN6XS;Jupiter Governance;dex;governance;neither;jupiter_prefix;jup prefix + 3.3K txs + 383K CU = Jupiter governance/admin operations
+nosJhNRqr2bc9g1nfGDcXXTXvYUmxD4cVwy2pMWhrYM;Nosana Jobs;compute;gpu_marketplace;potential;nosana_docs;Nosana GPU compute marketplace - job scheduling could need AOT
+riptK81hDxhe5pW5jSzSM9iRA8azgEgLJ4dXkPtBS7j;Tip Bot (riptK);trading_bot;tips;jit;behavioral;2.5 SOL / 505K txs / 344 CU / 14.58 fee/CU = tiny CU + high fee = tip/MEV routing
+metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s;Metaplex Token Metadata;nft;metadata;neither;metaplex_docs;Metaplex NFT metadata standard - system infrastructure
+vanshF62ku4jVVdf8DS47SXuJC1rq8qokGSANAomhey;Trading Bot (vansh);trading_bot;mev;jit;behavioral;2.2 SOL / 3.9K txs / 84K CU / 3.60 fee/CU = low volume high fee = whale bot
+ENicYBBNZQ91toN7ggmTxnDGZW14uv9UkumN7XBGeYJ4;Unknown DeFi (ENicY);unknown;defi;potential;behavioral;2.1 SOL / 25K txs / 75K CU / 1.21 fee/CU
+CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C;Raydium CPMM;dex;amm;both;raydium_docs;Raydium Constant Product MM - LPs need rebalancing (AOT) + traders (JIT)
+6m9TTqMk9RoJxNjGMrTeNAmjewMWfmk2gRYubPDE8x6k;Unknown DeFi (6m9TT);unknown;defi;potential;behavioral;2.1 SOL / 142K txs / 151K CU - high CU DeFi
+hi5iKPdHrk15joDZcfTio8vw5SnYnvrXQMv2qESCrJj;Trading Bot (hi5iK);trading_bot;mev;jit;behavioral;2.0 SOL / 7.9K txs / 218K CU / 1.24 fee/CU = low volume complex trades
+7TAvuPyU7cDMhhfXs1yCDZPEEbPuynd7zVeUtQLjfLmZ;Trading Bot (7TAvuP);trading_bot;mev;jit;behavioral;2.0 SOL / 8.6K txs / 97K CU / 3.86 fee/CU = high fee/CU = MEV bot
+boreXQWsKpsJz5RR9BMtN8Vk4ndAk23sutj8spWYhwk;Unknown Protocol (boreX);unknown;defi;potential;behavioral;2.0 SOL / 407K txs / 34K CU = high-volume moderate protocol
+9m7YMBgQaxYpUwrjLvS6AA3FmGH83qXgifA5aF5VbEue;Unknown DeFi (9m7YM);unknown;defi;potential;behavioral;1.8 SOL / 47K txs / 142K CU - high CU DeFi
+oreV3EG1i9BEgiAJ8b177Z2S2rMarzak4NMv1kULvWv;ORE Mining;mining;pow;neither;ore_docs;ORE proof-of-work mining on Solana - not a RAIKU target
+SMRTzfY6DfH5ik3TKiyLFfXexV8uSG3d2UksSCYdunG;Unknown Bot (SMRT);trading_bot;trading;jit;behavioral;1.7 SOL / 14K txs / 35K CU / 4.47 fee/CU = high fee/CU trading bot
+6WPHMhYD7JLAF1HEtC6Ddkn93ADbGtyC93HUh7wy75m2;Keeper Bot (6WPHMh);trading_bot;keeper;aot;behavioral;1.5 SOL / 300K txs / 14K CU / 0.37 fee/CU = consistent high-volume = keeper pattern
+RangohQxaWip6i1twAAnRVLmob9j88fid7sq2DMAATW;Range Protocol;defi;vault;aot;behavioral;1.5 SOL / 10K txs / 190K CU = vault rebalancing = AOT keeper pattern
+EmTX93xYtDE3h7G5EF2m9VRPE1UT1XBoohpVmEzE4oEU;Keeper Bot (EmTX9);trading_bot;keeper;aot;behavioral;1.5 SOL / 148K txs / 7K CU / 1.91 fee/CU = small CU consistent = keeper
+idemJL67fKhpev5vKcxHrosuVyTat6wVC9sFfoPVg3Y;Unknown Protocol (idemJ);unknown;defi;potential;behavioral;1.4 SOL / 144K txs / 12K CU = moderate protocol
+FLASH6Lo6h3iasJKWDs2F8TkW2UKf3s15C8PMGuVfgBn;Flash Loan Protocol;lending;flash_loan;both;behavioral;1.4 SOL / 75K txs / 117K CU - flash loans used by arb (JIT) and liquidations (AOT)
+7xiamgXLjjKPsAJMWq7UHCyjJWCgqY4oBXTieqzd8Te1;Unknown Protocol (7xiam);unknown;defi;potential;behavioral;1.4 SOL / 276K txs / 99K CU = high-volume DeFi
+F6KwbonKLyLNbD1SfWDwKN3T3BUxK3Pguy3yxWtxo9w9;Whale Bot (F6Kwb);trading_bot;mev;jit;behavioral;1.4 SOL / 1.2K txs / 131K CU / 8.44 fee/CU = very few txs very high fee = whale
+SHARKobtfF1bHhxD2eqftjHBdVSCbKo9JtgK71FhELP;Sharky.fi;lending;nft_lending;potential;sharky_docs;NFT lending - liquidation keepers could use AOT
+SBondMDrcV3K4kxZR1HNVT7osZxAHVHgYXL5Ze1oMUv;SBond (Marinade);staking;bond;potential;behavioral;1.3 SOL / 258K txs / 27K CU = staking bonds operations
+HLCorec4bsTSiyzskDuAqrqD5NXDZeLhdvWqs7wjWRx5;Helium Core;iot;network;potential;behavioral;1.3 SOL / 25K txs / 65K CU = Helium IoT network state updates
+CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d;Core Protocol;unknown;defi;potential;behavioral;1.2 SOL / 169K txs / 17K CU = moderate DeFi
+7FaMyGiTVdjm8dd3PxpjjCX15ibbmuE1zWVFX2PHxYUK;Unknown Protocol (7FaMy);unknown;defi;potential;behavioral;1.2 SOL / 240K txs / 39K CU = high-volume
+F2rSwpfYCTWiBGmPTkk2zbMMiF6A1wRGjBUB1XxzoGBf;Unknown Protocol (F2rSw);unknown;defi;potential;behavioral;1.2 SOL / 239K txs / 18K CU = high-volume protocol
+FHKBuiohcYB5n636h7UmHahRGU5UCHX8CSb6DNSUqX65;Unknown Protocol (FHKBu);unknown;defi;potential;behavioral;1.2 SOL / 237K txs / 31K CU = high-volume protocol
+6sbWW8qnrXoNXVMcTGLBQJefuaNcJsuqxztXUegHi4Wq;Unknown Bot (6sbWW);trading_bot;keeper;aot;behavioral;1.2 SOL / 118K txs / 9K CU / 1.24 fee/CU = small CU consistent = keeper
+FarmsPZpWu9i7Kky8tPN37rs2TpmMrAZrC7S7vJa91Hr;Farms Protocol;defi;yield;aot;behavioral;1.1 SOL / 33K txs / 90K CU = yield farming auto-compound = keeper/cranker AOT
+G77G9wS9JzkzWNGwQjUhRswbA5N8hYKpCK4TZRj9G1Pw;Keeper Bot (G77G9);trading_bot;keeper;aot;behavioral;1.1 SOL / 76K txs / 11K CU / 2.71 fee/CU = small CU consistent = keeper
+Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo;Memo Program Legacy;system;metadata;neither;solana_docs;Legacy SPL Memo program - system infrastructure
+CRSHdMVmWgRsarrRWnRXWKMxJhLEUheiU6SEhqCLS4Gm;Unknown Bot (CRSHd);trading_bot;trading;jit;behavioral;1.0 SOL / 100K txs / 4.8K CU / 2.27 fee/CU = small CU elevated fee = trading bot
+C7QLEmDz81Usvy2sYa4xZSdA8EwEcYvZo8iuYZMaqXmj;Unknown Protocol (C7QLE);unknown;defi;potential;behavioral;0.97 SOL / 133K txs / 70K CU
+ARBTRGgcwmy3VS2W9YaauL7FSMBmB41cJ8EkfWGo8D6c;Arbitrage Bot (ARBTR);trading_bot;arbitrage;jit;prefix_match;ARBTR prefix = arbitrage bot - 193K txs / 207K CU
+25uXrrL4p6xd9Uk6jQPiFQoipg4nH48Jk7RNUGEcqbg8;Keeper Bot (25uXr);trading_bot;keeper;aot;behavioral;0.97 SOL / 193K txs / 13K CU / 0.38 fee/CU = consistent keeper pattern
+Yt3A8KLfo7JEz8RGHw2zbaQE6MVcf9duKmb24dgXbsD;Trading Bot (Yt3A8);trading_bot;mev;jit;behavioral;0.95 SOL / 38K txs / 5K CU / 5.24 fee/CU = high fee/CU MEV
+AZipysY3PXDM61RJzdnP4UtWR3tVgM9kGdxXwLbjP41S;Unknown Bot (AZipy);trading_bot;trading;jit;behavioral;0.94 SOL / 29K txs / 19K CU / 2.66 fee/CU = elevated fee trading bot
+pjwLcQDbzybW1FrHVbvkLzzk836S4TvXmtsqvYWC967;Unknown Protocol (pjwLc);unknown;defi;potential;behavioral;0.92 SOL / 131K txs / 23K CU
+APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD;APR Protocol;defi;yield;aot;behavioral;0.90 SOL / 76K txs / 139K CU - yield optimization = keeper/rebalancer AOT
+8aquaCPqbpsWvHdpfhTgfBg8eJWqNZKQgyYzzFXCdRkH;Aqua Protocol;defi;vault;potential;behavioral;0.88 SOL / 175K txs / 136K CU = DeFi vault protocol
+2o5Mab8XFN4BYcfrquLJaPGyNiFbUgwNKYBmRVn4UTqj;Unknown Protocol (2o5Ma);unknown;defi;potential;behavioral;0.87 SOL / 174K txs / 35K CU
+CCTPmbSD7gX1bxKPAmg77w8oFzNFpaQiQUWD43TKaecd;Circle CCTP;bridge;cross_chain;potential;circle_docs;Circle Cross-Chain Transfer Protocol - bridge message relay could use AOT
+PRPLUgjCUxCEzNPP6x7XJVK1WR5XX28Zu8MEyTqvGjF;Purple Protocol;unknown;defi;potential;behavioral;0.81 SOL / 162K txs / 144K CU = DeFi protocol
+vVoLTRjQmtFpiYoegx285Ze4gsLJ8ZxgFKVcuvmG1a8;Volt Protocol;defi;structured_products;potential;behavioral;0.81 SOL / 57K txs / 201K CU = structured products vault
+AnCCJjheynmGqPp6Vgat9DTirGKD4CtQzP8cwTYV8qKH;Whale Bot (AnCCJ);trading_bot;mev;jit;behavioral;0.79 SOL / 831 txs / 118K CU / 7.92 fee/CU = very few txs very high fee = whale
+2qGyiNeWyZxNdkvWHc2jT5qkCnYa1j1gDLSSUmyoWMh8;Unknown Protocol (2qGyi);unknown;defi;potential;behavioral;0.76 SOL / 152K txs / 129K CU
+MYstiCRQrXvJAp3DGUdguaZjn7Zq1kwUYRe2sRK2RFY;Unknown Protocol (MYsti);unknown;defi;potential;behavioral;0.75 SOL / 150K txs / 19K CU
+7wuFcHkbVckS6nMqZ5pg6ykmw5uWTqzvqK1gdb8xGdp4;Unknown DeFi (7wuFc);unknown;defi;potential;behavioral;0.73 SOL / 18K txs / 83K CU
+CCTPiPYPc6AsJuwueEnWgSgucamXDZwBd53dQ11YiKX3;Circle CCTP v2;bridge;cross_chain;potential;circle_docs;Circle CCTP version 2 - cross-chain transfer relay
+n1brh2AaBbnMPEjpoCDFs1fzWb5Pa8FC1o8yXp2fAqM;Unknown Protocol (n1brh);unknown;defi;potential;behavioral;0.65 SOL / 99K txs / 63K CU
+FR1SDyLUj7PrMbtkUCkDrBymk5eWrRmr3UvWFb5Kjbmd;Trading Bot (FR1SD);trading_bot;mev;jit;behavioral;0.63 SOL / 3.8K txs / 38K CU / 4.82 fee/CU = high fee/CU = MEV bot
+FL1PkYoxafDzNSHBR48GNnkX54bk6V5YXewiz81ZcWos;Unknown Protocol (FL1Pk);unknown;defi;potential;behavioral;0.63 SOL / 125K txs / 11K CU
+99vQwtBwYtrqqD9YSXbdum3KBdxPAVxYTaQ3cfnJSrN2;Unknown Protocol (99vQw);unknown;defi;potential;behavioral;0.62 SOL / 80K txs / 21K CU
+Q72w4coozA552keKDdeeh2EyQw32qfMFsHPu6cbatom;Tip Bot (Q72w4);trading_bot;tips;jit;behavioral;0.62 SOL / 124K txs / 36 CU / 142.82 fee/CU = 36 CU!! extreme fee/CU = pure tip program
+wMNFSTkir3HgyZTsB7uqu3i7FA73grFCptPXgrZjksL;Unknown Protocol (wMNFS);unknown;defi;potential;behavioral;0.62 SOL / 113K txs / 56K CU
+9KuRi5CasX6XWCK846nhfRQmW32g6uuFdfaBkfxjgMpG;Unknown Protocol (9KuRi);unknown;defi;potential;behavioral;0.58 SOL / 58K txs / 114K CU
+SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf;Squads Multisig v4;system;multisig;neither;squads_docs;Squads multisig protocol - treasury management infrastructure
+SpLtnk7AMeg3WC8smGfPw43zFdeNeiYQSiecZM5tPBQ;Unknown Protocol (SpLtn);unknown;defi;potential;behavioral;0.54 SOL / 107K txs / 8K CU
+CyahQUBnG86tAjrjCefx7gJWfbmvG7YVMooaMmCxDLva;Unknown DeFi (CyahQ);unknown;defi;potential;behavioral;0.53 SOL / 13K txs / 74K CU
+wormDTUJ6AWPNvk59vGQbDvGJmqbDTdgWgAqcLBCgUb;Wormhole Core;bridge;cross_chain;potential;wormhole_docs;Wormhole core bridge - cross-chain message relay
+DEGNpUs8DhLSdDiU25BAmCQn2U6eN8nMAYwbLb41BPqY;DeGods/DeLabs;nft;marketplace;potential;behavioral;0.51 SOL / 12K txs / 64K CU = NFT protocol operations
+So1endDq2YkqhipRh3WViPa8hdiSpxWy6z3Z6tMCpAo;Solend v2;lending;pool;aot;solend_docs;Solend v2 lending pool - liquidation keepers = AOT
