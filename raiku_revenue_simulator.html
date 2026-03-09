@@ -341,7 +341,7 @@ details[open] summary::before { transform:rotate(90deg); }
 .bb-frag.rejected { opacity:0.35; border-style:dashed !important; background:#0c0a0a !important; position:relative; }
 .bb-frag.rejected::after { content:'NOT INCLUDED'; position:absolute; top:6px; right:8px; font-size:8px; font-weight:700; letter-spacing:1.2px; color:#e55; font-family:var(--font-mono); background:#1a0e0e; padding:2px 6px; border-radius:3px; border:1px solid #3a1515; }
 .bf-rejected { font-size:10px; color:#e55; font-family:var(--font-mono); margin-top:6px; font-weight:600; }
-.bf-partial { font-size:10px; color:#F5A623; font-family:var(--font-mono); margin-top:6px; font-weight:500; }
+/* .bf-partial removed in v5 — fragments are atomic, no partial inclusion */
 /* ── v3: Fragment output (bigger SOL/USD) ── */
 .bf-output { font-size:13px; color:var(--text); margin-top:8px; font-family:var(--font-mono); font-weight:600; }
 .bf-output .bf-usd { font-size:12px; color:var(--text-mid); font-weight:500; }
@@ -395,6 +395,12 @@ details[open] summary::before { transform:rotate(90deg); }
 .cat-no-temporal strong { color:var(--text-mid); }
 /* v4: Per-program chart in Program Explorer */
 .cat-prog-chart { height:140px; background:#0a0b0c; border-radius:6px; padding:6px; margin-bottom:8px; }
+/* v5: Fragment card — inputs vs derived outputs */
+.bf-inputs { margin:6px 0 4px; }
+.bf-input-group { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+.bf-input-group .bf-label { font-size:9px; color:var(--text2); min-width:80px; flex-shrink:0; }
+.bf-input-group input { width:90px; font-size:12px; }
+.bf-derived { font-size:10px; color:var(--text2); font-family:var(--font-mono); padding:4px 0 2px; line-height:1.5; border-top:1px solid #1a1c22; margin-top:2px; }
 </style>
 </head>
 <body>
@@ -1008,7 +1014,7 @@ details[open] summary::before { transform:rotate(90deg); }
 <!-- C. CATEGORY EXPLORER (reference data for fragment selection) -->
 <div class="section fade-in fade-in-2">
     <h2 style="margin-bottom:8px;">Category Explorer</h2>
-    <div style="font-size:11px;color:var(--text2);margin-bottom:10px;">10 business categories aggregated from 51 AOT/Both programs · Source: <a href="https://dune.com/queries/4541159" target="_blank" class="src-link">Dune Analytics — query #4541159</a> · Period: 30-day window (Feb 4 – Mar 5, 2026)</div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:10px;">10 business categories aggregated from 51 AOT/Both programs · Source: Dune Analytics (embedded extraction, <code style="font-size:10px">dune_program_fees_v2</code>) · Period: 30-day window (Feb 4 – Mar 5, 2026)</div>
 
     <!-- Normal / Peak toggle -->
     <div class="regime-toggle">
@@ -1045,8 +1051,8 @@ details[open] summary::before { transform:rotate(90deg); }
             <div class="meth-card">
                 <div class="meth-card-title">Data Source</div>
                 <div class="meth-card-body">
-                    <strong>Platform:</strong> <a href="https://dune.com/queries/4541159" target="_blank" class="src-link">Dune Analytics</a> — on-chain Solana program fee data<br>
-                    <strong>Query:</strong> <a href="https://dune.com/queries/4541159" target="_blank" class="src-link"><code>dune_program_fees_v2</code></a> (query #4541159)<br>
+                    <strong>Platform:</strong> Dune Analytics — on-chain Solana program fee data<br>
+                    <strong>Query:</strong> <code>dune_program_fees_v2</code> (data embedded from extraction, not a public query link)<br>
                     <strong>Period:</strong> 30-day window (Feb 4 – Mar 5, 2026)<br>
                     <strong>Programs:</strong> 51 AOT/Both programs with CU &gt; 0 (out of 228 total in dataset)
                 </div>
@@ -1874,6 +1880,15 @@ function fmtK(n){
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return parts.join('.');
 }
+function fmtHuman(n){
+    if(n === undefined || n === null || isNaN(n)) return '0';
+    n = Number(n);
+    var abs = Math.abs(n);
+    if(abs >= 1e9) return (n/1e9).toFixed(1) + 'B';
+    if(abs >= 1e6) return (n/1e6).toFixed(1) + 'M';
+    if(abs >= 1e3){ var k = n/1e3; return (k === Math.round(k) ? String(Math.round(k)) : k.toFixed(1)) + 'K'; }
+    return String(Math.round(n));
+}
 
 // ── Build category-level aggregates from D.p ──
 function buildCategoryData(){
@@ -1942,8 +1957,7 @@ function renderCategoryDetail(id){
     if(!el) return;
     var fmtFpc = function(v){ return v < 0.01 ? v.toFixed(4) : v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2); };
     var S30 = SY * 30 / 365;
-    var duneLink = 'https://dune.com/queries/4541159';
-    var fromDataTag = '<a class="cs-tag from-data clickable" href="' + duneLink + '" target="_blank">\uD83D\uDCCA from data (Dune #4541159)</a>';
+    var fromDataTag = '<span class="cs-tag from-data">\uD83D\uDCCA from data (30d observed)</span>';
 
     // Missing data warning for categories with allMatch > progs
     var missingHtml = '';
@@ -1956,7 +1970,7 @@ function renderCategoryDetail(id){
     el.innerHTML =
         '<div class="cat-stat"><div class="cs-label">Programs with CU data (AOT/Both)</div><div class="cs-val">' + c.n + (c.nAll > c.n ? ' <span style="font-size:11px;color:var(--text2)">/ ' + c.nAll + ' known in category</span>' : '') + '</div><div class="cs-sub">' + (c.tier==='HIGH'?'High-fee tier':'Standard tier') + '</div></div>' +
         '<div class="cat-stat"><div class="cs-label">30-day CU total (billions)</div><div class="cs-val">' + c.cuB.toFixed(1) + 'B</div><div class="cs-sub">Total compute units consumed over 30d window</div>' + fromDataTag + '</div>' +
-        '<div class="cat-stat"><div class="cs-label">Avg CU per block (30d avg)</div><div class="cs-val">' + (c.avgCuPerBlock >= 1e6 ? fmtK((c.avgCuPerBlock/1e6).toFixed(2)) + 'M' : c.avgCuPerBlock >= 1e3 ? fmtK(Math.round(c.avgCuPerBlock/1e3)) + 'K' : fmtK(Math.round(c.avgCuPerBlock))) + '</div><div class="cs-sub">= 30d CU total \u00F7 ' + (S30/1e6).toFixed(1) + 'M slots in window</div>' + fromDataTag + '</div>' +
+        '<div class="cat-stat"><div class="cs-label">Avg CU per block (30d avg)</div><div class="cs-val">' + fmtHuman(c.avgCuPerBlock) + '</div><div class="cs-sub">= 30d CU total \u00F7 ' + fmtHuman(S30) + ' slots in window</div>' + fromDataTag + '</div>' +
         '<div class="cat-stat"><div class="cs-label">Weighted avg Fee/CU (total fees, CU-weighted)</div><div class="cs-val" style="color:' + (CAT_COLORS[c.id]||'var(--text)') + '">' + fmtFpc(c.totFeePerCU) + ' <span style="font-size:10px;color:var(--text2)">lamports/CU</span></div><div class="cs-sub">= \u03A3(total fees) \u00D7 10\u2079 / \u03A3(CU) across ' + c.n + ' programs</div>' + fromDataTag +
             (c.progFpcs.length >= 3 ? '<div class="cat-distrib"><span class="cd-item">p25 <span class="cd-val">' + fmtFpc(c.p25Fpc) + '</span></span><span class="cd-item">median <span class="cd-val">' + fmtFpc(c.medianFpc) + '</span></span><span class="cd-item">p75 <span class="cd-val">' + fmtFpc(c.p75Fpc) + '</span></span></div>' : '') +
         '</div>' +
@@ -2002,7 +2016,6 @@ function renderCategoryTable(id){
     }
     var fmtFpc = function(v){ return v < 0.01 ? v.toFixed(4) : v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2); };
     var S30 = SY * 30 / 365;
-    var duneLink = 'https://dune.com/queries/4541159';
     // Sort by fee/CU descending (matches block-fill logic)
     var sorted = [].concat(c.progs).sort(function(a,b){
         var afpc = a.cu > 0 ? (a.tf * LS / (a.cu * 1e9)) : 0;
@@ -2011,7 +2024,7 @@ function renderCategoryTable(id){
     });
     // Chart container above table
     el.innerHTML = '<div style="font-size:11px;font-weight:600;color:var(--text-mid);margin-bottom:4px;font-family:var(--font-mono);">PROGRAM EXPLORER — ' + c.label.toUpperCase() + ' (' + c.n + ' programs)</div>' +
-        '<div style="font-size:9px;color:var(--text2);margin-bottom:6px">Per-program fee/CU comparison · Sorted by fee/CU descending (block-fill order). <a href="' + duneLink + '" target="_blank" class="src-link">\uD83D\uDCCA Dune #4541159</a></div>' +
+        '<div style="font-size:9px;color:var(--text2);margin-bottom:6px">Per-program fee/CU comparison \u00B7 Sorted by fee/CU descending (block-fill order) \u00B7 Source: Dune extraction (30d window)</div>' +
         '<div class="cat-prog-chart"><canvas id="chart-prog-explorer"></canvas></div>' +
         '<table class="cat-prog-table"><thead><tr>' +
         '<th>Program</th><th style="color:#F5A623">Fee/CU (lam)</th><th style="color:#8ddb6a;font-weight:700">Avg CU/block</th><th style="color:var(--lime)">Implied fees/block</th><th>30d CU (B)</th><th>30d Fees (SOL)</th></tr></thead><tbody>' +
@@ -2019,7 +2032,7 @@ function renderCategoryTable(id){
             var tfc = p.cu > 0 ? (p.tf * LS / (p.cu * 1e9)) : 0;
             var cuPerBlock = p.cu > 0 ? (p.cu * 1e9 / S30) : 0;
             var impliedFeesBlock = tfc * cuPerBlock / LS; // SOL per block
-            var cuPerBlockFmt = cuPerBlock >= 1e6 ? fmtK((cuPerBlock/1e6).toFixed(2)) + 'M' : cuPerBlock >= 1e3 ? fmtK(Math.round(cuPerBlock/1e3)) + 'K' : fmtK(Math.round(cuPerBlock));
+            var cuPerBlockFmt = fmtHuman(cuPerBlock);
             var impliedFmt = impliedFeesBlock >= 0.01 ? impliedFeesBlock.toFixed(4) : impliedFeesBlock.toFixed(6);
             return '<tr><td style="color:var(--text)">' + p.n + '</td><td style="color:' + (CAT_COLORS[id]||'var(--text-mid)') + ';font-weight:600">' + fmtFpc(tfc) + '</td><td style="color:var(--lime);font-weight:600">' + cuPerBlockFmt + '</td><td style="color:var(--lime);font-size:10px">' + impliedFmt + ' SOL</td><td>' + p.cu.toFixed(1) + '</td><td>' + fmtK(Math.round(p.tf)) + '</td></tr>';
         }).join('') +
@@ -2124,7 +2137,7 @@ function addFragment(catId){
     if(!c) return;
     var sp = getSimParams();
     var avail = CB * sp.b;
-    var defaultCU = Math.round(avail * 0.1); // 10% convenience default
+    var defaultCU = c.avgCuPerBlock > 0 ? Math.round(c.avgCuPerBlock) : 1000; // data-backed: observed avg CU/block (30d)
     _bbFragments.push({
         catId: catId,
         cu: defaultCU,
@@ -2159,8 +2172,7 @@ function resetFragment(idx){
         _bbFragments[idx].feePerCU = c.totFeePerCU;
         _bbFragments[idx].userAdjustedFee = false;
     }
-    var sp = getSimParams();
-    _bbFragments[idx].cu = Math.round(CB * sp.b * 0.1);
+    _bbFragments[idx].cu = (c && c.avgCuPerBlock > 0) ? Math.round(c.avgCuPerBlock) : 1000;
     renderBlockBuilder();
 }
 
@@ -2168,8 +2180,6 @@ function renderBlockBuilder(){
     if(!_bbFragments || !Array.isArray(_bbFragments)) return;
     var sp = getSimParams();
     var avail = CB * sp.b; // total available CU
-    var duneLink = 'https://dune.com/queries/4541159';
-
     // SORT fragments by fee/CU descending (greedy auction fill)
     var sortedIdxs = _bbFragments.map(function(_,i){ return i; });
     sortedIdxs.sort(function(a,b){ return _bbFragments[b].feePerCU - _bbFragments[a].feePerCU; });
@@ -2186,8 +2196,7 @@ function renderBlockBuilder(){
             fitMap[idx] = { fits: true, usedCU: f.cu };
             cumCU += f.cu;
         } else {
-            fitMap[idx] = { fits: true, usedCU: remaining, partial: true };
-            cumCU += remaining;
+            fitMap[idx] = { fits: false, usedCU: 0 }; // atomic: fragment doesn't fit → fully excluded
         }
     });
 
@@ -2206,14 +2215,14 @@ function renderBlockBuilder(){
             var pct = avail > 0 ? (fm.usedCU / avail * 100) : 0;
             var col = CAT_COLORS[f.catId] || '#555';
             var cat = BIZ_CATEGORIES.find(function(c){ return c.id===f.catId; });
-            html += '<div class="bb-fill-seg" style="width:' + pct + '%;background:' + col + '" title="' + (cat?cat.label:f.catId) + ': ' + fmtK(Math.round(fm.usedCU)) + ' CU (' + pct.toFixed(1) + '%)">' + (pct > 8 ? (cat?cat.label.substring(0,8):'') : '') + '</div>';
+            html += '<div class="bb-fill-seg" style="width:' + pct + '%;background:' + col + '" title="' + (cat?cat.label:f.catId) + ': ' + fmtHuman(fm.usedCU) + ' CU (' + pct.toFixed(1) + '%)">' + (pct > 8 ? (cat?cat.label.substring(0,8):'') : '') + '</div>';
         });
         var emptyPct = Math.max(0, 100 - (avail > 0 ? totalUsed/avail*100 : 0));
-        html += '<div class="bb-fill-empty" style="width:' + emptyPct + '%">' + (emptyPct > 15 ? fmtK(Math.round((avail - totalUsed)/1e6)) + 'M CU free' : '') + '</div>';
+        html += '<div class="bb-fill-empty" style="width:' + emptyPct + '%">' + (emptyPct > 15 ? fmtHuman(avail - totalUsed) + ' CU free' : '') + '</div>';
         fillBar.innerHTML = html;
     }
 
-    // ── v4: Fragment cards sorted by fee/CU desc (= fill order) for unambiguous accept/reject ──
+    // ── v5: Fragment cards — inputs/derived separation, atomic logic, fmtHuman ──
     var fragEl = document.getElementById('bb-fragments');
     if(fragEl){
         var html = '';
@@ -2226,39 +2235,53 @@ function renderBlockBuilder(){
             var feeSol = fm.usedCU * f.feePerCU / LS;
             var feeUSD = feeSol * sp.p;
             var isRejected = !fm.fits;
-            var isPartial = fm.partial;
+            var pctBlock = avail > 0 ? (f.cu / avail * 100).toFixed(1) : '0';
 
-            // Clear divider between included and rejected groups
+            // Divider between included and excluded
             if(isRejected && !showedDivider){
                 html += '<div class="bb-divider">\u25BC Below capacity line \u2014 not included in block</div>';
                 showedDivider = true;
             }
 
-            // Rank badge: FILL #N for included, NOT INCLUDED for rejected
             var rankBadge = isRejected ?
                 '<span class="bf-rank">NOT INCLUDED</span>' :
-                '<span class="bf-rank">FILL #' + (rank+1) + (isPartial ? ' (partial)' : '') + '</span>';
+                '<span class="bf-rank">FILL #' + (rank+1) + '</span>';
 
-            // Fee/CU tag: smaller, cleaner (correction #3)
+            // Data/adjusted tags (no Dune link — source embedded)
+            var cuTag = f.userAdjustedFee ? '' :
+                '<span class="bf-tag from-data">\uD83D\uDCCA observed avg/block</span>';
             var feeTag = f.userAdjustedFee ?
                 '<span class="bf-tag user-adj">\u270F adjusted</span>' :
-                '<span class="bf-tag from-data"><a href="' + duneLink + '" target="_blank">\uD83D\uDCCA data</a></span>';
+                '<span class="bf-tag from-data">\uD83D\uDCCA from data</span>';
 
             html += '<div class="bb-frag' + (isRejected ? ' rejected' : '') + '" style="border-left:3px solid ' + col + '">' +
                 '<button class="bf-remove" onclick="removeFragment(' + origIdx + ')">&times;</button>' +
                 rankBadge +
                 '<div class="bf-cat" style="color:' + col + '">' + (cat?cat.label:f.catId) + '</div>' +
-                '<div class="bf-row"><span class="bf-label">CU Allocation</span><input type="text" value="' + fmtK(f.cu) + '" onchange="updateFragment(' + origIdx + ',\'cu\',this.value.replace(/,/g,\'\'))" style="text-align:right"></div>' +
-                '<div class="bf-info-line">' + fmtK(Math.round(f.cu/1e3)) + 'K CU \u00B7 ' + (avail>0?(f.cu/avail*100).toFixed(1):'0') + '% of AOT block (' + fmtK(Math.round(avail/1e6)) + 'M CU)</div>' +
-                '<div class="bf-row"><span class="bf-label">Fee/CU (lam)</span><input type="number" value="' + fmtFpc(f.feePerCU) + '" step="0.01" onchange="updateFragment(' + origIdx + ',\'feePerCU\',this.value)" min="0">' + feeTag + '<button class="bf-reset" onclick="resetFragment(' + origIdx + ')" title="Reset fee/CU to data + CU to default">\u21BA reset</button></div>' +
-                (isRejected ?
-                    '<div class="bf-rejected">\u26D4 Over capacity \u2014 fee/CU too low relative to higher-bidding fragments</div>' :
-                 isPartial ?
-                    '<div class="bf-partial">\u26A0 Partially included: ' + fmtK(Math.round(fm.usedCU/1e3)) + 'K of ' + fmtK(Math.round(f.cu/1e3)) + 'K CU</div>' : '') +
-                (isRejected ?
-                    '<div class="bf-output-zero">\u2192 0 SOL</div>' :
-                    '<div class="bf-output">\u2192 ' + feeSol.toFixed(6) + ' SOL <span class="bf-usd">\u00B7 $' + fmtK(feeUSD.toFixed(4)) + '</span></div>'
-                ) +
+
+                // ── INPUTS ──
+                '<div class="bf-inputs">' +
+                    '<div class="bf-input-group">' +
+                        '<span class="bf-label">CU Allocation</span>' +
+                        '<input type="text" value="' + fmtK(f.cu) + '" onchange="updateFragment(' + origIdx + ',\'cu\',this.value.replace(/,/g,\'\'))" style="text-align:right">' +
+                        cuTag +
+                    '</div>' +
+                    '<div class="bf-input-group">' +
+                        '<span class="bf-label">Fee/CU (lam)</span>' +
+                        '<input type="number" value="' + fmtFpc(f.feePerCU) + '" step="0.01" onchange="updateFragment(' + origIdx + ',\'feePerCU\',this.value)" min="0">' +
+                        feeTag +
+                        '<button class="bf-reset" onclick="resetFragment(' + origIdx + ')" title="Reset to data defaults">\u21BA</button>' +
+                    '</div>' +
+                '</div>' +
+
+                // ── DERIVED OUTPUTS (secondary) ──
+                '<div class="bf-derived">' +
+                    fmtHuman(f.cu) + ' CU \u00B7 ' + pctBlock + '% of AOT block' +
+                    (isRejected ?
+                        ' \u00B7 <span style="color:#e55">\u26D4 excluded — does not fit remaining capacity</span>' :
+                        ' \u00B7 \u2192 ' + feeSol.toFixed(6) + ' SOL <span style="color:var(--text2)">($' + fmtK(feeUSD.toFixed(4)) + ')</span>'
+                    ) +
+                '</div>' +
             '</div>';
         });
         html += '<button class="bb-add-btn" onclick="document.getElementById(\'bb-add-dropdown\').style.display=document.getElementById(\'bb-add-dropdown\').style.display===\'block\'?\'none\':\'block\'">+ Add Category</button>';
@@ -2283,7 +2306,7 @@ function renderBlockBuilder(){
     if(priEl){
         priEl.innerHTML = '<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);margin-bottom:8px;font-family:var(--font-mono)">Per-Block Output</div>' +
         '<div class="bp-row">' +
-            '<div class="bp-item"><div class="bp-label">Used CU (included fragments)</div><div class="bp-val">' + fmtK(Math.round(totalUsed/1e3)) + 'K <span style="font-size:12px;color:var(--text2)">/ ' + fmtK(Math.round(avail/1e6)) + 'M avail</span></div></div>' +
+            '<div class="bp-item"><div class="bp-label">Used CU (included fragments)</div><div class="bp-val">' + fmtHuman(totalUsed) + ' <span style="font-size:12px;color:var(--text2)">/ ' + fmtHuman(avail) + ' avail</span></div></div>' +
             '<div class="bp-item"><div class="bp-label">Weighted avg fee/CU (included fragments)</div><div class="bp-val">' + fmtFpc(wtAvgFee) + ' <span style="font-size:12px;color:var(--text2)">lam/CU</span></div></div>' +
             '<div class="bp-item"><div class="bp-label">Total Block Fees</div><div class="bp-val" style="color:var(--lime);font-size:20px">' + totalFeesSol.toFixed(6) + ' <span style="font-size:14px">SOL</span> <span style="font-size:15px;color:var(--text-mid)">\u00B7 $' + fmtK(totalFeesUSD.toFixed(4)) + '</span></div></div>' +
         '</div>';
@@ -2306,9 +2329,9 @@ function renderBlockBuilder(){
         annEl.innerHTML =
         '<div class="bb-rev-title">RAIKU Revenue Projections</div>' +
         '<div class="bb-rev-row">' +
-            '<div class="bb-rev-item"><div class="bb-rev-label">Per Epoch (~' + fmtK(SLOTS_PER_EPOCH) + ' slots \u00B7 ~2.5 days)</div><div class="bb-rev-val">' + fmtK(epochSOL.toFixed(4)) + ' SOL <span class="rv-sub">\u00B7 $' + fmtK(epochUSD.toFixed(2)) + '</span></div></div>' +
+            '<div class="bb-rev-item"><div class="bb-rev-label">Per Epoch (~' + fmtHuman(SLOTS_PER_EPOCH) + ' slots \u00B7 ~2.5 days)</div><div class="bb-rev-val">' + fmtK(epochSOL.toFixed(4)) + ' SOL <span class="rv-sub">\u00B7 $' + fmtK(epochUSD.toFixed(2)) + '</span></div></div>' +
             '<div class="bb-rev-item"><div class="bb-rev-label">Monthly (~30 days)</div><div class="bb-rev-val">' + fmtK(monthlySOL.toFixed(2)) + ' SOL <span class="rv-sub">\u00B7 $' + fmtK(Math.round(monthlyUSD)) + '</span></div></div>' +
-            '<div class="bb-rev-item"><div class="bb-rev-label">Annual (' + (SY/1e6).toFixed(1) + 'M slots \u00B7 ~' + epochsPerYear + ' epochs)</div><div class="bb-rev-val" style="color:var(--lime)">' + fmtK(Math.round(annualSOL)) + ' SOL <span class="rv-sub">\u00B7 $' + fmtK(Math.round(annualUSD)) + '</span></div></div>' +
+            '<div class="bb-rev-item"><div class="bb-rev-label">Annual (' + fmtHuman(SY) + ' slots \u00B7 ~' + epochsPerYear + ' epochs)</div><div class="bb-rev-val" style="color:var(--lime)">' + fmtK(Math.round(annualSOL)) + ' SOL <span class="rv-sub">\u00B7 $' + fmtK(Math.round(annualUSD)) + '</span></div></div>' +
         '</div>' +
         '<div class="bb-rev-disclaimer">\u26A0 Extrapolated from: block fees (' + totalFeesSol.toFixed(6) + ' SOL) \u00D7 RAIKU stake share (' + (stakeShare*100).toFixed(1) + '%) \u00D7 slot frequency. These are derived projections, not observed block-level revenue.</div>';
     }
