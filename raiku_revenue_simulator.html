@@ -293,11 +293,11 @@ details[open] summary::before { transform:rotate(90deg); }
 .bb-primary .bp-item { flex:1; min-width:120px; }
 .bb-primary .bp-label { font-size:9px; text-transform:uppercase; color:var(--text2); letter-spacing:1px; font-family:var(--font-mono); }
 .bb-primary .bp-val { font-size:22px; font-weight:700; font-family:var(--font-mono); margin-top:2px; }
-.bb-annual { padding:12px 16px; background:#0a0b0e; border:1px solid #16181e; border-radius:8px; opacity:0.8; }
+.bb-annual { padding:14px 16px; background:#0c0d14; border:1px solid #1e2030; border-radius:8px; }
 .bb-annual .ba-disclaimer { font-size:10px; color:#F5A623; margin-bottom:6px; font-family:var(--font-mono); }
 .bb-annual .ba-row { display:flex; gap:16px; flex-wrap:wrap; }
 .bb-annual .ba-item .ba-label { font-size:9px; text-transform:uppercase; color:var(--text2); letter-spacing:.5px; font-family:var(--font-mono); }
-.bb-annual .ba-item .ba-val { font-size:15px; font-weight:600; font-family:var(--font-mono); color:var(--text-mid); }
+.bb-annual .ba-item .ba-val { font-size:16px; font-weight:700; font-family:var(--font-mono); color:var(--text); }
 
 /* Methodology section */
 .sim-methodology { font-size:11px; color:var(--text2); line-height:1.6; }
@@ -307,6 +307,78 @@ details[open] summary::before { transform:rotate(90deg); }
 /* Raw DB toggle */
 .raw-db-toggle { display:inline-block; padding:6px 14px; font-size:11px; font-weight:500; background:var(--card); border:1px solid var(--card-border); border-radius:6px; color:var(--text2); cursor:pointer; margin-top:8px; }
 .raw-db-toggle:hover { border-color:var(--text-mid); color:var(--text); }
+
+/* ── v2: Local simulation parameters ── */
+.sim-local-params { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; margin-top:12px; }
+@media(max-width:800px){ .sim-local-params { grid-template-columns:1fr 1fr; } }
+.slp-group { padding:8px 10px; background:#0e0f14; border:1px solid #1a1c22; border-radius:6px; }
+.slp-label { font-size:8px; text-transform:uppercase; letter-spacing:1px; color:var(--text2); font-family:var(--font-mono); display:block; margin-bottom:4px; }
+.slp-group input[type="range"] { width:100%; accent-color:var(--lime); height:3px; margin:4px 0 2px; cursor:pointer; }
+.slp-group input[type="number"] { width:70px; font-size:12px; font-family:var(--font-mono); background:#0a0b10; border:1px solid #1a1c22; border-radius:4px; padding:3px 6px; color:var(--text); }
+.slp-group input[type="number"]:focus { border-color:var(--lime); outline:none; }
+.slp-val { font-size:11px; font-family:var(--font-mono); color:var(--text); font-weight:600; }
+.slp-note { font-size:9px; color:var(--text2); font-family:var(--font-mono); margin-top:2px; }
+.slp-fixed { font-size:13px; font-family:var(--font-mono); color:var(--text); font-weight:700; margin-top:2px; }
+
+/* ── v2/v3: Methodology card grid (wider, more readable) ── */
+.meth-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+@media(max-width:900px){ .meth-grid { grid-template-columns:1fr; } }
+.meth-card { padding:14px 18px; background:#0e0f14; border:1px solid #1a1c22; border-radius:8px; }
+.meth-card-title { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; font-weight:700; color:var(--lime); margin-bottom:8px; font-family:var(--font-mono); }
+.meth-card-body { font-size:12px; color:var(--text-mid); line-height:1.75; }
+.meth-card-body code { font-size:10px; background:#161820; padding:2px 6px; border-radius:3px; color:var(--text); }
+.meth-card-body strong { color:var(--text); }
+.meth-mapping { font-size:9px; color:var(--text2); font-family:var(--font-mono); line-height:1.8; display:block; margin-top:4px; }
+.src-link { color:var(--lime); text-decoration:none; border-bottom:1px dotted var(--lime); }
+.src-link:hover { color:#b8f06a; }
+
+/* ── v2: Distribution stats ── */
+.cat-distrib { display:inline-flex; gap:10px; margin-top:4px; padding:3px 8px; background:#0a0b10; border-radius:4px; font-size:9px; font-family:var(--font-mono); }
+.cd-item { color:var(--text2); }
+.cd-val { color:var(--text-mid); font-weight:600; }
+
+/* ── v3: Rejected fragment (clearer rejection UX) ── */
+.bb-frag.rejected { opacity:0.35; border-style:dashed !important; background:#0c0a0a !important; position:relative; }
+.bb-frag.rejected::after { content:'NOT INCLUDED'; position:absolute; top:6px; right:8px; font-size:8px; font-weight:700; letter-spacing:1.2px; color:#e55; font-family:var(--font-mono); background:#1a0e0e; padding:2px 6px; border-radius:3px; border:1px solid #3a1515; }
+.bf-rejected { font-size:10px; color:#e55; font-family:var(--font-mono); margin-top:6px; font-weight:600; }
+.bf-partial { font-size:10px; color:#F5A623; font-family:var(--font-mono); margin-top:6px; font-weight:500; }
+/* ── v3: Fragment output (bigger SOL/USD) ── */
+.bf-output { font-size:13px; color:var(--text); margin-top:8px; font-family:var(--font-mono); font-weight:600; }
+.bf-output .bf-usd { font-size:12px; color:var(--text-mid); font-weight:500; }
+.bf-output-zero { font-size:11px; color:var(--text2); margin-top:6px; font-family:var(--font-mono); }
+/* ── v3: Info line (more visible) ── */
+.bf-info-line { font-size:10px; color:var(--text-mid); margin-bottom:4px; font-family:var(--font-mono); }
+/* ── v3: Reset button ── */
+.bf-reset { font-size:8px; text-transform:uppercase; letter-spacing:0.8px; color:var(--text2); cursor:pointer; background:none; border:1px solid #1a1c22; border-radius:3px; padding:1px 5px; font-family:var(--font-mono); margin-left:6px; }
+.bf-reset:hover { color:var(--text); border-color:var(--text2); }
+/* ── v3: Revenue projections (stronger hierarchy) ── */
+.bb-rev-projections { padding:16px 18px; background:linear-gradient(135deg, #0c0d14 0%, #0f1118 100%); border:1px solid #1e2030; border-radius:10px; }
+.bb-rev-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--lime); margin-bottom:4px; font-family:var(--font-mono); }
+.bb-rev-row { display:flex; gap:20px; flex-wrap:wrap; margin-top:8px; }
+.bb-rev-item { flex:1; min-width:160px; }
+.bb-rev-label { font-size:9px; text-transform:uppercase; color:var(--text2); letter-spacing:.8px; font-family:var(--font-mono); margin-bottom:2px; }
+.bb-rev-val { font-size:18px; font-weight:700; font-family:var(--font-mono); color:var(--text); }
+.bb-rev-val .rv-sub { font-size:12px; font-weight:500; color:var(--text-mid); }
+.bb-rev-disclaimer { font-size:9px; color:var(--text2); font-family:var(--font-mono); margin-top:8px; line-height:1.5; padding:6px 8px; background:#0a0b10; border-radius:4px; }
+/* ── v3: Distribution mini-chart container ── */
+.cat-distrib-chart { height:120px; background:#0a0b0c; border-radius:6px; padding:6px; margin-top:8px; }
+.cat-distrib-expanded { margin-top:8px; padding:8px; background:#0a0b10; border:1px solid #16181e; border-radius:6px; }
+.cat-distrib-expanded table { width:100%; font-size:10px; font-family:var(--font-mono); }
+.cat-distrib-expanded th { text-align:left; color:var(--text2); font-weight:500; font-size:9px; text-transform:uppercase; letter-spacing:0.5px; padding:3px 6px; }
+.cat-distrib-expanded td { padding:3px 6px; color:var(--text-mid); }
+
+/* ── v2: Epoch projection row ── */
+.bb-epoch { padding:10px 16px; background:#0d0e14; border:1px solid #1a1c20; border-radius:8px; }
+.bb-epoch .be-row { display:flex; gap:16px; flex-wrap:wrap; }
+.bb-epoch .be-item .be-label { font-size:9px; text-transform:uppercase; color:var(--text2); letter-spacing:.5px; font-family:var(--font-mono); }
+.bb-epoch .be-val { font-size:14px; font-weight:600; font-family:var(--font-mono); color:var(--text-mid); }
+
+/* ── v2: Clickable from-data tags ── */
+.cs-tag.from-data.clickable { cursor:pointer; text-decoration:none; }
+.cs-tag.from-data.clickable:hover { background:#2a3a2a; }
+
+/* ── v2: Missing data indicator ── */
+.cat-missing { font-size:10px; color:#F5A623; background:#1a1710; border:1px solid #2a2210; border-radius:4px; padding:6px 10px; margin-top:6px; }
 </style>
 </head>
 <body>
@@ -870,23 +942,57 @@ details[open] summary::before { transform:rotate(90deg); }
 <!-- ═══ TAB 2: BLOCK SIMULATION ═══ -->
 <div class="tab-content" id="tab-micro">
 
-<!-- A. HERO — Framing + Assumptions -->
+<!-- A. HERO — Framing + Local Adjustable Parameters -->
 <div class="sim-hero fade-in">
     <h2>AOT Block Simulation</h2>
     <div class="sim-subtitle">Build a simulated Solana block from real program data. Allocate blockspace to customer categories and see per-block fee revenue.<br>
-    <span style="color:#F5A623;font-size:11px;">Proxy framing:</span> <span style="font-size:10px;color:var(--text2);">The fee values shown are observed on-chain fees (priority + base) under Solana's current fee market — used as proxies for willingness-to-pay in a future AOT auction. These are <strong style="color:var(--text-mid)">not</strong> observed AOT bid prices.</span></div>
-    <div class="sim-assumptions" id="sim-assumptions">
-        <div class="sa-pill">Block: <b>60M CU</b></div>
-        <div class="sa-pill">AOT Share: <b>—</b></div>
-        <div class="sa-pill">RAIKU Stake: <b>—</b></div>
-        <div class="sa-pill">SOL: <b>—</b></div>
+    <span style="color:#F5A623;font-size:11px;">Proxy framing:</span> <span style="font-size:10px;color:var(--text2);">Observed on-chain fees (priority + base) are used as proxies for willingness-to-pay in a future AOT auction. These are <strong style="color:var(--text-mid)">not</strong> observed AOT bid prices.</span></div>
+    <div class="sim-local-params" id="sim-local-params">
+        <div class="slp-group">
+            <label class="slp-label">Block Size</label>
+            <div class="slp-fixed">60M CU</div>
+            <div class="slp-note">Standard Solana block capacity</div>
+        </div>
+        <div class="slp-group">
+            <label class="slp-label">AOT Block Share</label>
+            <input type="range" id="sim-bs" min="0" max="80" value="50" oninput="updateSimParam('b',this.value/100)">
+            <div class="slp-val" id="sim-bs-val">50% → 30M CU</div>
+        </div>
+        <div class="slp-group">
+            <label class="slp-label">RAIKU Stake</label>
+            <input type="range" id="sim-stake" min="0" max="50" value="5" step="0.5" oninput="updateSimParam('s',this.value/100)">
+            <div class="slp-val" id="sim-stake-val">5.0% → 3.9M slots/yr</div>
+        </div>
+        <div class="slp-group">
+            <label class="slp-label">SOL Price (USD)</label>
+            <input type="number" id="sim-sol" value="140" min="10" max="2000" step="5" onchange="updateSimParam('p',parseFloat(this.value))">
+            <div class="slp-note">Used for USD conversion</div>
+        </div>
     </div>
 </div>
 
-<!-- B. CATEGORY EXPLORER -->
+<!-- B. BLOCK BUILDER (immediately after hero — per user request) -->
 <div class="section fade-in fade-in-1">
+    <h2 style="margin-bottom:4px;">Block Builder</h2>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:12px;">Allocate blockspace fragments to customer categories. Fragments are <b style="color:var(--text-mid)">sorted by fee/CU descending</b> and fill the block in order until capacity is exhausted.</div>
+
+    <!-- Fill bar -->
+    <div class="bb-fill-bar" id="bb-fill-bar"></div>
+
+    <!-- Fragment cards + add button -->
+    <div class="bb-fragments" id="bb-fragments" style="position:relative;"></div>
+
+    <!-- Summary: per-block + annual + epoch -->
+    <div class="bb-summary">
+        <div class="bb-primary" id="bb-primary"></div>
+        <div class="bb-annual" id="bb-annual"></div>
+    </div>
+</div>
+
+<!-- C. CATEGORY EXPLORER (reference data for fragment selection) -->
+<div class="section fade-in fade-in-2">
     <h2 style="margin-bottom:8px;">Category Explorer</h2>
-    <div style="font-size:11px;color:var(--text2);margin-bottom:10px;">10 business categories aggregated from 51 AOT/Both programs. Data source: D.p inline (30-day window, Feb 4 – Mar 5, 2026).</div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:10px;">10 business categories aggregated from 51 AOT/Both programs · Source: <a href="https://dune.com/queries/4541159" target="_blank" class="src-link">Dune Analytics — query #4541159</a> · Period: 30-day window (Feb 4 – Mar 5, 2026)</div>
 
     <!-- Normal / Peak toggle -->
     <div class="regime-toggle">
@@ -908,76 +1014,57 @@ details[open] summary::before { transform:rotate(90deg); }
         </div>
     </div>
 
+    <!-- Per-program distribution view (v3) -->
+    <div id="sim-cat-distrib-view"></div>
+
     <!-- Programs in selected category -->
     <div id="sim-cat-progs" style="max-height:300px;overflow-y:auto;"></div>
 </div>
 
-<!-- C. METHODOLOGY & SOURCES -->
-<div class="section fade-in fade-in-2">
-    <details class="sim-methodology">
+<!-- D. METHODOLOGY & SOURCES (full-width card grid) -->
+<div class="section fade-in fade-in-3" id="sim-methodology">
+    <details class="sim-methodology" id="sim-methodology-details">
         <summary>Methodology & Data Sources</summary>
-        <pre>
-Source:       D.p inline data (originally from dune_program_fees_v2.csv)
-Period:       30-day window (Feb 4 – Mar 5, 2026)
-Programs:     51 AOT/Both programs with CU > 0 (out of 228 total)
-Aggregation:  CU-weighted average fee/CU per business category
-
-Proxy Framing:
-The fee values shown are CURRENT observed fees (priority + base)
-paid by Solana programs under today's fee market structure.
-They serve as a proxy for willingness-to-pay in a future AOT
-auction — NOT as literal AOT bid prices. Actual AOT clearing
-prices will depend on auction design, competition dynamics,
-and blockspace scarcity.
-
-Category Mapping:
-10 business categories map (cat, sub) pairs from D.p to
-human-readable customer segments:
-
-  Prop AMM ★    → dex / prop_amm           (HIGH tier)
-  Orderbook DEX → dex / orderbook           (HIGH tier)
-  AMM / Pools   → dex / amm,clmm,dlmm,bonding_curve
-  Perps         → perps / perpetuals
-  Lending       → lending / pool,flash_loan,yield
-  Aggregator    → dex / aggregator
-  Oracle        → oracle / price_feed
-  Bridge        → bridge / cross_chain
-  Trading Bots  → trading_bot / keeper
-  Infrastructure→ defi,payments,staking / *
-
-Block Builder Defaults:
-  Block size:     60M CU (standard Solana block capacity)   — DATA-BACKED
-  AOT allocation: From sidebar Block Share slider            — USER-CONTROLLED
-  Fragment CU:    10% of available space as starting point   — CONVENIENCE DEFAULT
-  Fragment fee:   Category's observed fee/CU, then editable — DATA-BACKED initial
-        </pre>
-        <button class="raw-db-toggle" id="sim-raw-toggle-btn" onclick="toggleRawDB()">📋 Show Raw Program Data (228 programs)</button>
+        <div class="meth-grid">
+            <div class="meth-card">
+                <div class="meth-card-title">Data Source</div>
+                <div class="meth-card-body">
+                    <strong>Platform:</strong> <a href="https://dune.com/queries/4541159" target="_blank" class="src-link">Dune Analytics</a> — on-chain Solana program fee data<br>
+                    <strong>Query:</strong> <a href="https://dune.com/queries/4541159" target="_blank" class="src-link"><code>dune_program_fees_v2</code></a> (query #4541159)<br>
+                    <strong>Period:</strong> 30-day window (Feb 4 – Mar 5, 2026)<br>
+                    <strong>Programs:</strong> 51 AOT/Both programs with CU &gt; 0 (out of 228 total in dataset)
+                </div>
+            </div>
+            <div class="meth-card">
+                <div class="meth-card-title">Aggregation Method</div>
+                <div class="meth-card-body">
+                    Fee/CU values are <strong>CU-weighted averages</strong> across all programs in each business category. Programs consuming more compute units have proportionally more influence on the category's fee/CU.<br>
+                    <code>fee/CU = Σ(total_fees) × 10⁹ / Σ(CU)</code>
+                </div>
+            </div>
+            <div class="meth-card">
+                <div class="meth-card-title">Proxy Framing</div>
+                <div class="meth-card-body">
+                    These are <strong>current observed fees</strong> (priority + base) paid by Solana programs under today's fee market. They serve as a <strong>proxy for willingness-to-pay</strong> in a future AOT auction — <em>not</em> literal AOT bid prices. Actual clearing prices will depend on auction design, competition dynamics, and blockspace scarcity.
+                </div>
+            </div>
+            <div class="meth-card">
+                <div class="meth-card-title">Category Mapping</div>
+                <div class="meth-card-body">
+                    10 business categories map <code>(cat, sub)</code> pairs to human-readable customer segments. Prop AMM listed first (strategic importance).<br>
+                    <span class="meth-mapping">Prop AMM → dex/prop_amm · Orderbook → dex/orderbook · AMM/Pools → dex/{amm,clmm,dlmm,bonding_curve} · Perps → perps/perpetuals · Lending → lending/{pool,flash_loan,yield} · Aggregator → dex/aggregator · Oracle → oracle/price_feed · Bridge → bridge/cross_chain · Trading Bots → trading_bot/keeper · Infrastructure → {defi,payments,staking}/*</span>
+                </div>
+            </div>
+        </div>
+        <button class="raw-db-toggle" id="sim-raw-toggle-btn" onclick="toggleRawDB()">📋 Inspect Raw Program Data (228 programs)</button>
     </details>
-</div>
-
-<!-- D. BLOCK BUILDER -->
-<div class="section fade-in fade-in-3">
-    <h2 style="margin-bottom:4px;">Block Builder</h2>
-    <div style="font-size:11px;color:var(--text2);margin-bottom:12px;">Allocate blockspace fragments to customer categories. Each fragment uses the category's observed fee/CU as default (editable).</div>
-
-    <!-- Fill bar -->
-    <div class="bb-fill-bar" id="bb-fill-bar"></div>
-
-    <!-- Fragment cards + add button -->
-    <div class="bb-fragments" id="bb-fragments" style="position:relative;"></div>
-
-    <!-- Summary -->
-    <div class="bb-summary">
-        <div class="bb-primary" id="bb-primary"></div>
-        <div class="bb-annual" id="bb-annual"></div>
-    </div>
 </div>
 
 <!-- E. RAW DATABASE (hidden, toggle via methodology button) -->
 <div id="sim-raw-db" style="display:none;">
     <div class="section fade-in">
         <h2>Program Explorer</h2>
-        <div style="font-size:11px;color:var(--text2);margin-bottom:12px;">Solana on-chain program data from Dune Analytics (30-day window: Feb 4 – Mar 5, 2026). Filter by product type, subcategory, or search by name/address. Sortable columns.</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:12px;">Solana on-chain program fee data from <strong style="color:var(--text-mid)">Dune Analytics</strong> (30-day window: Feb 4 – Mar 5, 2026). Filter by product type, subcategory, or search by name/address.</div>
         <div class="filter-row">
             <select id="f-prod" onchange="renderTable()"><option value="all">All Products</option><option value="aot">AOT</option><option value="jit">JIT</option><option value="both">Both</option><option value="potential">Potential</option></select>
             <select id="f-sub" onchange="renderTable()"><option value="all">All Subcategories</option></select>
@@ -990,7 +1077,7 @@ Block Builder Defaults:
     <!-- FEE/CU BY SUBCATEGORY (program-level data) -->
     <div class="section fade-in" style="margin-top:var(--gap);">
         <h2>Fee/CU by Program Subcategory</h2>
-        <div class="note" style="margin-bottom:10px">Average auction clearing price (lamports per CU) across on-chain program subcategories. Higher = more valuable blockspace demand.</div>
+        <div class="note" style="margin-bottom:10px">CU-weighted average fee/CU (lamports per compute unit) across on-chain program subcategories. Higher = more valuable blockspace demand. Source: Dune Analytics.</div>
         <div class="chart-box" style="min-height:260px;"><canvas id="chart-fcu"></canvas></div>
     </div>
 </div>
@@ -1679,18 +1766,18 @@ function switchTab(id){
     // Chart.js needs resize when container becomes visible
     requestAnimationFrame(()=>{
         if(id==='macro'){[cA].forEach(c=>{if(c)c.resize();});}
-        if(id==='micro'){[cF,cCatFcu,cBlockMix].forEach(c=>{if(c)c.resize();});}
+        if(id==='micro'){[cF,cCatFcu,cBlockMix,cDistrib].forEach(c=>{if(c)c.resize();});}
         if(id==='data'){[cE,cP].forEach(c=>{if(c)c.resize();});}
     });
 }
 window.switchTab=switchTab;
 
 // ═══════════════════════════════════════════════════════
-// BLOCK SIMULATION MODULE — Business Category Layer
+// BLOCK SIMULATION MODULE v2 — Business Category Layer
 // ═══════════════════════════════════════════════════════
 
 var BIZ_CATEGORIES = [
-    { id:'prop_amm', label:'Prop AMM', tier:'HIGH', icon:'★',
+    { id:'prop_amm', label:'Prop AMM', tier:'HIGH', icon:'',
       match: p => p.cat==='dex' && p.sub==='prop_amm' },
     { id:'orderbook', label:'Orderbook DEX', tier:'HIGH', icon:'',
       match: p => p.cat==='dex' && p.sub==='orderbook' },
@@ -1712,61 +1799,119 @@ var BIZ_CATEGORIES = [
       match: p => ['defi','payments','staking'].includes(p.cat) }
 ];
 
-// Segment colors for block builder fill bar + chart
 var CAT_COLORS = {
     prop_amm:'#F5A623', orderbook:'#E8813A', amm_pools:'#5B8DEF',
     perps:'#8B6FE8', lending:'#4EBF9A', aggregator:'#6ECFCF',
     oracle:'#D4D86A', bridge:'#E07070', trading_bots:'#A78BFA', infra:'#7A7E85'
 };
 
-// Build category-level aggregates from D.p (AOT/Both programs with CU > 0)
+// ── Local simulation parameters (independent from sidebar) ──
+var _simParams = null;
+
+function getSimParams(){
+    if(!_simParams){
+        var p = gp(); // seed from sidebar on first call
+        _simParams = { b: p.b, s: p.s, p: p.p };
+    }
+    return _simParams;
+}
+
+function updateSimParam(key, value){
+    var sp = getSimParams();
+    sp[key] = value;
+    renderSimParamDisplay();
+    renderBlockBuilder();
+}
+
+function renderSimParamDisplay(){
+    var sp = getSimParams();
+    var avail = CB * sp.b;
+    // Block Share slider
+    var bsSlider = document.getElementById('sim-bs');
+    var bsVal = document.getElementById('sim-bs-val');
+    if(bsSlider) bsSlider.value = Math.round(sp.b * 100);
+    if(bsVal) bsVal.textContent = Math.round(sp.b*100) + '% \u2192 ' + (avail/1e6).toFixed(0) + 'M CU';
+    // Stake slider
+    var stSlider = document.getElementById('sim-stake');
+    var stVal = document.getElementById('sim-stake-val');
+    if(stSlider) stSlider.value = (sp.s * 100).toFixed(1);
+    if(stVal) stVal.textContent = (sp.s*100).toFixed(1) + '% \u2192 ' + (SY*sp.s/1e6).toFixed(1) + 'M slots/yr';
+    // SOL price
+    var solInput = document.getElementById('sim-sol');
+    if(solInput && document.activeElement !== solInput) solInput.value = sp.p;
+}
+
+// ── Percentile utility ──
+function percentile(arr, pct){
+    if(!arr.length) return 0;
+    var sorted = [...arr].sort((a,b) => a - b);
+    var idx = (pct / 100) * (sorted.length - 1);
+    var lo = Math.floor(idx), hi = Math.ceil(idx);
+    if(lo === hi) return sorted[lo];
+    return sorted[lo] + (sorted[hi] - sorted[lo]) * (idx - lo);
+}
+
+// ── Thousands separator utility ──
+function fmtK(n){
+    if(n === undefined || n === null || isNaN(n)) return '0';
+    var parts = n.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+}
+
+// ── Build category-level aggregates from D.p ──
 function buildCategoryData(){
-    const aotProgs = D.p.filter(p => (p.prod==='aot'||p.prod==='both') && p.cu > 0);
-    return BIZ_CATEGORIES.map(cat => {
-        const progs = aotProgs.filter(cat.match);
-        const cu = progs.reduce((s,p) => s + p.cu, 0);
-        const tf = progs.reduce((s,p) => s + p.tf, 0);
-        const pf = progs.reduce((s,p) => s + p.pf, 0);
-        const bf = progs.reduce((s,p) => s + p.bf, 0);
-        const totFeePerCU = cu > 0 ? (tf * LS / (cu * 1e9)) : 0; // lamports/CU
-        const priFeePerCU = cu > 0 ? (pf * LS / (cu * 1e9)) : 0;
+    var aotProgs = D.p.filter(function(p){ return (p.prod==='aot'||p.prod==='both') && p.cu > 0; });
+    var S30 = SY * 30 / 365; // slots in 30-day window
+    return BIZ_CATEGORIES.map(function(cat){
+        var progs = aotProgs.filter(cat.match);
+        // Also find ALL programs matching (including cu=0 and non-AOT) for missing-data visibility
+        var allMatch = D.p.filter(cat.match);
+        var cu = progs.reduce(function(s,p){ return s + p.cu; }, 0);
+        var tf = progs.reduce(function(s,p){ return s + p.tf; }, 0);
+        var pf = progs.reduce(function(s,p){ return s + p.pf; }, 0);
+        var bf = progs.reduce(function(s,p){ return s + p.bf; }, 0);
+        var totFeePerCU = cu > 0 ? (tf * LS / (cu * 1e9)) : 0;
+        var priFeePerCU = cu > 0 ? (pf * LS / (cu * 1e9)) : 0;
+        // Per-program fee/CU distribution
+        var progFpcs = progs.map(function(p){ return p.cu > 0 ? (p.tf * LS / (p.cu * 1e9)) : 0; }).filter(function(v){ return v > 0; });
+        var avgCuPerBlock = cu > 0 ? (cu * 1e9 / S30) : 0; // CU per block on average
         return {
-            ...cat, progs, n: progs.length,
-            cu, tf, pf, bf,
-            totFeePerCU, priFeePerCU,
-            cuB: cu // already in billions from D.p
+            id: cat.id, label: cat.label, tier: cat.tier, icon: cat.icon, match: cat.match,
+            progs: progs, allMatch: allMatch, n: progs.length, nAll: allMatch.length,
+            cu: cu, tf: tf, pf: pf, bf: bf,
+            totFeePerCU: totFeePerCU, priFeePerCU: priFeePerCU,
+            cuB: cu, // already in billions from D.p
+            avgCuPerBlock: avgCuPerBlock,
+            // Distribution stats
+            medianFpc: percentile(progFpcs, 50),
+            p25Fpc: percentile(progFpcs, 25),
+            p75Fpc: percentile(progFpcs, 75),
+            progFpcs: progFpcs
         };
     });
 }
 var _catData = null;
 function getCatData(){ if(!_catData) _catData = buildCategoryData(); return _catData; }
 
-// Current selected category
 var _selectedCat = 'prop_amm';
 var _peakMode = false;
 
 // ── Category Explorer ──
 function initCategoryExplorer(){
-    const data = getCatData();
-    // Render category buttons
-    const bar = document.getElementById('sim-cat-bar');
+    var data = getCatData();
+    var bar = document.getElementById('sim-cat-bar');
     if(!bar) return;
-    bar.innerHTML = data.map(c =>
-        `<button class="cat-btn${c.tier==='HIGH'?' high-tier':''}${c.id===_selectedCat?' active':''}" onclick="selectCategory('${c.id}')">${c.icon?c.icon+' ':''}${c.label}</button>`
-    ).join('');
+    bar.innerHTML = data.map(function(c){
+        return '<button class="cat-btn' + (c.tier==='HIGH'?' high-tier':'') + (c.id===_selectedCat?' active':'') + '" onclick="selectCategory(\'' + c.id + '\')">' + c.label + '</button>';
+    }).join('');
     selectCategory(_selectedCat);
 }
 
 function selectCategory(id){
     _selectedCat = id;
-    // Update button states
-    document.querySelectorAll('.cat-btn').forEach(b => {
-        b.classList.toggle('active', b.textContent.replace('★ ','').replace('★','').trim() ===
-            BIZ_CATEGORIES.find(c=>c.id===id)?.label);
-    });
-    // Re-select by id more reliably
-    document.querySelectorAll('.cat-btn').forEach((b,i) => {
-        b.classList.toggle('active', BIZ_CATEGORIES[i]?.id === id);
+    document.querySelectorAll('.cat-btn').forEach(function(b,i){
+        b.classList.toggle('active', BIZ_CATEGORIES[i] && BIZ_CATEGORIES[i].id === id);
     });
     renderCategoryDetail(id);
     renderCategoryTable(id);
@@ -1774,56 +1919,141 @@ function selectCategory(id){
 }
 
 function renderCategoryDetail(id){
-    const data = getCatData();
-    const c = data.find(d => d.id === id);
+    var data = getCatData();
+    var c = data.find(function(d){ return d.id === id; });
     if(!c) return;
-    const el = document.getElementById('sim-cat-stats');
+    var el = document.getElementById('sim-cat-stats');
     if(!el) return;
-    const fmtFpc = v => v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2);
-    el.innerHTML = `
-        <div class="cat-stat"><div class="cs-label">Programs</div><div class="cs-val">${c.n}</div><div class="cs-sub">${c.tier==='HIGH'?'High-fee tier':'Low-fee tier'}</div></div>
-        <div class="cat-stat"><div class="cs-label">CU (30d)</div><div class="cs-val">${c.cuB.toFixed(1)}B</div><div class="cs-sub">Compute units consumed</div><span class="cs-tag from-data">📊 from data</span></div>
-        <div class="cat-stat"><div class="cs-label">Total Fee/CU</div><div class="cs-val" style="color:${CAT_COLORS[c.id]||'var(--text)'}">${fmtFpc(c.totFeePerCU)}</div><div class="cs-sub">lam/CU (CU-weighted avg)</div><span class="cs-tag from-data">📊 from data</span></div>
-        <div class="cat-stat"><div class="cs-label">Priority Fee/CU</div><div class="cs-val">${fmtFpc(c.priFeePerCU)}</div><div class="cs-sub">lam/CU (priority only)</div><span class="cs-tag from-data">📊 from data</span></div>
-        <div class="cat-stat"><div class="cs-label">Total Fees (30d)</div><div class="cs-val">${fmt(c.tf,'c')} SOL</div><div class="cs-sub">PF ${fmt(c.pf,'c')} + BF ${fmt(c.bf,'c')}</div><span class="cs-tag from-data">📊 from data</span></div>
-    `;
+    var fmtFpc = function(v){ return v < 0.01 ? v.toFixed(4) : v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2); };
+    var S30 = SY * 30 / 365;
+    var duneLink = 'https://dune.com/queries/4541159';
+    var fromDataTag = '<a class="cs-tag from-data clickable" href="' + duneLink + '" target="_blank">\uD83D\uDCCA from data (Dune #4541159)</a>';
+
+    // Missing data warning for categories with allMatch > progs
+    var missingHtml = '';
+    if(c.nAll > c.n){
+        var missing = c.allMatch.filter(function(p){ return !c.progs.includes(p); });
+        var missingNames = missing.map(function(p){ return p.n; }).join(', ');
+        missingHtml = '<div class="cat-missing">\u26A0 ' + (c.nAll - c.n) + ' additional program' + (c.nAll-c.n>1?'s':'') + ' matched this category but have no usable CU data or are not classified as AOT/Both: <strong>' + missingNames + '</strong>. Data not yet collected for these programs.</div>';
+    }
+
+    el.innerHTML =
+        '<div class="cat-stat"><div class="cs-label">Programs with CU data (AOT/Both)</div><div class="cs-val">' + c.n + (c.nAll > c.n ? ' <span style="font-size:11px;color:var(--text2)">/ ' + c.nAll + ' known in category</span>' : '') + '</div><div class="cs-sub">' + (c.tier==='HIGH'?'High-fee tier':'Standard tier') + '</div></div>' +
+        '<div class="cat-stat"><div class="cs-label">30-day CU total (billions)</div><div class="cs-val">' + c.cuB.toFixed(1) + 'B</div><div class="cs-sub">Total compute units consumed over 30d window</div>' + fromDataTag + '</div>' +
+        '<div class="cat-stat"><div class="cs-label">Avg CU per block (30d avg)</div><div class="cs-val">' + (c.avgCuPerBlock >= 1e6 ? fmtK((c.avgCuPerBlock/1e6).toFixed(2)) + 'M' : c.avgCuPerBlock >= 1e3 ? fmtK(Math.round(c.avgCuPerBlock/1e3)) + 'K' : fmtK(Math.round(c.avgCuPerBlock))) + '</div><div class="cs-sub">= 30d CU total \u00F7 ' + (S30/1e6).toFixed(1) + 'M slots in window</div>' + fromDataTag + '</div>' +
+        '<div class="cat-stat"><div class="cs-label">Weighted avg Fee/CU (total fees, CU-weighted)</div><div class="cs-val" style="color:' + (CAT_COLORS[c.id]||'var(--text)') + '">' + fmtFpc(c.totFeePerCU) + ' <span style="font-size:10px;color:var(--text2)">lamports/CU</span></div><div class="cs-sub">= \u03A3(total fees) \u00D7 10\u2079 / \u03A3(CU) across ' + c.n + ' programs</div>' + fromDataTag +
+            (c.progFpcs.length >= 3 ? '<div class="cat-distrib"><span class="cd-item">p25 <span class="cd-val">' + fmtFpc(c.p25Fpc) + '</span></span><span class="cd-item">median <span class="cd-val">' + fmtFpc(c.medianFpc) + '</span></span><span class="cd-item">p75 <span class="cd-val">' + fmtFpc(c.p75Fpc) + '</span></span></div>' : '') +
+        '</div>' +
+        '<div class="cat-stat"><div class="cs-label">Weighted avg Priority Fee/CU (CU-weighted)</div><div class="cs-val">' + fmtFpc(c.priFeePerCU) + ' <span style="font-size:10px;color:var(--text2)">lamports/CU</span></div><div class="cs-sub">Priority fees only (above mandatory base)</div>' + fromDataTag + '</div>' +
+        '<div class="cat-stat"><div class="cs-label">Total fees over 30-day window (SOL)</div><div class="cs-val">' + fmtK(Math.round(c.tf)) + ' SOL</div><div class="cs-sub">Priority: ' + fmtK(Math.round(c.pf)) + ' SOL + Base: ' + fmtK(Math.round(c.bf)) + ' SOL</div>' + fromDataTag + '</div>' +
+        missingHtml;
+
+    // v3: Render per-program distribution view
+    renderCategoryDistribution(id, c);
+}
+
+// v3: Per-program distribution view (correction 7 — properly implemented)
+var cDistrib = null;
+function renderCategoryDistribution(id, c){
+    var el = document.getElementById('sim-cat-distrib-view');
+    if(!el) return;
+    if(!c || c.progs.length < 2){
+        el.innerHTML = c && c.progs.length === 1 ? '<div style="font-size:10px;color:var(--text2);padding:4px 0;">Only 1 program in category — distribution not meaningful.</div>' : '';
+        return;
+    }
+    var fmtFpc = function(v){ return v < 0.01 ? v.toFixed(4) : v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2); };
+    var S30 = SY * 30 / 365;
+    // Sort by fee/CU descending
+    var sorted = [].concat(c.progs).sort(function(a,b){
+        var af = a.cu > 0 ? (a.tf * LS / (a.cu * 1e9)) : 0;
+        var bf = b.cu > 0 ? (b.tf * LS / (b.cu * 1e9)) : 0;
+        return bf - af;
+    });
+
+    el.innerHTML = '<div class="cat-distrib-expanded">' +
+        '<div style="font-size:10px;font-weight:600;color:var(--text-mid);margin-bottom:6px;font-family:var(--font-mono);">30-DAY FEE/CU DISTRIBUTION — ' + c.label.toUpperCase() + ' (' + c.n + ' programs)</div>' +
+        (c.progFpcs.length >= 3 ? '<div class="cat-distrib" style="margin-bottom:8px"><span class="cd-item">p25 <span class="cd-val">' + fmtFpc(c.p25Fpc) + '</span></span><span class="cd-item">median <span class="cd-val">' + fmtFpc(c.medianFpc) + '</span></span><span class="cd-item">p75 <span class="cd-val">' + fmtFpc(c.p75Fpc) + '</span></span><span class="cd-item">CU-wt avg <span class="cd-val" style="color:' + (CAT_COLORS[c.id]||'var(--text)') + '">' + fmtFpc(c.totFeePerCU) + '</span></span></div>' : '') +
+        '<div class="cat-distrib-chart"><canvas id="chart-cat-distrib"></canvas></div>' +
+        '<table><thead><tr><th>Program</th><th style="text-align:right">Fee/CU (lam)</th><th style="text-align:right">30d CU</th><th style="text-align:right">% of cat CU</th></tr></thead><tbody>' +
+        sorted.map(function(p){
+            var tfc = p.cu > 0 ? (p.tf * LS / (p.cu * 1e9)) : 0;
+            var cuPct = c.cu > 0 ? (p.cu / c.cu * 100) : 0;
+            return '<tr><td style="color:var(--text)">' + p.n + '</td><td style="text-align:right;color:' + (CAT_COLORS[id]||'var(--text-mid)') + '">' + fmtFpc(tfc) + '</td><td style="text-align:right">' + p.cu.toFixed(1) + 'B</td><td style="text-align:right">' + cuPct.toFixed(1) + '%</td></tr>';
+        }).join('') +
+    '</tbody></table></div>';
+
+    // Draw mini bar chart
+    requestAnimationFrame(function(){
+        var canvas = document.getElementById('chart-cat-distrib');
+        if(!canvas) return;
+        if(cDistrib) cDistrib.destroy();
+        cDistrib = new Chart(canvas, {
+            type:'bar',
+            data:{
+                labels: sorted.map(function(p){ return p.n.length > 15 ? p.n.substring(0,14)+'\u2026' : p.n; }),
+                datasets:[{
+                    label:'Fee/CU (lam)',
+                    data: sorted.map(function(p){ return p.cu > 0 ? (p.tf * LS / (p.cu * 1e9)) : 0; }),
+                    backgroundColor: sorted.map(function(){ return (CAT_COLORS[id]||'#555') + 'B0'; }),
+                    borderRadius: 2, barPercentage: 0.75
+                }]
+            },
+            options:{
+                responsive:true, maintainAspectRatio:false,
+                plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: function(ctx){ return fmtFpc(ctx.raw) + ' lam/CU'; }}}},
+                scales:{
+                    x:{ grid:{display:false}, ticks:{color:'#ccc', font:{size:8, family:'JetBrains Mono'}, maxRotation:45} },
+                    y:{ type: sorted.length > 3 ? 'logarithmic' : 'linear', grid:{color:'#1a1c22'}, ticks:{color:'#ccc', font:{size:9, family:'JetBrains Mono'}, callback: function(v){ return v < 0.1 ? v.toFixed(2) : v >= 10 ? v.toFixed(0) : v.toFixed(1); }}, title:{display:true, text:'Fee/CU (lam)', color:'#aaa', font:{size:8, family:'JetBrains Mono'}}}
+                }
+            }
+        });
+    });
 }
 
 function renderCategoryTable(id){
-    const data = getCatData();
-    const c = data.find(d => d.id === id);
-    const el = document.getElementById('sim-cat-progs');
+    var data = getCatData();
+    var c = data.find(function(d){ return d.id === id; });
+    var el = document.getElementById('sim-cat-progs');
     if(!el || !c) return;
     if(c.progs.length === 0){
-        el.innerHTML = '<div style="color:var(--text2);font-size:11px;padding:8px;">No AOT/Both programs in this category.</div>';
+        el.innerHTML = '<div style="color:var(--text2);font-size:11px;padding:8px;">No AOT/Both programs with CU data in this category.' + (c.nAll > 0 ? ' (' + c.nAll + ' program' + (c.nAll>1?'s':'') + ' exist but data not yet collected)' : '') + '</div>';
         return;
     }
-    const fmtFpc = v => v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2);
-    const sorted = [...c.progs].sort((a,b) => b.cu - a.cu);
-    el.innerHTML = `<table class="cat-prog-table"><thead><tr>
-        <th>Program</th><th>CU (B)</th><th>Tot Fee/CU</th><th>Pri Fee/CU</th><th>Total Fees</th></tr></thead><tbody>${
-        sorted.map(p => {
-            const tfc = p.cu > 0 ? (p.tf * LS / (p.cu * 1e9)) : 0;
-            const pfc = p.cu > 0 ? (p.pf * LS / (p.cu * 1e9)) : 0;
-            return `<tr><td style="color:var(--text)">${p.n}</td><td>${p.cu.toFixed(1)}</td><td style="color:${CAT_COLORS[id]||'var(--text-mid)'}">${fmtFpc(tfc)}</td><td>${fmtFpc(pfc)}</td><td>${fmt(p.tf,'c')}</td></tr>`;
-        }).join('')
-    }</tbody></table>`;
+    var fmtFpc = function(v){ return v < 0.01 ? v.toFixed(4) : v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2); };
+    var S30 = SY * 30 / 365;
+    var duneLink = 'https://dune.com/queries/4541159';
+    // Sort by fee/CU descending (matches block-fill logic)
+    var sorted = [].concat(c.progs).sort(function(a,b){
+        var afpc = a.cu > 0 ? (a.tf * LS / (a.cu * 1e9)) : 0;
+        var bfpc = b.cu > 0 ? (b.tf * LS / (b.cu * 1e9)) : 0;
+        return bfpc - afpc;
+    });
+    el.innerHTML = '<div style="font-size:10px;color:var(--text2);margin-bottom:4px">Programs sorted by fee/CU descending (same order as block-fill). <a href="' + duneLink + '" target="_blank" class="src-link">\uD83D\uDCCA from Dune #4541159</a></div>' +
+        '<table class="cat-prog-table"><thead><tr>' +
+        '<th>Program</th><th style="color:#F5A623">Fee/CU (lam)</th><th style="color:#8ddb6a;font-weight:700">Avg CU/block</th><th>30d CU (B)</th><th>30d Fees (SOL)</th></tr></thead><tbody>' +
+        sorted.map(function(p){
+            var tfc = p.cu > 0 ? (p.tf * LS / (p.cu * 1e9)) : 0;
+            var cuPerBlock = p.cu > 0 ? (p.cu * 1e9 / S30) : 0;
+            var cuPerBlockFmt = cuPerBlock >= 1e6 ? fmtK((cuPerBlock/1e6).toFixed(2)) + 'M' : cuPerBlock >= 1e3 ? fmtK(Math.round(cuPerBlock/1e3)) + 'K' : fmtK(Math.round(cuPerBlock));
+            return '<tr><td style="color:var(--text)">' + p.n + '</td><td style="color:' + (CAT_COLORS[id]||'var(--text-mid)') + ';font-weight:600">' + fmtFpc(tfc) + '</td><td style="color:var(--lime);font-weight:600">' + cuPerBlockFmt + '</td><td>' + p.cu.toFixed(1) + '</td><td>' + fmtK(Math.round(p.tf)) + '</td></tr>';
+        }).join('') +
+    '</tbody></table>';
 }
 
-// ── Category chart (grouped bar: Tot Fee/CU per category) ──
+// ── Category chart (horizontal bar: CU-weighted avg Fee/CU per category) ──
 var cCatFcu = null;
 function initCatFcuChart(){
-    const ctx = document.getElementById('chart-cat-fcu');
+    var ctx = document.getElementById('chart-cat-fcu');
     if(!ctx) return;
-    const data = getCatData();
+    var data = getCatData();
     cCatFcu = new Chart(ctx, {
         type:'bar',
         data:{
-            labels: data.map(c => c.label),
+            labels: data.map(function(c){ return c.label; }),
             datasets:[{
-                label:'Total Fee/CU (lam)',
-                data: data.map(c => c.totFeePerCU),
-                backgroundColor: data.map(c => CAT_COLORS[c.id] || '#555'),
+                label:'Fee/CU — CU-weighted avg (lam)',
+                data: data.map(function(c){ return c.totFeePerCU; }),
+                backgroundColor: data.map(function(c){ return CAT_COLORS[c.id] || '#555'; }),
                 borderRadius: 3, barThickness: 18,
                 barPercentage: 0.7, categoryPercentage: 0.8
             }]
@@ -1835,10 +2065,11 @@ function initCatFcuChart(){
                 legend:{display:false},
                 tooltip:{
                     callbacks:{
-                        label: ctx => {
-                            const c = data[ctx.dataIndex];
-                            const v = ctx.raw;
-                            return `${v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2)} lam/CU · ${c.n} programs · ${c.cuB.toFixed(1)}B CU`;
+                        label: function(ctx){
+                            var c = data[ctx.dataIndex];
+                            var v = ctx.raw;
+                            var vf = v < 0.01 ? v.toFixed(4) : v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2);
+                            return vf + ' lam/CU (CU-weighted avg) \u00B7 ' + c.n + ' programs \u00B7 ' + c.cuB.toFixed(1) + 'B CU (30d)';
                         }
                     }
                 }
@@ -1846,14 +2077,15 @@ function initCatFcuChart(){
             scales:{
                 x:{
                     type:'logarithmic',
+                    title:{display:true, text:'Fee/CU (lamports) — log scale', color:'#bbb', font:{size:10, family:'JetBrains Mono'}},
                     grid:{color:'#1a1c22'},
-                    ticks:{color:'var(--text2)', font:{size:10, family:'JetBrains Mono'},
-                        callback: v => v < 0.1 ? v.toFixed(2) : v >= 10 ? v.toFixed(0) : v.toFixed(1)
+                    ticks:{color:'#ddd', font:{size:10, family:'JetBrains Mono'},
+                        callback: function(v){ return v < 0.1 ? v.toFixed(2) : v >= 10 ? v.toFixed(0) : v.toFixed(1); }
                     }
                 },
                 y:{
                     grid:{display:false},
-                    ticks:{color:'var(--text-mid)', font:{size:10, family:'Space Grotesk'}}
+                    ticks:{color:'#eee', font:{size:10, family:'Space Grotesk', weight:'500'}}
                 }
             }
         }
@@ -1861,25 +2093,25 @@ function initCatFcuChart(){
 }
 function updateCatFcuChart(){
     if(!cCatFcu) return;
-    const data = getCatData();
-    // Highlight selected category
-    cCatFcu.data.datasets[0].backgroundColor = data.map(c =>
-        c.id === _selectedCat ? (CAT_COLORS[c.id]||'#888') : ((CAT_COLORS[c.id]||'#555')+'60')
-    );
+    var data = getCatData();
+    cCatFcu.data.datasets[0].backgroundColor = data.map(function(c){
+        return c.id === _selectedCat ? (CAT_COLORS[c.id]||'#888') : ((CAT_COLORS[c.id]||'#555')+'60');
+    });
     cCatFcu.update('none');
 }
 
-// ── Block Builder ──
+// ── Block Builder v2 — Sort-Fill-Stop logic ──
 var _bbFragments = []; // [{catId, cu, feePerCU, userAdjustedFee: bool}]
 var cBlockMix = null;
+var SLOTS_PER_EPOCH = 432000; // Solana epoch length
 
 function addFragment(catId){
-    const data = getCatData();
-    const c = data.find(d => d.id === catId);
+    var data = getCatData();
+    var c = data.find(function(d){ return d.id === catId; });
     if(!c) return;
-    const p = gp();
-    const avail = CB * (p.b); // available CU = block size × block share
-    const defaultCU = Math.round(avail * 0.1); // 10% as convenience default
+    var sp = getSimParams();
+    var avail = CB * sp.b;
+    var defaultCU = Math.round(avail * 0.1); // 10% convenience default
     _bbFragments.push({
         catId: catId,
         cu: defaultCU,
@@ -1896,7 +2128,7 @@ function removeFragment(idx){
 
 function updateFragment(idx, field, value){
     if(!_bbFragments[idx]) return;
-    const numVal = parseFloat(value);
+    var numVal = parseFloat(value);
     if(isNaN(numVal) || numVal < 0) return;
     if(field === 'cu') _bbFragments[idx].cu = Math.round(numVal);
     if(field === 'feePerCU'){
@@ -1906,141 +2138,198 @@ function updateFragment(idx, field, value){
     renderBlockBuilder();
 }
 
-function renderBlockBuilder(){
-    if(!_bbFragments || !Array.isArray(_bbFragments)) return; // guard: not yet initialized
-    const p = gp();
-    const avail = CB * p.b; // total available CU in block
-    const totalUsed = _bbFragments.reduce((s,f) => s + f.cu, 0);
-    const pctUsed = avail > 0 ? (totalUsed / avail * 100) : 0;
-    const data = getCatData();
+function resetFragment(idx){
+    if(!_bbFragments[idx]) return;
+    var data = getCatData();
+    var c = data.find(function(d){ return d.id === _bbFragments[idx].catId; });
+    if(c){
+        _bbFragments[idx].feePerCU = c.totFeePerCU;
+        _bbFragments[idx].userAdjustedFee = false;
+    }
+    var sp = getSimParams();
+    _bbFragments[idx].cu = Math.round(CB * sp.b * 0.1);
+    renderBlockBuilder();
+}
 
-    // Fill bar
-    const fillBar = document.getElementById('bb-fill-bar');
+function renderBlockBuilder(){
+    if(!_bbFragments || !Array.isArray(_bbFragments)) return;
+    var sp = getSimParams();
+    var avail = CB * sp.b; // total available CU
+    var duneLink = 'https://dune.com/queries/4541159';
+
+    // SORT fragments by fee/CU descending (greedy auction fill)
+    var sortedIdxs = _bbFragments.map(function(_,i){ return i; });
+    sortedIdxs.sort(function(a,b){ return _bbFragments[b].feePerCU - _bbFragments[a].feePerCU; });
+
+    // FILL until capacity — mark which fragments fit
+    var cumCU = 0;
+    var fitMap = {}; // idx → { fits: bool, usedCU: number }
+    sortedIdxs.forEach(function(idx){
+        var f = _bbFragments[idx];
+        var remaining = avail - cumCU;
+        if(remaining <= 0){
+            fitMap[idx] = { fits: false, usedCU: 0 };
+        } else if(f.cu <= remaining){
+            fitMap[idx] = { fits: true, usedCU: f.cu };
+            cumCU += f.cu;
+        } else {
+            fitMap[idx] = { fits: true, usedCU: remaining, partial: true };
+            cumCU += remaining;
+        }
+    });
+
+    var totalUsed = cumCU;
+    var data = getCatData();
+    var fmtFpc = function(v){ return v < 0.01 ? v.toFixed(4) : v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2); };
+
+    // ── Fill bar (sorted by fee/CU desc) ──
+    var fillBar = document.getElementById('bb-fill-bar');
     if(fillBar){
-        let html = '';
-        _bbFragments.forEach((f,i) => {
-            const pct = avail > 0 ? (f.cu / avail * 100) : 0;
-            const col = CAT_COLORS[f.catId] || '#555';
-            const cat = BIZ_CATEGORIES.find(c=>c.id===f.catId);
-            html += `<div class="bb-fill-seg" style="width:${pct}%;background:${col}" title="${cat?.label||f.catId}: ${(f.cu/1e6).toFixed(1)}M CU (${pct.toFixed(1)}%)">${pct > 8 ? (cat?.label?.substring(0,8)||'') : ''}</div>`;
+        var html = '';
+        sortedIdxs.forEach(function(idx){
+            var f = _bbFragments[idx];
+            var fm = fitMap[idx];
+            if(!fm.fits || fm.usedCU <= 0) return;
+            var pct = avail > 0 ? (fm.usedCU / avail * 100) : 0;
+            var col = CAT_COLORS[f.catId] || '#555';
+            var cat = BIZ_CATEGORIES.find(function(c){ return c.id===f.catId; });
+            html += '<div class="bb-fill-seg" style="width:' + pct + '%;background:' + col + '" title="' + (cat?cat.label:f.catId) + ': ' + fmtK(Math.round(fm.usedCU)) + ' CU (' + pct.toFixed(1) + '%)">' + (pct > 8 ? (cat?cat.label.substring(0,8):'') : '') + '</div>';
         });
-        const emptyPct = Math.max(0, 100 - pctUsed);
-        html += `<div class="bb-fill-empty" style="width:${emptyPct}%">${emptyPct > 15 ? ((avail - totalUsed)/1e6).toFixed(1)+'M CU free' : ''}</div>`;
+        var emptyPct = Math.max(0, 100 - (avail > 0 ? totalUsed/avail*100 : 0));
+        html += '<div class="bb-fill-empty" style="width:' + emptyPct + '%">' + (emptyPct > 15 ? fmtK(Math.round((avail - totalUsed)/1e6)) + 'M CU free' : '') + '</div>';
         fillBar.innerHTML = html;
     }
 
-    // Fragment cards
-    const fragEl = document.getElementById('bb-fragments');
+    // ── Fragment cards (original order, with clear fit/reject status) ──
+    var fragEl = document.getElementById('bb-fragments');
     if(fragEl){
-        const fmtFpc = v => v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2);
-        let html = '';
-        _bbFragments.forEach((f,i) => {
-            const cat = BIZ_CATEGORIES.find(c=>c.id===f.catId);
-            const col = CAT_COLORS[f.catId] || '#555';
-            const feeSol = f.cu * f.feePerCU / LS;
-            html += `<div class="bb-frag" style="border-left:3px solid ${col}">
-                <button class="bf-remove" onclick="removeFragment(${i})">&times;</button>
-                <div class="bf-cat" style="color:${col}">${cat?.icon?cat.icon+' ':''}${cat?.label||f.catId}</div>
-                <div class="bf-row"><span class="bf-label">CU Allocation</span><input type="number" value="${f.cu}" onchange="updateFragment(${i},'cu',this.value)" min="0" max="${avail}"></div>
-                <div style="font-size:9px;color:var(--text2);margin-bottom:4px;font-family:var(--font-mono)">${(f.cu/1e6).toFixed(2)}M CU · ${avail>0?(f.cu/avail*100).toFixed(1):'0'}% of block</div>
-                <div class="bf-row"><span class="bf-label">Fee/CU (lam)</span><input type="number" value="${fmtFpc(f.feePerCU)}" step="0.01" onchange="updateFragment(${i},'feePerCU',this.value)" min="0"></div>
-                <span class="cs-tag ${f.userAdjustedFee?'user-adj':'from-data'}">${f.userAdjustedFee?'✏️ user-adjusted':'📊 from data'}</span>
-                <div style="font-size:10px;color:var(--text-mid);margin-top:6px;font-family:var(--font-mono)">→ ${feeSol.toFixed(6)} SOL</div>
-            </div>`;
+        var html = '';
+        _bbFragments.forEach(function(f, i){
+            var cat = BIZ_CATEGORIES.find(function(c){ return c.id===f.catId; });
+            var col = CAT_COLORS[f.catId] || '#555';
+            var fm = fitMap[i] || { fits: false, usedCU: 0 };
+            var feeSol = fm.usedCU * f.feePerCU / LS;
+            var feeUSD = feeSol * sp.p;
+            var isRejected = !fm.fits;
+            var isPartial = fm.partial;
+
+            html += '<div class="bb-frag' + (isRejected ? ' rejected' : '') + '" style="border-left:3px solid ' + col + '">' +
+                '<button class="bf-remove" onclick="removeFragment(' + i + ')">&times;</button>' +
+                '<div class="bf-cat" style="color:' + col + '">' + (cat?cat.label:f.catId) + '</div>' +
+                '<div class="bf-row"><span class="bf-label">CU Allocation</span><input type="number" value="' + f.cu + '" onchange="updateFragment(' + i + ',\'cu\',this.value)" min="0" max="' + Math.round(avail) + '"><button class="bf-reset" onclick="resetFragment(' + i + ')" title="Reset to defaults">reset</button></div>' +
+                '<div class="bf-info-line">' + fmtK(Math.round(f.cu/1e3)) + 'K CU \u00B7 ' + (avail>0?(f.cu/avail*100).toFixed(1):'0') + '% of AOT block (' + fmtK(Math.round(avail/1e6)) + 'M CU)</div>' +
+                '<div class="bf-row"><span class="bf-label">Fee/CU (lam)</span><input type="number" value="' + fmtFpc(f.feePerCU) + '" step="0.01" onchange="updateFragment(' + i + ',\'feePerCU\',this.value)" min="0"></div>' +
+                (f.userAdjustedFee ?
+                    '<span class="cs-tag user-adj">\u270F\uFE0F user-adjusted</span>' :
+                    '<a class="cs-tag from-data clickable" href="' + duneLink + '" target="_blank" style="font-size:8px">\uD83D\uDCCA from data (Dune #4541159)</a>'
+                ) +
+                (isRejected ?
+                    '<div class="bf-rejected">\u26D4 Rejected: over capacity \u2014 this fragment does not fit in the block (fee/CU too low relative to other fragments)</div>' :
+                 isPartial ?
+                    '<div class="bf-partial">\u26A0 Partially included: ' + fmtK(Math.round(fm.usedCU/1e3)) + 'K of ' + fmtK(Math.round(f.cu/1e3)) + 'K CU fits in remaining capacity</div>' : '') +
+                (isRejected ?
+                    '<div class="bf-output-zero">\u2192 0 SOL (not included in block)</div>' :
+                    '<div class="bf-output">\u2192 ' + feeSol.toFixed(6) + ' SOL <span class="bf-usd">\u00B7 $' + feeUSD.toFixed(4) + '</span></div>'
+                ) +
+            '</div>';
         });
-        html += `<button class="bb-add-btn" onclick="document.getElementById('bb-add-dropdown').style.display=document.getElementById('bb-add-dropdown').style.display==='block'?'none':'block'">+ Add Category</button>`;
-        html += `<div id="bb-add-dropdown" style="display:none;position:absolute;background:var(--card);border:1px solid var(--card-border);border-radius:8px;padding:6px;z-index:10;margin-top:4px;">`;
-        data.forEach(c => {
-            html += `<div style="padding:4px 10px;cursor:pointer;font-size:11px;color:var(--text-mid);border-radius:4px;" onmouseover="this.style.background='#1a1c22'" onmouseout="this.style.background=''" onclick="addFragment('${c.id}');document.getElementById('bb-add-dropdown').style.display='none';">${c.icon?c.icon+' ':''}${c.label} <span style="color:var(--text2);font-size:9px">(${fmtFpc(c.totFeePerCU)} lam/CU)</span></div>`;
+        html += '<button class="bb-add-btn" onclick="document.getElementById(\'bb-add-dropdown\').style.display=document.getElementById(\'bb-add-dropdown\').style.display===\'block\'?\'none\':\'block\'">+ Add Category</button>';
+        html += '<div id="bb-add-dropdown" style="display:none;position:absolute;background:var(--card);border:1px solid var(--card-border);border-radius:8px;padding:6px;z-index:10;margin-top:4px;">';
+        data.forEach(function(c){
+            html += '<div style="padding:4px 10px;cursor:pointer;font-size:11px;color:var(--text-mid);border-radius:4px;" onmouseover="this.style.background=\'#1a1c22\'" onmouseout="this.style.background=\'\'" onclick="addFragment(\'' + c.id + '\');document.getElementById(\'bb-add-dropdown\').style.display=\'none\';">' + c.label + ' <span style="color:var(--text2);font-size:9px">(' + fmtFpc(c.totFeePerCU) + ' lam/CU)</span></div>';
         });
-        html += `</div>`;
+        html += '</div>';
         fragEl.innerHTML = html;
     }
 
-    // Summary — per-block primary
-    const totalFeesSol = _bbFragments.reduce((s,f) => s + (f.cu * f.feePerCU / LS), 0);
-    const blendedFee = totalUsed > 0 ? (totalFeesSol * LS / totalUsed) : 0;
-    const fmtFpc2 = v => v < 0.1 ? v.toFixed(3) : v >= 10 ? v.toFixed(1) : v.toFixed(2);
+    // ── Summary — Per-Block Output (primary) ──
+    var totalFeesSol = 0;
+    _bbFragments.forEach(function(f, i){
+        var fm = fitMap[i] || { usedCU: 0 };
+        totalFeesSol += fm.usedCU * f.feePerCU / LS;
+    });
+    var wtAvgFee = totalUsed > 0 ? (totalFeesSol * LS / totalUsed) : 0;
+    var totalFeesUSD = totalFeesSol * sp.p;
 
-    const priEl = document.getElementById('bb-primary');
+    var priEl = document.getElementById('bb-primary');
     if(priEl){
-        priEl.innerHTML = `<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);margin-bottom:8px;font-family:var(--font-mono)">Per-Block Output</div>
-        <div class="bp-row">
-            <div class="bp-item"><div class="bp-label">Used CU</div><div class="bp-val">${(totalUsed/1e6).toFixed(2)}M <span style="font-size:12px;color:var(--text2)">/ ${(avail/1e6).toFixed(0)}M</span></div></div>
-            <div class="bp-item"><div class="bp-label">Blended Fee/CU</div><div class="bp-val">${fmtFpc2(blendedFee)} <span style="font-size:12px;color:var(--text2)">lam/CU</span></div></div>
-            <div class="bp-item"><div class="bp-label">Block Fees</div><div class="bp-val" style="color:var(--lime)">${totalFeesSol.toFixed(6)} <span style="font-size:12px">SOL</span></div></div>
-        </div>`;
+        priEl.innerHTML = '<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);margin-bottom:8px;font-family:var(--font-mono)">Per-Block Output</div>' +
+        '<div class="bp-row">' +
+            '<div class="bp-item"><div class="bp-label">Used CU (included fragments)</div><div class="bp-val">' + fmtK(Math.round(totalUsed/1e3)) + 'K <span style="font-size:12px;color:var(--text2)">/ ' + fmtK(Math.round(avail/1e6)) + 'M avail</span></div></div>' +
+            '<div class="bp-item"><div class="bp-label">Weighted avg fee/CU (included fragments)</div><div class="bp-val">' + fmtFpc(wtAvgFee) + ' <span style="font-size:12px;color:var(--text2)">lam/CU</span></div></div>' +
+            '<div class="bp-item"><div class="bp-label">Total Block Fees</div><div class="bp-val" style="color:var(--lime);font-size:20px">' + totalFeesSol.toFixed(6) + ' <span style="font-size:14px">SOL</span> <span style="font-size:15px;color:var(--text-mid)">\u00B7 $' + fmtK(totalFeesUSD.toFixed(4)) + '</span></div></div>' +
+        '</div>';
     }
 
-    // Summary — annualized secondary
-    const annEl = document.getElementById('bb-annual');
+    // ── Summary — Extrapolated Revenue Projections (stronger visual hierarchy) ──
+    var annEl = document.getElementById('bb-annual');
     if(annEl){
-        const slotsPerYear = SY;
-        const stakeShare = p.s; // RAIKU stake %
-        const raikuSlots = slotsPerYear * stakeShare;
-        const annualSOL = totalFeesSol * raikuSlots;
-        const annualUSD = annualSOL * p.p;
-        const monthlyUSD = annualUSD / 12;
-        annEl.innerHTML = `<div class="ba-disclaimer">⚠ Annualized extrapolation: block fees × RAIKU stake (${(stakeShare*100).toFixed(1)}%) × ${(slotsPerYear/1e6).toFixed(1)}M slots/yr. This is a derived projection, not a block-level fact.</div>
-        <div class="ba-row">
-            <div class="ba-item"><div class="ba-label">Annual AOT Revenue</div><div class="ba-val">${fmt(annualUSD,'$')}</div></div>
-            <div class="ba-item"><div class="ba-label">Monthly</div><div class="ba-val">${fmt(monthlyUSD,'$')}</div></div>
-            <div class="ba-item"><div class="ba-label">Annual (SOL)</div><div class="ba-val">${fmt(annualSOL,'S')}</div></div>
-        </div>`;
+        var stakeShare = sp.s;
+        var raikuSlots = SY * stakeShare;
+        var annualSOL = totalFeesSol * raikuSlots;
+        var annualUSD = annualSOL * sp.p;
+        var monthlyUSD = annualUSD / 12;
+        var monthlySOL = annualSOL / 12;
+        var raikuSlotsPerEpoch = SLOTS_PER_EPOCH * stakeShare;
+        var epochSOL = totalFeesSol * raikuSlotsPerEpoch;
+        var epochUSD = epochSOL * sp.p;
+        var epochsPerYear = Math.round(SY / SLOTS_PER_EPOCH);
+
+        annEl.innerHTML =
+        '<div class="bb-rev-title">RAIKU Revenue Projections</div>' +
+        '<div class="bb-rev-row">' +
+            '<div class="bb-rev-item"><div class="bb-rev-label">Per Epoch (~' + fmtK(SLOTS_PER_EPOCH) + ' slots \u00B7 ~2.5 days)</div><div class="bb-rev-val">' + epochSOL.toFixed(4) + ' SOL <span class="rv-sub">\u00B7 $' + fmtK(epochUSD.toFixed(2)) + '</span></div></div>' +
+            '<div class="bb-rev-item"><div class="bb-rev-label">Monthly (~30 days)</div><div class="bb-rev-val">' + fmtK(monthlySOL.toFixed(2)) + ' SOL <span class="rv-sub">\u00B7 $' + fmtK(Math.round(monthlyUSD)) + '</span></div></div>' +
+            '<div class="bb-rev-item"><div class="bb-rev-label">Annual (' + (SY/1e6).toFixed(1) + 'M slots \u00B7 ~' + epochsPerYear + ' epochs)</div><div class="bb-rev-val" style="color:var(--lime)">' + fmtK(Math.round(annualSOL)) + ' SOL <span class="rv-sub">\u00B7 $' + fmtK(Math.round(annualUSD)) + '</span></div></div>' +
+        '</div>' +
+        '<div class="bb-rev-disclaimer">\u26A0 Extrapolated from: block fees (' + totalFeesSol.toFixed(6) + ' SOL) \u00D7 RAIKU stake share (' + (stakeShare*100).toFixed(1) + '%) \u00D7 slot frequency. These are derived projections, not observed block-level revenue.</div>';
     }
 
-    // Update header assumptions
-    updateSimAssumptions();
+    renderSimParamDisplay();
 }
 
 function initBlockBuilder(){
-    // Start with one default fragment: Prop AMM
     _bbFragments = [];
+    _simParams = null; // reset to re-seed from sidebar
     addFragment('prop_amm');
 }
 
-// ── Sync sidebar assumptions to hero display ──
+// ── Sync sidebar to sim (only called from update(), does NOT override local params) ──
 function updateSimAssumptions(){
-    if(typeof BIZ_CATEGORIES === 'undefined' || !BIZ_CATEGORIES) return; // guard
-    const p = gp();
-    const avail = CB * p.b;
-    const el = document.getElementById('sim-assumptions');
-    if(!el) return;
-    el.innerHTML = `
-        <div class="sa-pill">Block: <b>60M CU</b> (standard Solana)</div>
-        <div class="sa-pill">AOT Share: <b>${Math.round(p.b*100)}%</b> → <b>${(avail/1e6).toFixed(0)}M CU</b></div>
-        <div class="sa-pill">RAIKU Stake: <b>${(p.s*100).toFixed(1)}%</b> → <b>${(SY*p.s/1e6).toFixed(1)}M slots/yr</b></div>
-        <div class="sa-pill">SOL: <b>$${p.p}</b></div>
-    `;
+    if(typeof BIZ_CATEGORIES === 'undefined' || !BIZ_CATEGORIES) return;
+    // No-op: local params are now independent from sidebar.
+    // Only re-render the display if sim params haven't been initialized yet.
+    renderSimParamDisplay();
 }
 
 // ── Toggle raw database ──
 function toggleRawDB(){
-    const el = document.getElementById('sim-raw-db');
+    var el = document.getElementById('sim-raw-db');
     if(!el) return;
-    const visible = el.style.display !== 'none';
+    var visible = el.style.display !== 'none';
     el.style.display = visible ? 'none' : 'block';
-    const btn = document.getElementById('sim-raw-toggle-btn');
-    if(btn) btn.textContent = visible ? '📋 Show Raw Program Data (228 programs)' : '✕ Hide Raw Data';
-    if(!visible && cF) setTimeout(()=>cF.resize(), 100);
+    var btn = document.getElementById('sim-raw-toggle-btn');
+    if(btn) btn.textContent = visible ? '\uD83D\uDCCB Inspect Raw Program Data (228 programs)' : '\u2715 Hide Raw Data';
+    if(!visible && cF) setTimeout(function(){ cF.resize(); }, 100);
 }
 
 // ── Peak toggle (WIP) ──
 function togglePeak(on){
-    const msg = document.getElementById('sim-peak-msg');
+    var msg = document.getElementById('sim-peak-msg');
     if(on){
         if(msg) msg.style.display = 'block';
-        // Don't actually change data — Peak is WIP
     } else {
         if(msg) msg.style.display = 'none';
     }
 }
 
-// Make new functions globally accessible
+// Make functions globally accessible
 window.selectCategory = selectCategory;
 window.addFragment = addFragment;
 window.removeFragment = removeFragment;
 window.updateFragment = updateFragment;
+window.resetFragment = resetFragment;
+window.updateSimParam = updateSimParam;
 window.toggleRawDB = toggleRawDB;
 window.togglePeak = togglePeak;
 
