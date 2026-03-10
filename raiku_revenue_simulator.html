@@ -155,7 +155,7 @@ details[open] summary::before { transform:rotate(90deg); }
 /* ═══ Sidebar Layout — inputs & outputs side-by-side ═══ */
 .tab-layout { display:flex; gap:var(--gap); align-items:flex-start; }
 .sidebar {
-    width:420px; min-width:420px; position:sticky; top:10px;
+    width:430px; min-width:430px; position:sticky; top:10px;
     max-height:calc(100vh - 100px); overflow-y:auto;
     scrollbar-width:thin; scrollbar-color:#333 transparent;
 }
@@ -174,7 +174,7 @@ details[open] summary::before { transform:rotate(90deg); }
 .sidebar .scenario-btn { padding:3px 8px; font-size:10px; border-radius:4px; border-width:1px; }
 .sidebar .scenario-desc { font-size:11px; padding:4px 8px; line-height:1.4; color:var(--text-mid); }
 .sidebar .controls-grid { grid-template-columns:1fr; gap:4px; }
-.sidebar .control { gap:2px; }
+.sidebar .control { gap:1px; margin-bottom:3px; }
 .sidebar .control label { font-size:10px; letter-spacing:0.3px; }
 .sidebar .control .slider-row { gap:6px; }
 .sidebar .control input[type=range] { height:4px; border-radius:2px; }
@@ -184,13 +184,14 @@ details[open] summary::before { transform:rotate(90deg); }
 .sidebar .control .val { font-size:12px; min-width:44px; }
 .sidebar .note { display:none; }
 .sidebar .pool-usage, .sidebar .treasury-summary { display:block; }
-.sidebar .section-label { font-size:10px; margin-top:8px; padding-bottom:4px; border-bottom:1px solid #1e2028; margin-bottom:4px; }
+.sidebar .section-label { font-size:10px; margin-top:12px; padding-bottom:2px; border-bottom:1px solid #1e2028; margin-bottom:2px; }
+.sidebar .section-label:first-child { margin-top:0; }
 
 /* Model params panel: globals row + 2-col grid */
 #model-params .controls-grid { gap:4px; }
 #model-params .section-label { grid-column:1/-1; }
 #model-params .controls-section { padding:6px 4px; }
-.globals-row { display:grid; grid-template-columns:1fr 1fr; gap:6px; grid-column:1/-1; }
+.globals-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; grid-column:1/-1; }
 
 /* Panel redesign: 2-column AOT/JIT layout */
 .param-columns { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-top:4px; }
@@ -338,7 +339,7 @@ details[open] summary::before { transform:rotate(90deg); }
 
 /* ── Block sim: left/right layout like Revenue Model ── */
 .sim-layout { display:flex; gap:var(--gap); align-items:flex-start; }
-.sim-sidebar { width:420px; min-width:420px; position:sticky; top:10px; max-height:calc(100vh - 100px); overflow-y:auto; scrollbar-width:thin; scrollbar-color:#333 transparent; }
+.sim-sidebar { width:430px; min-width:430px; position:sticky; top:10px; max-height:calc(100vh - 20px); overflow-y:auto; scrollbar-width:thin; scrollbar-color:#333 transparent; }
 .sim-sidebar::-webkit-scrollbar { width:4px; }
 .sim-sidebar::-webkit-scrollbar-track { background:transparent; }
 .sim-sidebar::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
@@ -1072,13 +1073,10 @@ details[open] summary::before { transform:rotate(90deg); }
         <div class="bb-fill-bar" id="bb-fill-bar"></div>
         <div class="bb-fragments" id="bb-fragments" style="position:relative;"></div>
     </div>
-    <div class="bb-summary">
+    <div class="bb-summary" style="margin-bottom:var(--gap);">
         <div class="bb-primary" id="bb-primary"></div>
         <div class="bb-annual" id="bb-annual"></div>
     </div>
-</div>
-
-</div><!-- end sim-layout -->
 
 <!-- C. CATEGORY EXPLORER (reference data for fragment selection) -->
 <div class="section fade-in fade-in-2">
@@ -1187,6 +1185,9 @@ details[open] summary::before { transform:rotate(90deg); }
         <div class="chart-box" style="min-height:260px;"><canvas id="chart-fcu"></canvas></div>
     </div>
 </div>
+
+</div><!-- end sim-main -->
+</div><!-- end sim-layout -->
 
 </div><!-- end tab-micro -->
 
