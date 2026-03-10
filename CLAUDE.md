@@ -8,7 +8,7 @@ Build a **data pipeline + revenue model** for RAIKU, a Solana blockspace marketp
 - **AOT (Ahead-of-Time)**: Sealed-bid auctions for reserved compute windows. Improves inclusion probability vs standard path.
 - **JIT (Just-in-Time)**: Real-time tip-based ordering (similar to Jito bundles).
 
-**Revenue split**: 95% validators / 5% protocol (governance range 1-5%).
+**Revenue split**: X% validator (e.g. 95%) / (1-X)% protocol (governance range 0-5%).
 
 **Goal**: Extract real Solana on-chain data, build a revenue model with multiple scenarios.
 
@@ -456,3 +456,97 @@ python scripts/inject_daily_data.py        # Inject into simulator HTML
 - **Find root causes**: No temporary fixes. Fix the actual problem.
 - **Autonomous**: When you see an error, just fix it. Don't ask for hand-holding.
 - **Track lessons**: If a mistake happens, note the pattern to avoid repeating it
+
+---
+
+## Session Initialization (READ FIRST)
+
+At the start of every session:
+1. Read `tasks/todo.md` — current task state
+2. Read `tasks/lessons.md` — known pitfalls to avoid
+3. Check `tasks/todo.md > "In Progress"` — what was in progress last session
+
+After any correction from the user:
+- Add an entry to `tasks/lessons.md` with the pattern and the rule
+
+At end of session:
+- Update `tasks/todo.md` — move completed tasks, add new ones
+- Add key decisions to `tasks/todo.md > "Session Notes"`
+
+---
+
+## Subagent Routing
+
+Use these agents instead of working directly in the main conversation:
+
+| Work type | Agent |
+|-----------|-------|
+| Modifying any Python file in the pipeline | `python-pipeline-dev` |
+| Modifying `raiku_revenue_simulator.html` | `html-simulator-dev` |
+| Fetching / refreshing Dune data | `dune-data-fetcher` |
+| Validating revenue model formulas | `revenue-model-analyst` |
+| Cross-checking data sources | `solana-data-analyst` |
+| Researching Jito / Harmonic / competitors | `competitive-analyst` |
+| Reviewing any code before commit | `code-reviewer` |
+| Debugging errors or failures | `debugger` |
+| Git operations / pushing to GitHub | `git-workflow-manager` |
+| Security check before push | `security-auditor` |
+
+---
+
+## Current State
+*Last updated: 2026-03-10*
+
+- Simulator: v6, 2683 lines, deployed on GitHub Pages
+- Pipeline A: complete (786×43 epoch DB, 500-program DB, JIT+AOT models)
+- Pipeline B: complete (6 Dune queries → D.daily + D.dailyNet injected)
+- Google Sheets export: deferred
+- Active work: setting up subagents and project workflow infrastructure
+
+### Next planned work
+- [to fill at the start of next session]
+
+---
+
+## Known Issues
+*Updated by Claude after each session*
+
+- [to fill as sessions progress]
+
+---
+
+## ⚠️ Staged Model Correction — Revenue Waterfall (implement after agent setup)
+
+**Recorded: 2026-03-10. NOT YET IMPLEMENTED. Must be first implementation task after setup.**
+
+The revenue allocation waterfall in the simulator and Python models is conceptually wrong and must be corrected.
+
+### Correct Waterfall Logic
+
+```
+Gross Revenue = 100
+
+Step 1:  Validator Base = Gross Revenue × (1 - Protocol Take Rate)
+         Protocol Pool  = Gross Revenue × Protocol Take Rate
+
+Step 2:  Customer Rebate  ← funded from Protocol Pool
+         Validator Bonus  ← funded from Protocol Pool (AOT only, not JIT)
+         Raiku Treasury   = Protocol Pool − Rebate − Validator Bonus
+```
+
+### Rules
+
+- Rebates and validator bonus come OUT OF the protocol pool, never from gross revenue directly
+- If Protocol Take Rate = 0 → Rebate must = 0 and Validator Bonus must = 0 (enforced by model)
+- AOT and JIT must have separate parameter panels — JIT has no validator bonus
+- Rename "commission" → "Protocol Take Rate" everywhere
+
+### Files to update when implementing
+
+- `raiku_revenue_simulator.html` — labels, sliders, waterfall formula, guard, AOT/JIT separation
+- `03_model/jit_revenue.py` and `aot_revenue.py` — waterfall logic
+- `CLAUDE.md` Protocol Constants section
+- `DATA_LINEAGE.md` if column names change
+
+Full specification in `tasks/lessons.md` → "Revenue Model — Core Waterfall Correction".
+

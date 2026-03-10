@@ -3,7 +3,10 @@
     "allow": [
       "Bash(python 01_extract/extract_dune_programs.py --create-queries)",
       "Bash(python 01_extract/extract_dune_programs.py --print-sql)",
-      "mcp__dune__*"
+      "mcp__dune__*",
+      "Bash(echo $DUNE_API_KEY)",
+      "Bash(claude mcp:*)",
+      "Bash(echo $HOME)"
     ]
   }
 }

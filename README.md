@@ -6,7 +6,7 @@ Estimate RAIKU's future protocol revenues from two auction types:
 - **AOT (Ahead-of-Time)** — sealed-bid blockspace reservations
 - **JIT (Just-in-Time)** — real-time tip-based transaction ordering
 
-Revenue formula: `Protocol Revenue = Total Auction Revenue × Take Rate (1-5%)`
+Revenue formula: `Protocol Revenue = Total Auction Revenue × Take Rate (0-5%)`
 
 **Primary output**: `raiku_revenue_simulator.html` — a self-contained interactive simulator with 6 embedded data objects, zero runtime fetches. Serves as the investor-facing deliverable.
 
