@@ -12,7 +12,11 @@ Build a **data pipeline + revenue model** for RAIKU, a Solana blockspace marketp
 
 **Goal**: Extract real Solana on-chain data, build a revenue model with multiple scenarios.
 
-**Architecture**: Python = RAW data extraction ONLY (CSV intermediates, git-versioned) → Google Sheets = ALL calculations via formulas + presentation layer (scenarios, sharing). Python does NOT pre-compute any derived values.
+**Primary output**: `raiku_revenue_simulator.html` — self-contained interactive simulator (6 embedded data objects, zero runtime fetches).
+
+**Architecture**: Two pipelines feed the simulator and model:
+- **Pipeline A** (numbered folders): Extract → Transform → Model (epoch-level revenue scenarios)
+- **Pipeline B** (scripts/ folder): Dune daily data → aggregate → inject into simulator HTML
 
 ---
 
@@ -28,52 +32,68 @@ Status legend: ✅ = exists and working, 🆕 = to be created by Claude Code.
 
 ```
 raiku-revenue-model/
-├── CLAUDE.md                ← You are here (project guide)
-├── config.py             ✅ ← API keys, business parameters, scenarios, paths
-├── run_pipeline.py       ✅ ← Master orchestrator (extract → transform → export)
+├── raiku_revenue_simulator.html  ✅ ← THE PRODUCT (self-contained, 2683 lines, 6 data objects)
+├── CLAUDE.md                     ← You are here (project guide)
+├── config.py                  ✅ ← API keys, business parameters, scenarios, paths
+├── run_pipeline.py            ✅ ← Master orchestrator (8 steps: extract → transform → model)
 │
-├── 01_extract/
-│   ├── extract_trillium.py     ✅ ← PRIMARY data source (epochs 552-934, 383 epochs)
-│   ├── extract_jito_mev.py     ✅ ← Jito Foundation MEV (epochs 390-934, 541 epochs)
-│   ├── extract_solana_compass.py ✅ ← Solana Compass per-validator (epochs 800-935)
+├── 01_extract/                    Pipeline A: extraction scripts (10 scripts)
+│   ├── extract_trillium.py     ✅ ← PRIMARY data source (epochs 552+)
+│   ├── extract_jito_mev.py     ✅ ← Jito Foundation MEV (epochs 390+)
+│   ├── extract_solana_compass.py ✅ ← Solana Compass per-validator (epochs 800+)
 │   ├── extract_dune_programs.py ✅ ← Per-program fee/CU data (Dune, top 500, 30d)
+│   ├── extract_program_conditions.py ✅ ← Per-program × market condition data
+│   ├── extract_intraday.py     ✅ ← Trillium intraday peaks
 │   ├── dune_client.py          ✅ ← Dune API wrapper (stdlib, retry logic)
 │   ├── dune_epochs.py          ✅ ← Epoch economics query 6773409
 │   ├── dune_validators.py      ✅ ← Commission/validators query 6773227
 │   ├── dune_active_stake.py    ✅ ← Active stake query 6776267
 │   └── coingecko_prices.py     ✅ ← SOL price + FDV
 │
-├── 02_transform/
-│   ├── build_database.py       ✅ ← Merge 5 sources → 786 rows × 23 RAW cols
-│   └── build_program_database.py ✅ ← Merge Dune + SolWatch → program_database.csv
+├── 02_transform/                  Pipeline A: transform scripts (3 scripts)
+│   ├── build_database.py       ✅ ← Merge 8 sources → solana_epoch_database.csv (786×43)
+│   ├── build_program_conditions.py ✅ ← Pivot conditions → fee multipliers + sensitivity
+│   └── build_program_database.py ✅ ← Merge Dune + mapping + conditions → 500×23
 │
-├── 03_model/
-│   ├── aot_revenue.py          ✅ ← Python cross-check (kept for validation only)
-│   ├── jit_revenue.py          ✅ ← Python cross-check (kept for validation only)
-│   └── sanity_check.py         ✅ ← TD vs BU comparison
+├── 03_model/                      Pipeline A: revenue models (3 scripts)
+│   ├── jit_revenue.py          ✅ ← JIT revenue scenarios (reads mev_jito_tips_sol)
+│   ├── aot_revenue.py          ✅ ← AOT revenue scenarios (reads priority_fees_sol)
+│   └── sanity_check.py         ✅ ← TD vs BU comparison + combined scenarios
 │
 ├── 04_output/
-│   └── sheets_export.py        ✅ ← v3: RAW data + Sheet formulas + model tabs (1190 lines)
+│   └── sheets_export.py        ✅ ← v3: RAW data + Sheet formulas + model tabs
+│
+├── scripts/                       Pipeline B: simulator temporal data
+│   ├── download_dune_daily_C.py ✅ ← Download 6 Dune daily query chunks
+│   ├── build_daily_temporal.py  ✅ ← Aggregate daily data → D.daily + D.dailyNet
+│   └── inject_daily_data.py    ✅ ← Inject temporal payload into simulator HTML
 │
 ├── data/
 │   ├── raw/                     ← Never edit manually. Re-extractable.
-│   │   ├── trillium_epoch_data.csv         ✅ (383 epochs, 552-934)
-│   │   ├── jito_mev_rewards.csv            ✅ (541 epochs, 390-934)
-│   │   ├── solana_compass_epochs.csv       ✅ (128 epochs, 800-935)
-│   │   ├── dune_epoch_data_v2.csv          ✅ (785 rows, epochs 150-935)
-│   │   ├── dune_commission_validators_v2.csv ✅ (785 rows)
-│   │   ├── dune_active_stake_v1.csv        ✅ (785 rows)
-│   │   ├── coingecko_sol_price.csv         ✅ (365 days)
-│   │   ├── dune_fee_per_cu_by_program.csv  ✅ (50 programs, 7-day)
-│   │   ├── dune_daily_priority_fees.csv    ✅ (91 days)
-│   │   ├── dune_program_fees_aggregate.csv ⬜ (top 500 programs, 30d — needs --create-queries on Windows)
-│   │   └── lead_pipeline_sheet.xlsx        ✅ (SolWatch: 1897 programs, 13 days)
+│   │   ├── trillium_epoch_data.csv         ✅ (epochs 552+)
+│   │   ├── jito_mev_rewards.csv            ✅ (epochs 390+)
+│   │   ├── solana_compass_epochs.csv       ✅ (epochs 800+)
+│   │   ├── dune_epoch_data_v2.csv          ✅ (785 rows, epochs 150+)
+│   │   ├── dune_commission_validators_v2.csv ✅
+│   │   ├── dune_active_stake_v1.csv        ✅
+│   │   ├── coingecko_sol_price.csv         ✅
+│   │   ├── dune_program_fees_aggregate.csv ✅ (top 500 programs, 30d)
+│   │   ├── dune_program_conditions.csv     ✅ (55 programs × 3 conditions)
+│   │   ├── dune_daily_program_fees_30d.csv ✅ (30d daily per-program, feeds D.daily)
+│   │   └── dune_daily_C1..C6*.csv          ✅ (6 chunk files, inputs to merge)
 │   ├── processed/               ← Generated by Python (gitignored)
-│   │   ├── solana_epoch_database.csv       ✅ (786 rows × 23 RAW cols)
-│   │   └── program_database.csv            ✅ (50 programs × 21 cols, 7-day fallback)
-│   └── mapping/                 ← Semi-manual classification
-│       └── program_categories.csv          ✅ (80 programs classified)
+│   │   ├── solana_epoch_database.csv       ✅ (786 rows × 43 cols)
+│   │   ├── program_database.csv            ✅ (500 programs × 23 cols)
+│   │   ├── program_conditions.csv          ✅ (55 programs × 27 cols)
+│   │   └── daily_temporal_payload.js       ✅ (feeds simulator D.daily + D.dailyNet)
+│   └── mapping/                 ← Semi-manual classification (SACRED — do not modify)
+│       └── program_categories.csv          ✅ (314 programs classified)
 │
+├── prompts/                     ← Dune query prompts and skills
+│   ├── dune-query-skill/SKILL.md ✅ ← Canonical Dune skill
+│   └── prompt_query_C_*.md     ✅ ← Active temporal extraction prompts
+│
+├── archive/                     ← Verified orphan/superseded files (moved here for safety)
 └── docs/                        ← 7 RAIKU internal documents (read-only reference)
 ```
 
@@ -93,13 +113,13 @@ Base URL: `https://api.trillium.so/`
 | `/validator_rewards/{epoch}` | 200+ fields per validator: MEV, priority fees, commission, APY, skip rate | Epoch 552+ |
 | `/epoch_timeseries/{epoch}` | 15-min bucketed intra-epoch data per validator | Epoch 552+ |
 
-**Key fields for RAIKU** (from `/epoch_data/{epoch}`):
-- MEV breakdown: `total_mev_earned`, `mev_to_validator`, `mev_to_stakers`, `mev_to_jito_block_engine`, `mev_to_jito_tip_router`
-- Fees: `total_validator_priority_fees`, `total_validator_signature_fees`, `total_block_rewards`
-- Inflation: `total_total_inflation_reward`, `inflation_rate`, `epochs_per_year`
-- APY: all components (inflation, block rewards, MEV) x (delegator, validator, total, compound)
-- Network: `total_active_validators`, `total_active_stake`, `sol_price_usd`
-- CU: `avg_cu_per_block`, `total_cu`, `avg_cu_per_user_tx`, `avg_priority_fee_per_10m_cu`, `avg_mev_per_10m_cu`
+**Key fields for RAIKU** (from `/epoch_data/{epoch}`, mapped to DB columns):
+- MEV: `mev_jito_tips_sol` (total), `mev_to_validator`, `mev_to_stakers`
+- Fees: `priority_fees_sol` (non-vote priority fees), `base_fees_sol`, `total_block_rewards`
+- Inflation: `inflation_rewards_sol`, `inflation_rate`, `epochs_per_year`
+- APY: all components (inflation, block rewards, MEV) × (delegator, validator, total, compound)
+- Network: `validator_count`, `active_stake_sol`, `sol_price_usd`
+- CU: `avg_cu_per_block`, `total_blocks`, `avg_cu_per_user_tx`
 
 **Extraction pattern** (for `extract_trillium.py`):
 ```python
@@ -186,16 +206,23 @@ Partially replaced by Trillium `sol_price_usd` for epoch-level data.
 
 ---
 
-## Existing Solana Database (to enrich)
+## Solana Epoch Database
 
-Located at: `C:\Users\Utilisateur\Dev-RAIKU\raiku-revenue-model\`
-Build script: `build_final_data.py`
+Located at: `data/processed/solana_epoch_database.csv` (gitignored — regenerated by pipeline)
+Build script: `02_transform/build_database.py`
 
-**Current structure**: ONE Excel sheet, epochs 150-935 (~785 rows)
-- **RAW columns (A-M)**: epoch, block_time, epoch_time, inflationary_reward, fee_reward, mev_reward, voting_rewards_sol, avg_commission_rate, validator_count, stake_account_count, issue_apy, sol_price_usd, fdv_usd
-- **FORMULA columns (N-AD)**: staker_rewards, total_reward, total_reward_usd, fee_percent, commission_rate, fee_apy, mev_apy, total_apy, total_stake_sol, total_supply, staked_ratio, total_burn, net_inflation, inflation_rate, issuance_sol, issuance_usd, fee_burn_pct
+**Current**: 786 rows × 43 columns, merged from 8 raw sources on `epoch` key.
 
-**Known gaps Trillium will fill**: MEV breakdown (not just total), priority fee split, APY components, active_stake (real), validator-level data.
+Key columns (used by 03_model/ scripts — THESE ARE THE CANONICAL NAMES):
+- `mev_jito_tips_sol` — total Jito MEV tips per epoch (used by jit_revenue.py)
+- `priority_fees_sol` — non-vote priority fees per epoch (used by aot_revenue.py)
+- `validator_count` — active validators (used by aot_revenue.py)
+- `active_stake_sol` — total active stake
+- `sol_price_usd` — SOL price at epoch
+- `avg_cu_per_block` — average compute units per block
+- `total_blocks` — blocks in epoch
+- `inflation_rewards_sol` — inflationary rewards
+- `volatility_tag` — epoch-level market condition (normal/elevated/extreme)
 
 ---
 
@@ -208,12 +235,12 @@ Build script: `build_final_data.py`
 4. ✅ Merge all 5 sources on `epoch` key → `data/processed/solana_epoch_database.csv` (786 rows × 60 cols)
 5. ✅ Cross-check: Jito/Trillium = 1.000x, SC/Trillium = ~2.15x (understood and documented)
 
-### Phase 2: Extract RAIKU-Specific Data (PARTIAL)
+### Phase 2: Extract RAIKU-Specific Data ✅ COMPLETE
 6. ✅ Jito/MEV breakdown per epoch (in Trillium + Jito Foundation data)
-7. ✅ Fee/CU by program — extracted (7-day, 50 programs from Dune)
-8. ⬜ Fee/CU by program — extend to 30 days if needed (Dune)
-9. ⬜ Protocol revenues via Token Terminal if needed later
-10. ⬜ Validator economics from Trillium `/validator_rewards/{epoch}` (for profitability model)
+7. ✅ Fee/CU by program — top 500 programs, 30-day aggregate (Dune)
+8. ✅ Per-program × market condition data — 55 programs, 3 conditions
+9. ✅ Daily per-program fee data — 30 days, 55 programs (6 Dune batches)
+10. ⬜ Validator economics from Trillium `/validator_rewards/{epoch}` (deferred)
 
 ### Phase 3: Revenue Models → Google Sheet Formulas ✅ CODE READY (v3)
 11. ✅ **JIT model**: 4 market sources × 5 shares = 20 scenarios (all Sheet formulas)
@@ -233,13 +260,17 @@ Build script: `build_final_data.py`
     - Added: Model Tabs Cross-Reference Guide in Data Sources
 18. ⬜ Run export on Windows (VM proxy blocks Google API)
 
-### Phase 5: Program Database ✅ CODE READY
-19. ✅ `extract_dune_programs.py` — SQL queries ready + `--create-queries` flag to auto-create on Dune
-20. ✅ `build_program_database.py` — merges Dune + SolWatch + mapping → 21 columns
-21. ✅ `program_categories.csv` — 80 programs classified (12 aot, 5 jit, 15 both, 25 potential, 12 neither, 11 unknown)
-22. ⬜ Run `--create-queries` on Windows to create Dune queries for 30-day data
-23. ⬜ Run Dune queries for 30-day per-program data (top 500)
-24. ⬜ Complete classification of remaining programs (from 30-day extraction)
+### Phase 5: Program Database ✅ COMPLETE
+19. ✅ `extract_dune_programs.py` — top 500 programs, 30-day aggregate
+20. ✅ `build_program_database.py` — merges Dune + mapping + conditions → 500×23
+21. ✅ `program_categories.csv` — 314 programs classified
+22. ✅ `build_program_conditions.py` — congestion sensitivity: 11 high, 9 medium, 25 low
+23. ✅ Per-program daily data extracted via 6 Dune batch queries (Pipeline B)
+
+### Phase 6: Simulator ✅ COMPLETE
+24. ✅ `raiku_revenue_simulator.html` — self-contained, 2683 lines, 6 data objects
+25. ✅ Temporal charts: daily per-category and network-level time series
+26. ✅ Pipeline B scripts: download → aggregate → inject into HTML
 
 ### JIT vs AOT Product Distinction (CRITICAL)
 
@@ -269,7 +300,7 @@ The per-program database helps size BOTH models:
 ```
 JIT_Revenue = Total_Jito_Tips × RAIKU_Market_Share × Protocol_Fee
 ```
-- Total_Jito_Tips: from Trillium `total_mev_earned` per epoch, annualized
+- Total_Jito_Tips: from DB column `mev_jito_tips_sol` per epoch, annualized
 - Market_Share: scenario parameter (adjustable in Sheet)
 - Protocol_Fee: scenario parameter (governance range 1-5%)
 
@@ -277,7 +308,7 @@ JIT_Revenue = Total_Jito_Tips × RAIKU_Market_Share × Protocol_Fee
 ```
 AOT_Revenue = Total_Priority_Fees × Latency_Sensitive_Share × RAIKU_Capture
 ```
-- Total_Priority_Fees: from Trillium `total_validator_priority_fees`, annualized
+- Total_Priority_Fees: from DB column `priority_fees_sol`, annualized
 - Latency_Sensitive_Share: % of fees from latency-sensitive programs (from Dune fee/CU data)
 - RAIKU_Capture: market share assumption
 
@@ -387,29 +418,31 @@ This ensures your new code is **consistent** with what already exists (same CSV 
 
 ## Quick Start
 
-Full pipeline (extract all sources + build database + run models):
 ```bash
-cd "C:/Dev/RAIKU/Revenue Estimation/raiku-revenue-model"
+cd "C:/Users/Utilisateur/Dev-RAIKU/raiku-revenue-model"
 
-# Step 1: Extract all sources (use --full to re-extract everything)
-python 01_extract/extract_trillium.py --full
-python 01_extract/extract_jito_mev.py --full
-python 01_extract/extract_solana_compass.py --full
+# Default: core extraction + transform + models + sanity check (8 steps)
+python run_pipeline.py
 
-# Step 2: Build merged database
-python 02_transform/build_database.py
+# Full extraction (ALL APIs — Dune, Trillium, Jito, SC, CoinGecko)
+python run_pipeline.py --full-extract
 
-# Step 3: Run revenue models
-python 03_model/jit_revenue.py
-python 03_model/aot_revenue.py
+# Models only (skip extraction, reuse existing data)
+python run_pipeline.py --model-only
+
+# Include Google Sheets export
+python run_pipeline.py --export
+
+# Serve simulator locally
+python -m http.server 8765
+# → open http://localhost:8765/raiku_revenue_simulator.html
 ```
 
-Incremental run (only new epochs — default, no `--full` flag):
+Pipeline B (simulator temporal data — separate workflow via prompts):
 ```bash
-python 01_extract/extract_trillium.py
-python 01_extract/extract_jito_mev.py
-python 01_extract/extract_solana_compass.py
-python 02_transform/build_database.py
+python scripts/download_dune_daily_C.py   # Download 6 Dune chunks
+python scripts/build_daily_temporal.py     # Aggregate → payload.js
+python scripts/inject_daily_data.py        # Inject into simulator HTML
 ```
 
 ---

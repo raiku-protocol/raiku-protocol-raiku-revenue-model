@@ -4,13 +4,13 @@
 
 Le projet se décompose en **5 chantiers** qui s'enchaînent logiquement :
 
-1. **DB Epoch** — Base de données propre des métriques Solana par epoch
-2. **DB Programme** — Base de données par programme Solana (fees, CU, volumes)
-3. **Mapping Programme** — Classification des programmes en archétypes RAIKU
-4. **Modèles de Revenus** — JIT + AOT (top-down & bottom-up) en formules Sheet
-5. **Export Google Sheet** — Poussée des données + écriture des formules + visualisation
+1. **DB Epoch** — Base de données propre des métriques Solana par epoch — ✅ **COMPLET** (786×43 colonnes)
+2. **DB Programme** — Base de données par programme Solana (fees, CU, volumes) — ✅ **COMPLET** (500 programmes, 30j Dune)
+3. **Mapping Programme** — Classification des programmes en archétypes RAIKU — ✅ **COMPLET** (228 programmes classifiés)
+4. **Modèles de Revenus** — JIT + AOT (top-down & bottom-up) en Python — ✅ **COMPLET** (scenarios CSV, column bugs fixés mars 2026)
+5. **Export Google Sheet** — Poussée des données + écriture des formules + visualisation — ⬚ **DIFFÉRÉ** (remplacé par le simulateur HTML interactif)
 
-Principe directeur : **Python = extraction brute uniquement**, **Google Sheet = tous les calculs via formules**.
+**Évolution** : Le principe directeur initial (Python = extraction, Sheet = calculs) a évolué vers un **simulateur HTML self-contained** (`raiku_revenue_simulator.html`) comme livrable principal. Les modèles Python restent actifs pour la génération de scénarios.
 
 ---
 
@@ -76,10 +76,10 @@ Principe directeur : **Python = extraction brute uniquement**, **Google Sheet = 
 
 → **18 colonnes FORMULA**, toutes vérifiables dans le Sheet.
 
-### Action
-- `build_database.py` est déjà prêt (23 colonnes RAW)
-- Il suffit de re-run pour régénérer le CSV propre
-- Les formules seront écrites par `sheets_export.py`
+### Action — ✅ COMPLET
+- `build_database.py` produit `solana_epoch_database.csv` (786 lignes × 43 colonnes)
+- Les colonnes RAW ont été étendues à 43 (vs 23 planifiées) — ajout de métriques Trillium supplémentaires
+- La base est data-driven avec 5 sources cross-checkées
 
 ---
 
@@ -218,9 +218,9 @@ Déjà extrait dans `lead_pipeline_sheet.xlsx`. Colonnes utiles :
 | N | p75_fee_per_cu | P75 fee/CU |
 | O | pct_of_total_priority_fees | Part des priority fees totales |
 
-### Nouveau fichier à créer
+### Nouveau fichier — ✅ CRÉÉ
 
-`01_extract/extract_dune_programs.py` — Extracteur Dune pour les données programme
+`01_extract/extract_dune_programs.py` — Extracteur Dune pour les données programme (queries 6783408 + 6783409)
 
 ---
 
@@ -441,26 +441,31 @@ Tab synthèse qui agrège JIT + AOT pour différents scénarios :
 
 ---
 
-## Fichiers à créer/modifier
+## Fichiers — Statut final (mars 2026)
 
-| Fichier | Action | Description |
-|---------|--------|-------------|
-| `01_extract/extract_dune_programs.py` | 🆕 CRÉER | Extracteur per-programme (Dune) |
-| `02_transform/build_database.py` | ✅ DÉJÀ FAIT | 23 colonnes RAW |
-| `02_transform/build_program_database.py` | 🆕 CRÉER | Merge Dune + SolWatch → DB Programme |
-| `04_output/sheets_export.py` | 🔄 RÉÉCRIRE | RAW + formules + tabs modèles |
-| `data/mapping/program_categories.csv` | 🆕 CRÉER | Mapping programme → archétype |
-| `config.py` | 🔧 MODIFIER | Ajouter nouveaux Dune query IDs |
+| Fichier | Action | Statut |
+|---------|--------|--------|
+| `01_extract/extract_dune_programs.py` | 🆕 CRÉÉ | ✅ |
+| `01_extract/extract_intraday.py` | 🆕 CRÉÉ | ✅ |
+| `02_transform/build_database.py` | 🔧 ÉTENDU à 43 cols | ✅ |
+| `02_transform/build_program_database.py` | 🆕 CRÉÉ | ✅ |
+| `02_transform/build_program_conditions.py` | 🆕 CRÉÉ | ✅ |
+| `03_model/jit_revenue.py` | 🔧 Column bugs fixés | ✅ |
+| `03_model/aot_revenue.py` | 🔧 Column bugs fixés | ✅ |
+| `03_model/sanity_check.py` | 🔧 Column bugs fixés | ✅ |
+| `04_output/sheets_export.py` | ⬚ Différé | — |
+| `data/mapping/program_categories.csv` | 🆕 CRÉÉ (228 programmes) | ✅ |
+| `config.py` | 🔧 8 Dune query IDs ajoutés | ✅ |
+| `run_pipeline.py` | 🔧 Rewired (8+ steps) | ✅ |
+| `scripts/*.py` | 🆕 Pipeline B (3 scripts) | ✅ |
+| `raiku_revenue_simulator.html` | 🆕 Simulateur v6 | ✅ |
 
-## Fichiers NON modifiés
-- `01_extract/extract_trillium.py` — fonctionne
-- `01_extract/extract_jito_mev.py` — fonctionne
-- `01_extract/extract_solana_compass.py` — fonctionne
-- `01_extract/dune_client.py` — fonctionne
-- `01_extract/dune_epochs.py` — fonctionne
-- `01_extract/coingecko_prices.py` — fonctionne
-- `03_model/aot_revenue.py` — gardé pour cross-check Python
-- `03_model/jit_revenue.py` — gardé pour cross-check Python
+### Ajouts non planifiés (scope expansion)
+
+- **Pipeline B** (`scripts/`) — temporal charts avec 6 Dune batch queries
+- **Conditions pipeline** — analyse programme × condition de marché (normal/elevated/extreme)
+- **Simulateur HTML** — remplace le Google Sheet comme livrable principal
+- **Sanity check** — validation automatique des outputs modèle
 
 ---
 
