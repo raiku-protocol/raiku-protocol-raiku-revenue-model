@@ -17,6 +17,8 @@
 ## In Progress
 <!-- Fill at the start of each session -->
 - [ ] Update downstream `BIZ_CATEGORIES` in `build_daily_temporal.py` and simulator HTML (deferred task)
+- [ ] AOT simulator redesign implementation (artifact-driven, no legacy `D.p` dependence)
+- [ ] AOT simulator UI redesign final pass (category structure + DEX sub-breakdown + benchmark separation)
 
 ---
 
@@ -28,7 +30,13 @@
 - [ ] Refresh epoch data (Pipeline A)
 
 ### Tab 2: AOT Block Simulator
-- [ ] [Features to define]
+- [ ] Implement final card/group order from `docs/SIMULATOR_AOT_REDESIGN.md`
+- [ ] Implement DEX sub-breakdown blocks: `aggregator`, `amm_family`, `orderbook`
+- [ ] Implement separate benchmark block for `arbitrage_bot` (`jit`)
+- [ ] Apply wording cleanup for methodology and caveat notes (non-base default, total comparison)
+- [ ] Remove/deprecate dead legacy AOT category logic and inline AOT assumptions
+- [ ] Visual QA desktop/mobile (alignment, readability, consistency)
+- [ ] Manual validation of AOT charts/tables against artifact aggregates
 
 ### Tab 3: Solana General Data
 - [ ] [Features to define]

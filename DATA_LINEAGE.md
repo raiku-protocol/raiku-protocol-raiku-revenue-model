@@ -249,3 +249,105 @@ The raw file proliferation is technically justified:
 **6 C1-C6 batch files** exist because Dune's 1000-row limit required splitting 30 days of daily per-program data into 6 × 5-day batches. They merge into `dune_daily_program_fees_30d.csv`. They could technically be deleted after merge, but are kept so the merge can be re-run without re-downloading from Dune.
 
 **`dune_program_fees_v2.csv`** exists because D.p (simulator program data) was built from a separate Dune extraction that is not part of the automated pipeline. This file is the only record of what data is embedded in the simulator.
+
+---
+
+## 7. Canonical AOT Simulator Contract (Frozen 2026-03-12)
+
+This section is the durable source-of-truth for the AOT simulator redesign boundary and must take precedence over legacy simulator notes about inline `D.p`.
+
+### 7.1 Canonical analysis sources
+
+The AOT simulator redesign logic is grounded on exactly two upstream files:
+
+- `data/mapping/program_categories.csv`
+- `data/processed/program_database.csv`
+
+Join key:
+
+- `program_id`
+
+### 7.2 Scope semantics
+
+`raiku_product` values:
+
+- `aot`
+- `both`
+- `jit`
+- `neither`
+- `potential`
+
+Scope rules:
+
+- Core simulator customer analysis uses `aot` and `both`.
+- JIT benchmark analysis uses `jit` programs in `raiku_category = arb_bot`.
+- `neither` and `potential` are excluded from core simulator analysis and display.
+- In current taxonomy, `potential` corresponds operationally to `raiku_category = unknown`.
+
+### 7.3 Simulator-facing artifact contract
+
+Artifact consumed by simulator:
+
+- `data/aot_programs.v1.js` (in simulator repo)
+- Exposes `window.RAIKU_AOT_DATA = { ... }`
+
+Top-level fields:
+
+- `schema_version` (`"aot_programs.v1"`)
+- `generated_at_utc`
+- `source_file`
+- `source_revision`
+- `window_start_date`
+- `window_end_date`
+- `program_count`
+- `programs`
+
+Program row fields:
+
+- `program_id`
+- `program_name`
+- `product_scope`
+- `is_aot_relevant`
+- `segment_key`
+- `tier_key`
+- `cu_b_30d`
+- `fee_base_sol_30d`
+- `fee_priority_sol_30d`
+- `fee_jito_sol_30d`
+
+Responsibility boundary:
+
+- Upstream revenue-model repo is canonical for taxonomy and economics.
+- Simulator repo consumes only the prepared artifact.
+- Simulator runtime must not reimplement upstream taxonomy heuristics.
+
+### 7.4 Primary metric definitions
+
+For simulator AOT analytics:
+
+- Non-base fees: `priority + jito`
+- Total fees: `base + priority + jito`
+- Non-base fee/CU (lamports): `(priority + jito) * 1e9 / total_cu`
+- Total fee/CU (lamports): `(base + priority + jito) * 1e9 / total_cu`
+
+Display policy:
+
+- Primary metric: CU-weighted non-base fee/CU
+- Secondary metric: CU-weighted total fee/CU
+- Dispersion metric: median non-base fee/CU with p25/p75
+
+### 7.5 Core vs benchmark groups
+
+Core AOT application groups (top-level taxonomy basis):
+
+- `prop_amm`
+- `dex` (with sub-breakdown in simulator: `aggregator`, `amm_family`, `orderbook`)
+- `lending`
+- `oracle`
+- `bridge`
+- `perps`
+- grouped long tail: `cranker + depin + payments`
+
+Benchmark group:
+
+- `arbitrage_bot` (`jit`) shown separately as benchmark, not mixed into core AOT customer story.
