@@ -5,11 +5,13 @@
 
 ---
 
-## Project State (updated: 2026-03-10)
+## Project State (updated: 2026-03-14)
 
-**Simulator**: v6, 2683 lines, functional — deployed on GitHub Pages
+**Active simulator UI**: now lives in the separate `raiku-simulator` repo (`index.html`)
+**Legacy simulator snapshot**: `raiku_revenue_simulator.html` is kept here for auditability only
 **Pipeline A**: Complete (786×43 epoch DB, 500-program DB, JIT+AOT models)
-**Pipeline B**: Complete (6 Dune queries → D.daily + D.dailyNet injected)
+**Pipeline B**: Complete (6 Dune queries → temporal payloads / simulator support data)
+**AOT simulator contract**: artifact-driven (`raiku-simulator/data/aot_programs.v1.js`), legacy inline `D.p` no longer active
 **Google Sheets export**: Deferred (replaced by HTML simulator)
 
 ---
@@ -17,8 +19,8 @@
 ## In Progress
 <!-- Fill at the start of each session -->
 - [ ] Update downstream `BIZ_CATEGORIES` in `build_daily_temporal.py` and simulator HTML (deferred task)
-- [ ] AOT simulator redesign implementation (artifact-driven, no legacy `D.p` dependence)
-- [ ] AOT simulator UI redesign final pass (category structure + DEX sub-breakdown + benchmark separation)
+- [ ] Keep upstream docs aligned with current repo split and artifact flow
+- [ ] Finalize remaining simulator UX polish in `raiku-simulator` without revisiting core methodology
 
 ---
 
@@ -34,7 +36,7 @@
 - [ ] Implement DEX sub-breakdown blocks: `aggregator`, `amm_family`, `orderbook`
 - [ ] Implement separate benchmark block for `arbitrage_bot` (`jit`)
 - [ ] Apply wording cleanup for methodology and caveat notes (non-base default, total comparison)
-- [ ] Remove/deprecate dead legacy AOT category logic and inline AOT assumptions
+- [ ] Remove/deprecate any remaining legacy AOT category logic after simulator-side compatibility code is no longer needed
 - [ ] Visual QA desktop/mobile (alignment, readability, consistency)
 - [ ] Manual validation of AOT charts/tables against artifact aggregates
 
@@ -49,6 +51,7 @@
 
 ## Recently Completed
 
+- [x] Repo hygiene pass — docs updated for repo split, legacy simulator labeled, simulator README added ✅ (2026-03-14)
 - [x] Dune Q1 (program fees v3) — 461 programs, proper base/priority split, saved to dune_program_fees_v3.csv ✅ (2026-03-12)
 - [x] Dune Q2 (Jito tips QC 48h) — 343 programs, 42 with Jito txs, saved to dune_jito_tips_qc_48h.csv ✅ (2026-03-12)
 - [x] Transform pipeline rerun — program_database.csv (461×23) + program_conditions.csv (55×27) rebuilt ✅ (2026-03-12)

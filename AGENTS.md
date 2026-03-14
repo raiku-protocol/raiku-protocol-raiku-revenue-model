@@ -13,9 +13,9 @@ Python, SQL, CSV/XLSX data inputs, VS Code, local scripts.
 Read these first when relevant:
 - README.md
 - PLAN_COMPLET.md
-- docs/PROJECT_CONTEXT.md
-- docs/DATA_LINEAGE.md
-- todo.md
+- CODEX_CONTEXT.md
+- DATA_LINEAGE.md
+- tasks/todo.md
 
 ## Code rules
 - Prefer minimal diffs
@@ -31,7 +31,9 @@ Read these first when relevant:
 - Summarize modified files at the end
 
 ## Important files
+- run_pipeline.py
+- scripts/build_aot_programs_artifact.py
 - scripts/build_daily_temporal.py
 - scripts/classify_programs.py
-- sql_archive/
+- archive/
 - data/raw/

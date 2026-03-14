@@ -38,16 +38,16 @@
 ## HTML Simulator
 
 **Mistake**: Modifying the simulator without reading the relevant section first.
-**Rule**: The file is **2683 lines**. Always `grep` for the specific function/variable name first, then read only the relevant lines.
+**Rule**: The active simulator lives in the separate `raiku-simulator` repo as `index.html`. Always search for the specific function/variable first, then read only the relevant lines.
 
-**Mistake**: Extracting the 6 data objects to separate files.
-**Rule**: The 6 data objects (`D.a`, `D.e`, `D.p`, `D.daily`, `D.dailyNet`, `D_JITO`) are **inline in the HTML**. This is intentional — zero runtime fetches. Do not change this architecture.
+**Mistake**: Treating the legacy inline-data simulator architecture as the current one.
+**Rule**: The active simulator is artifact-driven on the AOT side (`data/aot_programs.v1.js`). Legacy inline `D.p` notes apply only to `raiku_revenue_simulator.html`, which is now a historical snapshot.
 
 **Mistake**: Changing the Chart.js version.
 **Rule**: Chart.js **4.5.1** via CDN. Never change the version without explicit instruction.
 
 **Mistake**: Injecting data through any mechanism other than `inject_daily_data.py`.
-**Rule**: Temporal data injection always goes through Pipeline B: `download_dune_daily_C.py` → `build_daily_temporal.py` → `inject_daily_data.py`.
+**Rule**: Temporal data injection for the legacy inline simulator goes through Pipeline B: `download_dune_daily_C.py` → `build_daily_temporal.py` → `inject_daily_data.py`. Do not confuse that path with the separate AOT artifact flow used by the active simulator.
 
 ---
 
@@ -57,7 +57,7 @@
 **Rule**: **stdlib only**. Use `urllib.request` / `urllib.parse`. See pattern in `dune_client.py` and `extract_trillium.py`.
 
 **Mistake**: Hardcoding derived values in Python scripts.
-**Rule**: Python = RAW extraction only. No derived/computed values. Calculations happen in the HTML simulator or Google Sheet.
+**Rule**: Python is primarily the extraction / transform / artifact-preparation layer. Do not move core simulator business logic upstream unless explicitly requested.
 
 **Mistake**: Running the full pipeline to test a single module.
 **Rule**: Use flags: `--model-only` (models only), `--full-extract` (force full re-extraction), `--export` (with Sheets).
@@ -175,7 +175,7 @@ Total             = 100.00 ✓
 - The simulator should make this ratio explicit for clarity
 
 **Files that must be updated when implemented**:
-- `raiku_revenue_simulator.html` — slider labels, waterfall formula, guard logic, AOT/JIT separation
+- `raiku-simulator/index.html` — active simulator labels, waterfall formula, guard logic, AOT/JIT separation
 - `03_model/jit_revenue.py` — waterfall logic
 - `03_model/aot_revenue.py` — waterfall logic + validator bonus handling
 - `CLAUDE.md` → Protocol Constants section

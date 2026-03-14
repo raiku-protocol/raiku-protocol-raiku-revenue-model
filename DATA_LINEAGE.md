@@ -1,8 +1,13 @@
 # RAIKU Revenue Model — Data Lineage & Source-of-Truth Reference
 
-**Last updated:** 2026-03-12
+**Last updated:** 2026-03-14
 **Purpose:** Definitive map of every data file — who produces it, who consumes it, and which files are the authoritative sources for each data domain.
 **Canonical program-fee batch window (current):** `[2026-02-04, 2026-03-05)` (end date exclusive)
+
+**Current repo split:**
+- `raiku-revenue-model` is the upstream source-of-truth for pipeline outputs, taxonomy, and prepared simulator artifacts.
+- `raiku-simulator` is the active HTML simulator UI repo.
+- `raiku_revenue_simulator.html` in this repo is retained as a legacy inline-data snapshot only.
 
 ---
 
@@ -24,12 +29,11 @@
   │  (6 queries)    (merge C1-C6)                             (D.daily + D.dailyNet)                │
   └──────────────────────────────────────────────────────────┘
 
-                    SIMULATOR (raiku_revenue_simulator.html)
+                    ACTIVE SIMULATOR (separate repo: raiku-simulator)
   ┌──────────────────────────────────────────────────────────┐
-  │  6 inline data objects — zero runtime fetches:           │
-  │  D.a (scalars) · D.e (epochs) · D.p (programs)          │
-  │  D.daily (category×day) · D.dailyNet (network×day)      │
-  │  D_JITO (epoch Jito history)                             │
+  │  index.html + data/aot_programs.v1.js                    │
+  │  Active runtime contract for AOT = window.RAIKU_AOT_DATA │
+  │  Legacy inline D.p lineage is retained below only        │
   └──────────────────────────────────────────────────────────┘
 ```
 
@@ -56,7 +60,7 @@ Every file here is produced by exactly one extraction script and is re-extractab
 | 11 | `dune_program_fees_aggregate.csv` | `extract_dune_programs.py` | Legacy only | Legacy aggregate source (superseded for current canonical batch) |
 | 12 | `dune_fee_per_cu_by_program.csv` | `extract_dune_programs.py` | `aot_revenue.py` | Per-program fee/CU (7-day snapshot, 50 programs) |
 | 13 | `dune_program_conditions.csv` | `extract_program_conditions.py` (or local cross-ref) | `build_program_conditions.py` | Program × market condition breakdown (148 rows) |
-| 14 | `dune_program_fees_v2.csv` | Dune MCP query (manual extraction) | **No Python reader** — manually embedded as D.p in HTML | Source artifact for simulator D.p data. See note below. |
+| 14 | `dune_program_fees_v2.csv` | Dune MCP query (manual extraction) | Legacy only — historical inline `D.p` lineage | Source artifact for legacy simulator `D.p` data. See note below. |
 | 15 | `dune_daily_program_fees_30d.csv` | `download_dune_daily_C.py` (merged from C1-C6) | `build_daily_temporal.py`, conditions pipeline cross-ref | Merged 30-day daily per-program fees (Pipeline B input) |
 | 16 | `lead_pipeline_sheet.xlsx` | External (SolWatch export) | **No Python reader** | Reference-only — 1897 programs, used for manual classification |
 
@@ -67,7 +71,7 @@ Every file here is produced by exactly one extraction script and is re-extractab
 | 15-20 | `dune_daily_C1_feb04_08.csv` through `dune_daily_C6_mar01_05.csv` (×6) | `download_dune_daily_C.py` | Same script → merged into `dune_daily_program_fees_30d.csv` | **Intermediate** — 6 batch extracts that produce #13 above. Could be deleted after merge, but kept for reproducibility. |
 
 #### Note on `dune_program_fees_v2.csv`:
-This file is the source data for the simulator's `D.p` object (228 program records). It was extracted via Dune MCP and manually transformed into inline JSON during simulator builds. No automated pipeline re-generates D.p — it requires manual re-extraction and re-embedding via the scripts/ workflow or direct HTML editing. **Keep this file** as the only record of what data is in D.p.
+This file is the source data for the legacy simulator's `D.p` object (228 program records). It was extracted via Dune MCP and manually transformed into inline JSON during historical simulator builds. The active simulator no longer depends on inline `D.p`, but this file should be kept as the only audit record of what was embedded in the legacy snapshot.
 
 ### 2B. `data/mapping/` — Reference Classifications
 
@@ -154,8 +158,8 @@ program_categories.csv ───────────────────
                                 inject_daily_data.py
                                         │
                                         ↓
-                           raiku_revenue_simulator.html
-                           (D.daily + D.dailyNet injected)
+                           legacy inline simulator snapshot
+                           (`raiku_revenue_simulator.html`)
 ```
 
 ### Chain E: Revenue Models
@@ -187,7 +191,9 @@ trillium_epoch_data.csv ────┘
 | **JIT revenue scenarios** | `jit_revenue_scenarios.csv` | `data/processed/` | ~40 rows, `;`-delimited | Market share × take rate × MEV base scenarios |
 | **AOT revenue scenarios** | `aot_revenue_scenarios.csv` | `data/processed/` | ~300 rows, `;`-delimited | Top-down + bottom-up × 6 archetypes |
 | **Validation report** | `sanity_check_report.csv` | `data/processed/` | Cross-check of model outputs vs on-chain data |
-| **Simulator (all data)** | `raiku_revenue_simulator.html` | Root | Self-contained HTML, 6 inline data objects | D.a, D.e, D.p, D.daily, D.dailyNet, D_JITO |
+| **Active simulator UI** | `index.html` | `raiku-simulator/` repo | Active HTML UI shell | Consumes prepared runtime data + `data/aot_programs.v1.js` |
+| **Active AOT artifact** | `aot_programs.v1.js` | `raiku-simulator/data/` | Prepared JS artifact | `window.RAIKU_AOT_DATA` |
+| **Legacy simulator snapshot** | `raiku_revenue_simulator.html` | Root | Historical self-contained HTML | D.a, D.e, D.p, D.daily, D.dailyNet, D_JITO |
 
 ### Rebuild commands:
 
@@ -254,7 +260,7 @@ The raw file proliferation is technically justified:
 
 ## 7. Canonical AOT Simulator Contract (Frozen 2026-03-12)
 
-This section is the durable source-of-truth for the AOT simulator redesign boundary and must take precedence over legacy simulator notes about inline `D.p`.
+This section is the durable source-of-truth for the active AOT simulator boundary and must take precedence over legacy simulator notes about inline `D.p`.
 
 ### 7.1 Canonical analysis sources
 

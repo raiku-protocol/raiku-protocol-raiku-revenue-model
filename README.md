@@ -8,7 +8,14 @@ Estimate RAIKU's future protocol revenues from two auction types:
 
 Revenue formula: `Protocol Revenue = Total Auction Revenue × Take Rate (0-5%)`
 
-**Primary output**: `raiku_revenue_simulator.html` — a self-contained interactive simulator with 6 embedded data objects, zero runtime fetches. Serves as the investor-facing deliverable.
+## Repo Split
+
+- `raiku-revenue-model` = upstream pipeline, taxonomy, processed datasets, model outputs, and simulator input artifacts
+- `raiku-simulator` = active investor-facing HTML simulator UI (`index.html`)
+
+**Current simulator ownership**: the deployed UI now lives in the separate `raiku-simulator` repo and consumes upstream-prepared artifacts such as `data/aot_programs.v1.js`.
+
+**Legacy note**: `raiku_revenue_simulator.html` in this repo is preserved as a legacy snapshot for auditability and historical comparison. It is no longer the active simulator entrypoint.
 
 ## Architecture
 
@@ -32,7 +39,7 @@ CoinGecko API ───────┘
 ```
 Dune (6 batch queries) → download_dune_daily_C.py → dune_daily_program_fees_30d.csv
                        → build_daily_temporal.py  → daily_temporal_payload.js
-                       → inject_daily_data.py     → raiku_revenue_simulator.html
+                       → inject_daily_data.py     → legacy inline simulator snapshot
                                                     (D.daily + D.dailyNet injected)
 ```
 
@@ -76,7 +83,7 @@ Trillium's non-vote priority fees are the correct measure for RAIKU's revenue mo
 
 ```
 raiku-revenue-model/
-├── raiku_revenue_simulator.html  ← PRIMARY OUTPUT (self-contained, 6 inline data objects)
+├── raiku_revenue_simulator.html  ← LEGACY SNAPSHOT (historical inline-data simulator)
 ├── config.py                     ← API keys (.env), business parameters, scenarios
 ├── run_pipeline.py               ← Pipeline A orchestrator (extract → transform → model)
 │
@@ -148,8 +155,11 @@ python run_pipeline.py --model-only
 # Pipeline B — Simulator temporal charts (after Dune batch downloads)
 cd scripts && python build_daily_temporal.py && python inject_daily_data.py
 
-# Serve simulator locally
+# Serve the legacy snapshot locally (historical only)
 python -m http.server 8765   # → http://localhost:8765/raiku_revenue_simulator.html
+
+# Active simulator UI lives in the separate repo:
+# C:\Users\Utilisateur\Dev-RAIKU\raiku-simulator\index.html
 ```
 
 ## Execution Status
