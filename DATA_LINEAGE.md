@@ -195,6 +195,9 @@ trillium_epoch_data.csv ────┘
 | **Active AOT artifact** | `aot_programs.v1.js` | `raiku-simulator/data/` | Prepared JS artifact | `window.RAIKU_AOT_DATA` |
 | **Legacy simulator snapshot** | `raiku_revenue_simulator.html` | Root | Historical self-contained HTML | D.a, D.e, D.p, D.daily, D.dailyNet, D_JITO |
 
+Additive benchmark note:
+`solana_epoch_market_metrics.csv` is a generated additive epoch-level market dataset for secondary benchmark and stress analysis only. It does not replace the current program-level scenario framework. Regenerate with `python 02_transform/build_solana_epoch_market_metrics.py` and `python 02_transform/build_solana_epoch_scenario_benchmark.py`.
+
 ### Rebuild commands:
 
 ```bash
