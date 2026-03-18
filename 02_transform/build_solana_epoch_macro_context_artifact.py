@@ -34,8 +34,15 @@ METRICS = [
     "priority_fee_per_cu_lamports",
     "mev_jito_fee_per_cu_lamports",
     "non_base_fee_per_cu_lamports",
+    "base_fee_per_cu_lamports",
     "total_fee_per_cu_lamports",
 ]
+
+# Trailing 24-month window defined by date, not epoch.
+# Data cutoff = 2026-03-09 (latest epoch_end_date).
+# 24 months back = 2024-03-09.
+# Epochs with epoch_start_date >= this date are included.
+WINDOW_START_DATE = "2024-03-09"
 
 SUBSET_DEFINITIONS = {
     "all_epochs": "All exported epochs with a non-null value for the selected metric.",
@@ -109,6 +116,7 @@ def summary_stats(values):
         "n": len(values),
         "mean": sum(values) / len(values),
         "median": quantile(values, 0.50),
+        "p10": quantile(values, 0.10),
         "p25": quantile(values, 0.25),
         "p75": quantile(values, 0.75),
         "p90": quantile(values, 0.90),
@@ -143,6 +151,7 @@ def build_epoch_rows(raw_rows):
                 "priority_fee_per_cu_lamports": safe_float(row.get("priority_fee_per_cu_lamports")),
                 "mev_jito_fee_per_cu_lamports": safe_float(row.get("mev_jito_fee_per_cu_lamports")),
                 "non_base_fee_per_cu_lamports": safe_float(row.get("non_base_fee_per_cu_lamports")),
+                "base_fee_per_cu_lamports": safe_float(row.get("base_fee_per_cu_lamports")),
                 "total_fee_per_cu_lamports": safe_float(row.get("total_fee_per_cu_lamports")),
             }
         )
@@ -162,6 +171,12 @@ def build_summaries(epoch_rows):
 
 def build_payload():
     raw_rows = load_csv(INPUT_FILE)
+    # Apply trailing 24-month date-based window filter
+    raw_rows = [
+        r for r in raw_rows
+        if (r.get("epoch_start_date") or "") >= WINDOW_START_DATE
+    ]
+    print(f"Window filter: epoch_start_date >= {WINDOW_START_DATE} -> {len(raw_rows)} rows retained")
     epoch_rows = build_epoch_rows(raw_rows)
     summaries = build_summaries(epoch_rows)
 
@@ -174,15 +189,16 @@ def build_payload():
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "generated_from": str(INPUT_FILE.relative_to(Path(__file__).parent.parent)),
         "generated_by": "02_transform/build_solana_epoch_macro_context_artifact.py",
+        "window_start_date": WINDOW_START_DATE,
         "start_epoch": min(epochs),
         "end_epoch": max(epochs),
         "start_date": min(start_dates) if start_dates else None,
         "end_date": max(end_dates) if end_dates else None,
         "row_count": len(epoch_rows),
         "sample_description": (
-            "Additive epoch-level Solana-wide macro market context export derived from the "
-            "processed epoch market metrics dataset. One row per retained Trillium epoch. "
-            "Intended for secondary benchmark and congestion analysis only."
+            "Trailing 24-month epoch-level Solana-wide macro market context export "
+            f"(epoch_start_date >= {WINDOW_START_DATE}). One row per retained Trillium "
+            "epoch. Intended for secondary benchmark and congestion analysis only."
         ),
         "regime_definition_text": REGIME_DEFINITION_TEXT,
         "assignment_logic_text": ASSIGNMENT_LOGIC_TEXT,
