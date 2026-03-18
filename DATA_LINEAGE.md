@@ -198,6 +198,8 @@ trillium_epoch_data.csv ────┘
 Additive benchmark note:
 `solana_epoch_market_metrics.csv` is a generated additive epoch-level market dataset for secondary benchmark and stress analysis only. It does not replace the current program-level scenario framework. Regenerate with `python 02_transform/build_solana_epoch_market_metrics.py` and `python 02_transform/build_solana_epoch_scenario_benchmark.py`.
 
+`solana_epoch_macro_context.v1.json` is the canonical machine-readable epoch-level macro context export derived from `solana_epoch_market_metrics.csv`. It includes epoch rows plus subset summary statistics for `all_epochs`, `normal`, `elevated`, `extreme`, `intraday_peak_tagged`, and `non_peak`. Regenerate with `python 02_transform/build_solana_epoch_macro_context_artifact.py`.
+
 ### Rebuild commands:
 
 ```bash
