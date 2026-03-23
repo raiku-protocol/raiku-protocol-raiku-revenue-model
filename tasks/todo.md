@@ -179,14 +179,27 @@ Last updated: 2026-03-23
 
 Implemented (raiku-simulator/index.html):
 - Epoch-based compounding: EPOCHS_PER_YEAR = Math.round(SY / 432_000) ≈ 182; APY_COMPOUNDING_PERIODS uses this constant
-- Validator Revenue Pool KPI cards: Raiku JIT (#5B8DEF), Other JIT (#6B9EBC), AOT Base (#7BBBAF), Validator Bonus (#4178DE), Total (bold)
-- "AOT Bonus" → "Validator Bonus" (aggregate: aotValBonus + jitValBonus); validator-bonus-usd/sol now shows combined value
-- totalValidatorRevenueSol = r.totalValRev + r.otherJitRev — all 4 components: Raiku JIT, Other JIT, AOT base, Validator bonus
-- Formula note updated: "Raiku JIT + Other JIT + AOT base + Validator bonus" + epoch-based compounding convention
+- Validator Revenue Pool KPI cards order: Other JIT · Raiku JIT · AOT Base · Validator Bonus · Total
+- Colors: Raiku JIT #5B8DEF, Other JIT #6B9EBC (label only, value neutral), AOT Base #7BBBAF, Validator Bonus #4178DE
+- "AOT Bonus" → "Validator Bonus" (aggregate: aotValBonus + jitValBonus); validator-bonus-usd/sol shows combined value
+- Total Validator Revenue card: lime border + lime label + prominent background for clear visual hierarchy
+- Scenario Context buttons: 2×2 grid (equal-sized, balanced layout)
+- APY formula shown explicitly: APY = (1 + APR / n)^n − 1, n = EPOCHS_PER_YEAR ≈ 182 epochs/yr
+- totalValidatorRevenueSol = r.totalValRev + r.otherJitRev — all 4 components included
 - All "daily compounding" wording removed; epoch-based compounding used throughout
 
 ## 8. Yield display hierarchy
-Status: TODO
+Status: DONE
+Last updated: 2026-03-23
+
+Implemented (raiku-simulator/index.html, Tab 2 only):
+- Yield Uplift cards reordered: APY uplift first, total APY second, then APR cards
+- APY card values: font-size 22px, font-weight 700 (visually dominant)
+- APR card values: font-size 15px, color var(--text-mid) (secondary)
+- APR Decomposition legend: each item now shows APY as primary value, APR as sub-label
+- Scenario Total Yield Composition: APY shown as primary total, APR as sub
+- Section headers: validator-support h2 bumped from 10px to 12px for visual consistency
+- Incremental vs total yield clearly separated by card position
 
 Scope:
 Make APY primary and APR secondary everywhere relevant.
