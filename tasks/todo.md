@@ -211,7 +211,29 @@ Main goals:
 4. Clarify incremental yield versus total yield after op place.
 
 ## 8.bis Validator issuance / block rewards / APR / APY methodology audit
-Status: TODO
+Status: DONE
+Last updated: 2026-03-23
+
+Audit findings:
+- Base APY source: CORRECT — empirical 30d Delegator APY from Rated Network (4.48%). Already embeds inflation schedule, active staking ratio (~71%), and avg commission. No manual inflation adjustment needed.
+- APY→APR: CORRECT — apyToApr(0.0448, 182) ≈ 4.38%; epoch-based, not daily.
+- APR→APY: CORRECT — aprToApy(totalApr, EPOCHS_PER_YEAR), n≈182 throughout.
+- Raiku APR uplift: CORRECT — totalValidatorRevenueSol / connectedStakeSol.
+- Priority fees: OPAQUE → clarified. Block producer revenue proportional to stake weight; base tx fees are burned (not validator revenue).
+- Active staking ratio: IMPLICIT → made explicit in UI. Empirical APY already handles it; no slider added (unnecessary).
+- External parity: Jito/Marinade ~6.5–7.5% total APY vs ~4.9% base here. Gap = MEV distribution, captured as Raiku uplift. No methodology error.
+
+Decisions:
+- Keep empirical APY approach (correct and transparent). Do NOT add staking ratio slider.
+- APY formula: APY = (1 + APR/n)^n − 1, n = EPOCHS_PER_YEAR ≈ 182. Displayed explicitly in UI.
+- Yield stack documented in UI: Issuance + Priority fees (base fees burned) + Raiku uplift (MEV/ordering).
+
+Implemented UI changes (Tab 2 only):
+- Base Staking APR sub: clarified formula APR = n × ((1 + APY)^(1/n) − 1)
+- Base Staking APY sub: "Empirical — embeds inflation, active staking ratio (~71%), avg commission"
+- Priority Fees sub: "block producer revenue proportional to stake; base tx fees are burned"
+- validator-source-note: full yield stack breakdown + external parity note (Jito/Marinade ~6.5–7.5% total APY)
+- JS formula note: updated to distinguish issuance APR / priority fees APR / Raiku uplift APR
 
 Scope:
 Validate and clarify the core validator yield methodology before further UX or parity work.
