@@ -159,7 +159,7 @@ Acceptance criteria:
 4. No change to revenue flow logic or downstream validator/protocol splits.
 
 ## 6. Annual Revenue Overview update
-Status: DONE
+Status: TODO
 
 Scope:
 Reflect the Raiku JIT / Other JIT split in the annual overview cards.
@@ -175,31 +175,20 @@ Main goals:
 
 ## 7. Validator revenue logic cleanup
 Status: DONE
-Last updated: 2026-03-23
 
-Implemented (raiku-simulator/index.html):
-- Epoch-based compounding: EPOCHS_PER_YEAR = Math.round(SY / 432_000) ≈ 182; APY_COMPOUNDING_PERIODS uses this constant
-- Validator Revenue Pool KPI cards order: Other JIT · Raiku JIT · AOT Base · Validator Bonus · Total
-- Colors: Raiku JIT #5B8DEF, Other JIT #6B9EBC (label only, value neutral), AOT Base #7BBBAF, Validator Bonus #4178DE
-- "AOT Bonus" → "Validator Bonus" (aggregate: aotValBonus + jitValBonus); validator-bonus-usd/sol shows combined value
-- Total Validator Revenue card: lime border + lime label + prominent background for clear visual hierarchy
-- Scenario Context buttons: 2×2 grid (equal-sized, balanced layout)
-- APY formula shown explicitly: APY = (1 + APR / n)^n − 1, n = EPOCHS_PER_YEAR ≈ 182 epochs/yr
-- totalValidatorRevenueSol = r.totalValRev + r.otherJitRev — all 4 components included
-- All "daily compounding" wording removed; epoch-based compounding used throughout
+Scope:
+Correct validator revenue logic and make the presentation clearer.
+
+Main goals:
+1. Fix APY compounding to use epochs, not daily compounding.
+2. Verify all revenue components update correctly.
+3. Clarify labels and highlight total validator revenue.
+4. Use distinct colors for Raiku JIT, Other JIT, AOT base, AOT bonus, and total.
+5. Update formulas shown in the UI.
+6. Ensure total validator revenue includes all expected components.
 
 ## 8. Yield display hierarchy
 Status: DONE
-Last updated: 2026-03-23
-
-Implemented (raiku-simulator/index.html, Tab 2 only):
-- Yield Uplift cards reordered: APY uplift first, total APY second, then APR cards
-- APY card values: font-size 22px, font-weight 700 (visually dominant)
-- APR card values: font-size 15px, color var(--text-mid) (secondary)
-- APR Decomposition legend: each item now shows APY as primary value, APR as sub-label
-- Scenario Total Yield Composition: APY shown as primary total, APR as sub
-- Section headers: validator-support h2 bumped from 10px to 12px for visual consistency
-- Incremental vs total yield clearly separated by card position
 
 Scope:
 Make APY primary and APR secondary everywhere relevant.
@@ -211,29 +200,7 @@ Main goals:
 4. Clarify incremental yield versus total yield after op place.
 
 ## 8.bis Validator issuance / block rewards / APR / APY methodology audit
-Status: DONE
-Last updated: 2026-03-23
-
-Audit findings:
-- Base APY source: CORRECT — empirical 30d Delegator APY from Rated Network (4.48%). Already embeds inflation schedule, active staking ratio (~71%), and avg commission. No manual inflation adjustment needed.
-- APY→APR: CORRECT — apyToApr(0.0448, 182) ≈ 4.38%; epoch-based, not daily.
-- APR→APY: CORRECT — aprToApy(totalApr, EPOCHS_PER_YEAR), n≈182 throughout.
-- Raiku APR uplift: CORRECT — totalValidatorRevenueSol / connectedStakeSol.
-- Priority fees: OPAQUE → clarified. Block producer revenue proportional to stake weight; base tx fees are burned (not validator revenue).
-- Active staking ratio: IMPLICIT → made explicit in UI. Empirical APY already handles it; no slider added (unnecessary).
-- External parity: Jito/Marinade ~6.5–7.5% total APY vs ~4.9% base here. Gap = MEV distribution, captured as Raiku uplift. No methodology error.
-
-Decisions:
-- Keep empirical APY approach (correct and transparent). Do NOT add staking ratio slider.
-- APY formula: APY = (1 + APR/n)^n − 1, n = EPOCHS_PER_YEAR ≈ 182. Displayed explicitly in UI.
-- Yield stack documented in UI: Issuance + Priority fees (base fees burned) + Raiku uplift (MEV/ordering).
-
-Implemented UI changes (Tab 2 only):
-- Base Staking APR sub: clarified formula APR = n × ((1 + APY)^(1/n) − 1)
-- Base Staking APY sub: "Empirical — embeds inflation, active staking ratio (~71%), avg commission"
-- Priority Fees sub: "block producer revenue proportional to stake; base tx fees are burned"
-- validator-source-note: full yield stack breakdown + external parity note (Jito/Marinade ~6.5–7.5% total APY)
-- JS formula note: updated to distinguish issuance APR / priority fees APR / Raiku uplift APR
+Status: IN PROGRESS
 
 Scope:
 Validate and clarify the core validator yield methodology before further UX or parity work.
@@ -369,6 +336,9 @@ Main goals:
 7. Task 2 — Revenue Model bottom scroll / height alignment. Commit 134ac62.
 8. Task 3 (IN PROGRESS) — AOT calibration source clarity: added source detail line, rule attribution lines per preset (commit 4fa03eb), and dedicated 30d AOT row in regime stats table that appears only when 30d scope is active (commit 9aab447). Awaiting user validation.
 9. Task 4 (DONE) — Scenario preset UX: enlarged preset buttons (4-col grid, full width), active state now lime-colored coherent with UI, Long horizon default on load, sidebar independently scrollable so lower setup controls are reachable without scrolling through right panel.
+10. Task 7 (DONE) — Validator Revenue logic cleanup: epoch-based compounding, Other JIT KPI card, component color coding, Validator Bonus aggregate (AOT+JIT), 2×2 preset grid.
+11. Task 8 (DONE) — Yield display hierarchy: APY primary in all Uplift cards and decomposition legend, APY visually dominant over APR.
+12. Task 8.bis (IN PROGRESS) — Validator issuance methodology reset: first pass replaced Rated Delegator APY with first-principles formula; second pass corrects commission treatment (Tab 2 = validator-level gross, no commission deduction), fixes staking ratio denominator to active/total (66%, not vs circulating), fixes base fees description (50% burned / 50% to validator), updates all formula notes.
 
 ## Validation Rule
 
