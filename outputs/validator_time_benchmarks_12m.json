@@ -215,6 +215,84 @@
       }
     }
   },
+  "last_24m_elevated_extreme": {
+    "epoch_range": "552-935 (elevated+extreme only, full available range)",
+    "num_epochs": 117,
+    "metrics": {
+      "base_fees": {
+        "network": {
+          "mean": 0.00393478,
+          "median": 0.0035898,
+          "p25": 0.003097,
+          "p75": 0.00411875
+        },
+        "top_50_by_stake": {
+          "median": 0.003746,
+          "mean_of_medians": 0.00405574,
+          "mean_of_means": 0.00404138
+        },
+        "top_50_by_mev": {
+          "median": 0.0036276,
+          "mean_of_medians": 0.00404925,
+          "mean_of_means": 0.00403948
+        }
+      },
+      "priority_fees": {
+        "network": {
+          "mean": 0.03464726,
+          "median": 0.0273899,
+          "p25": 0.017037,
+          "p75": 0.03686485
+        },
+        "top_50_by_stake": {
+          "median": 0.030842,
+          "mean_of_medians": 0.03668801,
+          "mean_of_means": 0.03629713
+        },
+        "top_50_by_mev": {
+          "median": 0.03507965,
+          "mean_of_medians": 0.04121239,
+          "mean_of_means": 0.04914291
+        }
+      },
+      "mev": {
+        "network": {
+          "mean": 0.05446504,
+          "median": 0.03358655,
+          "p25": 0.0074208,
+          "p75": 0.0602648
+        },
+        "top_50_by_stake": {
+          "median": 0.04407805,
+          "mean_of_medians": 0.0629652,
+          "mean_of_means": 0.05647125
+        },
+        "top_50_by_mev": {
+          "median": 0.10137135,
+          "mean_of_medians": 0.14476385,
+          "mean_of_means": 0.2107808
+        }
+      },
+      "total_reward": {
+        "network": {
+          "mean": 0.09304709,
+          "median": 0.0680778,
+          "p25": 0.0313312,
+          "p75": 0.09459795
+        },
+        "top_50_by_stake": {
+          "median": 0.08003275,
+          "mean_of_medians": 0.10336379,
+          "mean_of_means": 0.09680976
+        },
+        "top_50_by_mev": {
+          "median": 0.14404535,
+          "mean_of_medians": 0.19405693,
+          "mean_of_means": 0.26396319
+        }
+      }
+    }
+  },
   "per_epoch": [
     {
       "epoch": 750,
@@ -12572,6 +12650,16 @@
     "num_epochs_fetched": 196,
     "num_epochs_failed": 0,
     "failed_epochs": [],
+    "time_windows": {
+      "12m_all": "epochs 750-945, all regimes",
+      "12m_elevated_extreme": "epochs 750-945, elevated+extreme only",
+      "24m_elevated_extreme": "epochs 552-945, elevated+extreme only — extended high-volatility reference across full available epoch range"
+    },
+    "benchmark_notes": {
+      "primary": "12m_all — main long-run benchmark",
+      "extended_high_vol": "24m_elevated_extreme — captures full bull/volatile cycle",
+      "contextual": "12m_elevated_extreme — shorter window, same regime filter"
+    },
     "methodology": "Validator-level per-block metrics per epoch, then cohort statistics per epoch, then aggregation over epoch summaries",
     "regime_source": "solana_epoch_database.csv volatility_tag",
     "data_source": "Trillium API /validator_rewards/{epoch}",

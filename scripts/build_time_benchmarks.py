@@ -67,6 +67,9 @@ OUT_JSON   = OUTPUTS / "validator_time_benchmarks_12m.json"
 TRILLIUM_BASE_URL = "https://api.trillium.so"
 DEFAULT_START     = 750
 DEFAULT_END       = 945
+# 24m lower bound: first epoch where Trillium /validator_rewards/ data is available
+# (epoch 552 = first valid Trillium epoch, per CLAUDE.md)
+EPOCH_START_24M   = 552
 HTTP_HEADERS      = {
     "Accept":     "application/json",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -683,6 +686,84 @@ def main():
     agg_all  = build_time_agg_block(all_summaries)
     agg_ee   = build_time_agg_block(elevated_extreme)
 
+    # ── 24m loop — fetch/cache epochs below DEFAULT_START ─────────────────────
+    # Build a second summary list covering EPOCH_START_24M to EPOCH_END.
+    # Epochs already in `summaries` (start_epoch–end_epoch) are reused directly
+    # from the cache; only epochs below start_epoch need to be fetched.
+    print(f"\nBuilding 24m dataset (epochs {EPOCH_START_24M}-{end_epoch})...")
+    summaries_24m = []
+    epoch_range_24m = list(range(EPOCH_START_24M, end_epoch + 1))
+    failed_24m = []
+
+    # Pre-index already-built summaries by epoch for instant lookup
+    summaries_by_epoch = {s["epoch"]: s for s in all_summaries}
+
+    for epoch in epoch_range_24m:
+        # Reuse from current run's summaries if already built
+        if epoch in summaries_by_epoch:
+            summaries_24m.append(summaries_by_epoch[epoch])
+            continue
+
+        # Determine regime
+        if epoch in regimes:
+            regime = regimes[epoch]
+        else:
+            regime = "normal"
+            print(f"  WARNING: epoch {epoch} not in DB — tagging as 'normal'")
+
+        # Check cache first (unless --no-cache)
+        if not args.no_cache:
+            cached = load_cached_summary(epoch)
+            if cached is not None:
+                cached["regime"] = regime
+                summaries_24m.append(cached)
+                print(f"  Epoch {epoch:>4}: cached  ({cached['n_validators']:>4} validators, {regime})")
+                continue
+
+        # Fetch from API
+        raw_validators, err = fetch_validator_rewards(epoch)
+        time.sleep(FETCH_DELAY_S)
+
+        if err:
+            failed_24m.append(epoch)
+            print(f"  Epoch {epoch:>4}: FAILED  ({err})")
+            continue
+
+        if not raw_validators:
+            failed_24m.append(epoch)
+            print(f"  Epoch {epoch:>4}: FAILED  (empty response)")
+            continue
+
+        parsed = [_parse_validator_row(v) for v in raw_validators]
+        parsed = [p for p in parsed if p is not None]
+
+        if not parsed:
+            failed_24m.append(epoch)
+            print(f"  Epoch {epoch:>4}: FAILED  (0 valid validators after parsing)")
+            continue
+
+        summary = _build_epoch_summary(epoch, parsed, regime)
+        save_cached_summary(summary)
+        summaries_24m.append(summary)
+        print(f"  Epoch {epoch:>4}: fetched ({summary['n_validators']:>4} validators, {regime})")
+
+    print(f"24m fetch complete: {len(summaries_24m)} summaries, {len(failed_24m)} failed")
+    if failed_24m:
+        print(f"  Failed epochs (24m): {failed_24m}")
+
+    # Build 24m elevated+extreme block
+    ee_24m = [s for s in summaries_24m if s.get("regime") in ("elevated", "extreme")]
+    agg_ee_24m = build_time_agg_block(ee_24m)
+
+    covered_24m = sorted(s["epoch"] for s in summaries_24m)
+    ep_range_24m_str = (
+        f"{covered_24m[0]}-{covered_24m[-1]}" if covered_24m else "none"
+    )
+    ee_24m_epochs = sorted(s["epoch"] for s in ee_24m)
+    ee_24m_range_str = (
+        f"{ee_24m_epochs[0]}-{ee_24m_epochs[-1]}" if ee_24m_epochs else "none"
+    )
+
     # ── Step 5 — latest_epoch block ───────────────────────────────────────────
     print("Building latest_epoch block from benchmark JSON or epoch 945 cache...")
     latest_epoch_block = build_latest_epoch_block(regimes)
@@ -712,6 +793,11 @@ def main():
             "num_epochs":  len(elevated_extreme),
             **agg_ee,
         },
+        "last_24m_elevated_extreme": {
+            "epoch_range": f"{ee_24m_range_str} (elevated+extreme only, full available range)",
+            "num_epochs":  len(ee_24m),
+            **agg_ee_24m,
+        },
         "per_epoch": per_epoch_list,
         "meta": {
             "generated_at":         str(date.today()),
@@ -720,6 +806,19 @@ def main():
             "num_epochs_fetched":   n_fetched,
             "num_epochs_failed":    n_failed,
             "failed_epochs":        failed_epochs,
+            "time_windows": {
+                "12m_all": f"epochs {start_epoch}-{end_epoch}, all regimes",
+                "12m_elevated_extreme": f"epochs {start_epoch}-{end_epoch}, elevated+extreme only",
+                "24m_elevated_extreme": (
+                    f"epochs {EPOCH_START_24M}-{end_epoch}, elevated+extreme only"
+                    " — extended high-volatility reference across full available epoch range"
+                ),
+            },
+            "benchmark_notes": {
+                "primary": "12m_all — main long-run benchmark",
+                "extended_high_vol": "24m_elevated_extreme — captures full bull/volatile cycle",
+                "contextual": "12m_elevated_extreme — shorter window, same regime filter",
+            },
             "methodology": (
                 "Validator-level per-block metrics per epoch, "
                 "then cohort statistics per epoch, "
@@ -818,12 +917,21 @@ def main():
         le_mev = (latest_epoch_block.get("metrics", {})
                   .get("mev", {}).get("network", {}).get("median"))
         print(f"   latest_epoch (945)              : {le_mev}")
-    all_mev = (agg_all.get("metrics", {}).get("mev", {})
-               .get("network", {}).get("median"))
-    ee_mev  = (agg_ee.get("metrics", {}).get("mev", {})
-               .get("network", {}).get("median"))
+    all_mev    = (agg_all.get("metrics", {}).get("mev", {})
+                  .get("network", {}).get("median"))
+    ee_mev     = (agg_ee.get("metrics", {}).get("mev", {})
+                  .get("network", {}).get("median"))
+    ee_24m_mev = (agg_ee_24m.get("metrics", {}).get("mev", {})
+                  .get("network", {}).get("median"))
     print(f"   last_12m_all (median of medians): {all_mev}")
     print(f"   last_12m_elevated_extreme       : {ee_mev}")
+    print(f"   last_24m_elevated_extreme       : {ee_24m_mev}")
+    resolves = (
+        ee_24m_mev is not None
+        and all_mev is not None
+        and ee_24m_mev > all_mev
+    )
+    print(f"   24m_EE > 12m_all?               : {'YES — resolves low-EE issue' if resolves else 'NO'}")
 
     # 4. Regime breakdown
     print(f"\n4. Regime breakdown (epochs {start_epoch}-{end_epoch}):")
