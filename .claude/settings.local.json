@@ -5,7 +5,17 @@
       "Read(*)",
       "Write(*)",
       "mcp__dune__*",
-      "mcp__firecrawl__*"
+      "mcp__firecrawl__*",
+      "mcp__plugin_serena_serena__search_for_pattern",
+      "WebFetch(domain:api.trillium.so)",
+      "WebFetch(domain:api.rakurai.io)",
+      "WebFetch(domain:dashboards.validblocks.com)",
+      "WebFetch(domain:schedulerwar.vercel.app)",
+      "mcp__flipside-crypto__fetch_web_page",
+      "WebFetch(domain:www.figment.io)",
+      "WebFetch(domain:blog.syndica.io)",
+      "WebSearch",
+      "WebFetch(domain:crypto-economy.com)"
     ]
   }
 }
