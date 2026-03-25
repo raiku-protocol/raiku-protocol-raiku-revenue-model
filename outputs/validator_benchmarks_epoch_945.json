@@ -1,33 +1,26 @@
 {
-  "metadata": {
+  "meta": {
     "epoch": 945,
     "source_file": "data/validators_epoch_945.csv",
-    "valid_validators": 762,
-    "skipped_rows": 15,
-    "sort_basis": "actual_stake_sol = Stake_column * Leader_Slots (verified vs on-chain)",
-    "monetary_unit": "SOL per block (per leader slot produced)",
-    "stake_note": "Stake column in CSV = actual_stake_SOL / leader_slots. To recover actual SOL stake: Stake × Leader_Slots. Verified against validators-all (4).csv: error < 0.1% for top validators.",
-    "top_stake_segments_note": "Top-N segments are ordered by actual_stake_sol descending. Means and medians are simple (unweighted), not stake-weighted."
+    "sample_size": 762,
+    "skipped": 15,
+    "notes": [
+      "All monetary values are SOL per block (per leader slot produced).",
+      "Stake column in source CSV = actual_stake_SOL / leader_slots. Recovered as: actual_stake_sol = Stake x Leader_Slots.",
+      "Cohort _by_stake: sorted by actual_stake_sol descending.",
+      "Cohort _by_mev: sorted by mev descending.",
+      "Cohort _by_rev: sorted by rev descending.",
+      "All cohort means and medians are simple (unweighted), not stake-weighted.",
+      "Percentiles use linear interpolation.",
+      "Rows excluded: leader_slots <= 0 or REV missing/zero."
+    ]
   },
   "inflation": {
     "unit": "SOL per block (per leader slot)",
-    "mean": 0.32867835,
-    "median": 0.31425868,
-    "sample_size": 762,
-    "top_10": {
-      "mean": 0.3101103,
-      "median": 0.31019794,
-      "sample_size": 10
-    },
-    "top_20": {
-      "mean": 0.29597865,
-      "median": 0.30977305,
-      "sample_size": 20
-    },
-    "top_50": {
-      "mean": 0.3068872,
-      "median": 0.31241554,
-      "sample_size": 50
+    "network": {
+      "mean": 0.32867835,
+      "median": 0.31425868,
+      "sample_size": 762
     },
     "percentiles": {
       "p10": 0.25130619,
@@ -35,27 +28,61 @@
       "p50": 0.31425868,
       "p75": 0.34855462,
       "p90": 0.42116294
+    },
+    "cohorts": {
+      "top_10_by_stake": {
+        "mean": 0.3101103,
+        "median": 0.31019794,
+        "sample_size": 10
+      },
+      "top_20_by_stake": {
+        "mean": 0.29597865,
+        "median": 0.30977305,
+        "sample_size": 20
+      },
+      "top_50_by_stake": {
+        "mean": 0.3068872,
+        "median": 0.31241554,
+        "sample_size": 50
+      },
+      "top_10_by_mev": {
+        "mean": 0.34958512,
+        "median": 0.32377605,
+        "sample_size": 10
+      },
+      "top_20_by_mev": {
+        "mean": 0.33334048,
+        "median": 0.32225569,
+        "sample_size": 20
+      },
+      "top_50_by_mev": {
+        "mean": 0.31742361,
+        "median": 0.30841833,
+        "sample_size": 50
+      },
+      "top_10_by_rev": {
+        "mean": 0.96340267,
+        "median": 0.87627125,
+        "sample_size": 10
+      },
+      "top_20_by_rev": {
+        "mean": 0.77455083,
+        "median": 0.66223083,
+        "sample_size": 20
+      },
+      "top_50_by_rev": {
+        "mean": 0.60511109,
+        "median": 0.51349068,
+        "sample_size": 50
+      }
     }
   },
   "sig_fees": {
     "unit": "SOL per block (per leader slot)",
-    "mean": 0.00341498,
-    "median": 0.003432,
-    "sample_size": 761,
-    "top_10": {
-      "mean": 0.00351747,
-      "median": 0.00349935,
-      "sample_size": 10
-    },
-    "top_20": {
-      "mean": 0.00350366,
-      "median": 0.00349945,
-      "sample_size": 20
-    },
-    "top_50": {
-      "mean": 0.00348208,
-      "median": 0.0034607,
-      "sample_size": 50
+    "network": {
+      "mean": 0.00341498,
+      "median": 0.003432,
+      "sample_size": 761
     },
     "percentiles": {
       "p10": 0.0032478,
@@ -63,27 +90,61 @@
       "p50": 0.003432,
       "p75": 0.0034936,
       "p90": 0.003581
+    },
+    "cohorts": {
+      "top_10_by_stake": {
+        "mean": 0.00351747,
+        "median": 0.00349935,
+        "sample_size": 10
+      },
+      "top_20_by_stake": {
+        "mean": 0.00350366,
+        "median": 0.00349945,
+        "sample_size": 20
+      },
+      "top_50_by_stake": {
+        "mean": 0.00348208,
+        "median": 0.0034607,
+        "sample_size": 50
+      },
+      "top_10_by_mev": {
+        "mean": 0.00350477,
+        "median": 0.0034301,
+        "sample_size": 10
+      },
+      "top_20_by_mev": {
+        "mean": 0.0035146,
+        "median": 0.00347415,
+        "sample_size": 20
+      },
+      "top_50_by_mev": {
+        "mean": 0.00350089,
+        "median": 0.00351885,
+        "sample_size": 50
+      },
+      "top_10_by_rev": {
+        "mean": 0.0033311,
+        "median": 0.00333885,
+        "sample_size": 10
+      },
+      "top_20_by_rev": {
+        "mean": 0.00337208,
+        "median": 0.0034677,
+        "sample_size": 20
+      },
+      "top_50_by_rev": {
+        "mean": 0.00344396,
+        "median": 0.0034729,
+        "sample_size": 50
+      }
     }
   },
   "priority_fees": {
     "unit": "SOL per block (per leader slot)",
-    "mean": 0.02247207,
-    "median": 0.0206156,
-    "sample_size": 761,
-    "top_10": {
-      "mean": 0.02441062,
-      "median": 0.0237023,
-      "sample_size": 10
-    },
-    "top_20": {
-      "mean": 0.02596017,
-      "median": 0.0244801,
-      "sample_size": 20
-    },
-    "top_50": {
-      "mean": 0.02505403,
-      "median": 0.0239583,
-      "sample_size": 50
+    "network": {
+      "mean": 0.02247207,
+      "median": 0.0206156,
+      "sample_size": 761
     },
     "percentiles": {
       "p10": 0.0140206,
@@ -91,27 +152,61 @@
       "p50": 0.0206156,
       "p75": 0.0250531,
       "p90": 0.0312583
+    },
+    "cohorts": {
+      "top_10_by_stake": {
+        "mean": 0.02441062,
+        "median": 0.0237023,
+        "sample_size": 10
+      },
+      "top_20_by_stake": {
+        "mean": 0.02596017,
+        "median": 0.0244801,
+        "sample_size": 20
+      },
+      "top_50_by_stake": {
+        "mean": 0.02505403,
+        "median": 0.0239583,
+        "sample_size": 50
+      },
+      "top_10_by_mev": {
+        "mean": 0.02761036,
+        "median": 0.02493675,
+        "sample_size": 10
+      },
+      "top_20_by_mev": {
+        "mean": 0.0281489,
+        "median": 0.02533885,
+        "sample_size": 20
+      },
+      "top_50_by_mev": {
+        "mean": 0.02496314,
+        "median": 0.0228578,
+        "sample_size": 50
+      },
+      "top_10_by_rev": {
+        "mean": 0.01517927,
+        "median": 0.0159975,
+        "sample_size": 10
+      },
+      "top_20_by_rev": {
+        "mean": 0.02536353,
+        "median": 0.01722635,
+        "sample_size": 20
+      },
+      "top_50_by_rev": {
+        "mean": 0.02349047,
+        "median": 0.01799215,
+        "sample_size": 50
+      }
     }
   },
   "mev": {
     "unit": "SOL per block (per leader slot)",
-    "mean": 0.00567986,
-    "median": 0.0043944,
-    "sample_size": 761,
-    "top_10": {
-      "mean": 0.00715123,
-      "median": 0.0049443,
-      "sample_size": 10
-    },
-    "top_20": {
-      "mean": 0.00632207,
-      "median": 0.00433095,
-      "sample_size": 20
-    },
-    "top_50": {
-      "mean": 0.00519935,
-      "median": 0.00354095,
-      "sample_size": 50
+    "network": {
+      "mean": 0.00567986,
+      "median": 0.0043944,
+      "sample_size": 761
     },
     "percentiles": {
       "p10": 0.0014794,
@@ -119,27 +214,61 @@
       "p50": 0.0043944,
       "p75": 0.006914,
       "p90": 0.0110881
+    },
+    "cohorts": {
+      "top_10_by_stake": {
+        "mean": 0.00715123,
+        "median": 0.0049443,
+        "sample_size": 10
+      },
+      "top_20_by_stake": {
+        "mean": 0.00632207,
+        "median": 0.00433095,
+        "sample_size": 20
+      },
+      "top_50_by_stake": {
+        "mean": 0.00519935,
+        "median": 0.00354095,
+        "sample_size": 50
+      },
+      "top_10_by_mev": {
+        "mean": 0.03733762,
+        "median": 0.0305465,
+        "sample_size": 10
+      },
+      "top_20_by_mev": {
+        "mean": 0.02935348,
+        "median": 0.0241315,
+        "sample_size": 20
+      },
+      "top_50_by_mev": {
+        "mean": 0.02184165,
+        "median": 0.01863735,
+        "sample_size": 50
+      },
+      "top_10_by_rev": {
+        "mean": 0.00085935,
+        "median": 0.00038135,
+        "sample_size": 10
+      },
+      "top_20_by_rev": {
+        "mean": 0.00587438,
+        "median": 0.0016061,
+        "sample_size": 20
+      },
+      "top_50_by_rev": {
+        "mean": 0.00623907,
+        "median": 0.0026713,
+        "sample_size": 50
+      }
     }
   },
   "rev": {
     "unit": "SOL per block (per leader slot)",
-    "mean": 0.36019182,
-    "median": 0.34747463,
-    "sample_size": 762,
-    "top_10": {
-      "mean": 0.34517674,
-      "median": 0.34706483,
-      "sample_size": 10
-    },
-    "top_20": {
-      "mean": 0.33175194,
-      "median": 0.34706483,
-      "sample_size": 20
-    },
-    "top_50": {
-      "mean": 0.34061017,
-      "median": 0.34804014,
-      "sample_size": 50
+    "network": {
+      "mean": 0.36019182,
+      "median": 0.34747463,
+      "sample_size": 762
     },
     "percentiles": {
       "p10": 0.28173789,
@@ -147,18 +276,96 @@
       "p50": 0.34747463,
       "p75": 0.38153356,
       "p90": 0.45256219
+    },
+    "cohorts": {
+      "top_10_by_stake": {
+        "mean": 0.34517674,
+        "median": 0.34706483,
+        "sample_size": 10
+      },
+      "top_20_by_stake": {
+        "mean": 0.33175194,
+        "median": 0.34706483,
+        "sample_size": 20
+      },
+      "top_50_by_stake": {
+        "mean": 0.34061017,
+        "median": 0.34804014,
+        "sample_size": 50
+      },
+      "top_10_by_mev": {
+        "mean": 0.41802532,
+        "median": 0.38248725,
+        "sample_size": 10
+      },
+      "top_20_by_mev": {
+        "mean": 0.39434496,
+        "median": 0.37428028,
+        "sample_size": 20
+      },
+      "top_50_by_mev": {
+        "mean": 0.36771722,
+        "median": 0.35451997,
+        "sample_size": 50
+      },
+      "top_10_by_rev": {
+        "mean": 0.98276079,
+        "median": 0.88955005,
+        "sample_size": 10
+      },
+      "top_20_by_rev": {
+        "mean": 0.80914919,
+        "median": 0.68173048,
+        "sample_size": 20
+      },
+      "top_50_by_rev": {
+        "mean": 0.63827276,
+        "median": 0.56175501,
+        "sample_size": 50
+      }
     }
   },
   "figment": {
-    "name": "Figment",
-    "actual_stake_sol": 13237360,
-    "leader_slots": 13480,
-    "inflation": 0.3129765074183976,
-    "sig_fees": 0.0036608,
-    "priority_fees": 0.0228737,
-    "mev": 0.0152214,
-    "rev": 0.35471950741839764,
-    "note": "Primary Figment node (Rakurai client). 'Ledger by Figment' is a separate node and not included here."
+    "selection_rule": "Exact name match: 'Figment'. Primary node (Rakurai client).",
+    "selected_rows": [
+      {
+        "name": "Figment",
+        "vote_account": "CcaHc2L43ZWjwCHART3oZoJvHLAe9hzT2DJNUpBzoTN1",
+        "identity": "Fd7btgySsrjuo25CJCj7oE7VPMyezDhnx7pZkj2v69Nk",
+        "actual_stake_sol": 13237360,
+        "leader_slots": 13480
+      }
+    ],
+    "metrics": {
+      "inflation": 0.3129765074183976,
+      "sig_fees": 0.0036608,
+      "priority_fees": 0.0228737,
+      "mev": 0.0152214,
+      "rev": 0.35471950741839764
+    },
+    "comparisons": {
+      "vs_network_median": {
+        "inflation": 0.996,
+        "sig_fees": 1.067,
+        "priority_fees": 1.11,
+        "mev": 3.464,
+        "rev": 1.021
+      },
+      "vs_top_50_by_stake_median": {
+        "inflation": 1.002,
+        "sig_fees": 1.058,
+        "priority_fees": 0.955,
+        "mev": 4.299,
+        "rev": 1.019
+      },
+      "vs_top_50_by_mev_median": {
+        "inflation": 1.015,
+        "sig_fees": 1.04,
+        "priority_fees": 1.001,
+        "mev": 0.817,
+        "rev": 1.001
+      }
+    }
   },
   "consistency_checks": {
     "rev_equals_infl_plus_mev_plus_rewards": {
