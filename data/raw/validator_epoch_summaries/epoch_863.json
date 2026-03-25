@@ -1,0 +1,55 @@
+{
+  "epoch": 863,
+  "regime": "extreme",
+  "n_validators": 902,
+  "metrics": {
+    "base_fees": {
+      "network": {
+        "mean": 0.00343983,
+        "median": 0.0034252
+      },
+      "top_50_by_stake": {
+        "median": 0.0034106
+      },
+      "top_50_by_mev": {
+        "median": 0.00351325
+      }
+    },
+    "priority_fees": {
+      "network": {
+        "mean": 0.00970877,
+        "median": 0.00892885
+      },
+      "top_50_by_stake": {
+        "median": 0.00979535
+      },
+      "top_50_by_mev": {
+        "median": 0.0131409
+      }
+    },
+    "mev": {
+      "network": {
+        "mean": 0.00684062,
+        "median": 0.00402285
+      },
+      "top_50_by_stake": {
+        "median": 0.00456365
+      },
+      "top_50_by_mev": {
+        "median": 0.0208551
+      }
+    },
+    "total_reward": {
+      "network": {
+        "mean": 0.01998923,
+        "median": 0.01709915
+      },
+      "top_50_by_stake": {
+        "median": 0.01804675
+      },
+      "top_50_by_mev": {
+        "median": 0.03685345
+      }
+    }
+  }
+}
