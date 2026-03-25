@@ -117,6 +117,14 @@ def _cohort_median(sorted_validators, field, n):
     return statistics.median(sorted(vals))
 
 
+def _cohort_mean(sorted_validators, field, n):
+    """Mean of `field` for the first N validators in a pre-sorted list."""
+    vals = [v[field] for v in sorted_validators[:n] if v[field] is not None]
+    if not vals:
+        return None
+    return statistics.mean(vals)
+
+
 def _round8(x):
     if x is None:
         return None
@@ -224,11 +232,13 @@ def _build_epoch_summary(epoch, validators, regime):
         net_mean   = _round8(_mean(vals))
         net_median = _round8(_median(vals))
         t50s_med   = _round8(_cohort_median(by_stake, field, 50))
+        t50s_mean  = _round8(_cohort_mean  (by_stake, field, 50))
         t50m_med   = _round8(_cohort_median(by_mev,   field, 50))
+        t50m_mean  = _round8(_cohort_mean  (by_mev,   field, 50))
         return {
             "network":         {"mean": net_mean, "median": net_median},
-            "top_50_by_stake": {"median": t50s_med},
-            "top_50_by_mev":   {"median": t50m_med},
+            "top_50_by_stake": {"mean": t50s_mean, "median": t50s_med},
+            "top_50_by_mev":   {"mean": t50m_mean, "median": t50m_med},
         }
 
     return {
@@ -364,12 +374,12 @@ def build_latest_epoch_block(regimes):
                 }
             net      = src.get("network", {})
             cohorts  = src.get("cohorts", {})
-            t50s_med = (cohorts.get("top_50_by_stake") or {}).get("median")
-            t50m_med = (cohorts.get("top_50_by_mev")   or {}).get("median")
+            t50s     = cohorts.get("top_50_by_stake") or {}
+            t50m     = cohorts.get("top_50_by_mev")   or {}
             return {
                 "network":         {"mean": net.get("mean"), "median": net.get("median")},
-                "top_50_by_stake": {"median": t50s_med},
-                "top_50_by_mev":   {"median": t50m_med},
+                "top_50_by_stake": {"mean": t50s.get("mean"), "median": t50s.get("median")},
+                "top_50_by_mev":   {"mean": t50m.get("mean"), "median": t50m.get("median")},
             }
 
         bf = _extract_metric("sig_fees")
@@ -440,26 +450,41 @@ def build_latest_epoch_block(regimes):
 
 def _time_agg_metric(summaries, metric_key, cohort_key):
     """
-    Collect per-epoch medians from summaries[i].metrics[metric_key][cohort_key]["median"]
-    and return aggregated stats dict.
+    Collect per-epoch medians (and means where available) from
+    summaries[i].metrics[metric_key][cohort_key] and return aggregated stats.
+
+    Returns:
+      mean_of_epoch_medians  — mean   of per-epoch cohort medians
+      median_of_epoch_medians — median of per-epoch cohort medians  (canonical)
+      p25 / p75               — percentiles of per-epoch cohort medians
+      mean_of_epoch_means     — mean of per-epoch cohort means (proxy for pooled mean)
     """
-    vals = []
+    medians, means = [], []
     for s in summaries:
         m = s.get("metrics", {}).get(metric_key, {})
         c = m.get(cohort_key, {})
-        v = c.get("median")
-        if v is not None:
-            vals.append(v)
+        v_med = c.get("median")
+        v_mea = c.get("mean")
+        if v_med is not None:
+            medians.append(v_med)
+        if v_mea is not None:
+            means.append(v_mea)
 
-    if not vals:
-        return {"mean": None, "median": None, "p25": None, "p75": None}
+    if not medians:
+        return {
+            "mean_of_epoch_medians":  None,
+            "median_of_epoch_medians": None,
+            "p25": None, "p75": None,
+            "mean_of_epoch_means": None,
+        }
 
-    sv = sorted(vals)
+    sv = sorted(medians)
     return {
-        "mean":   _round8(_mean(sv)),
-        "median": _round8(_median(sv)),
-        "p25":    _round8(_pct(sv, 25)),
-        "p75":    _round8(_pct(sv, 75)),
+        "mean_of_epoch_medians":   _round8(_mean(sv)),
+        "median_of_epoch_medians": _round8(_median(sv)),
+        "p25":                     _round8(_pct(sv, 25)),
+        "p75":                     _round8(_pct(sv, 75)),
+        "mean_of_epoch_means":     _round8(_mean(means)) if means else None,
     }
 
 
@@ -492,18 +517,33 @@ def build_time_agg_block(summaries):
 
     metrics_out = {}
     for metric_key in ("base_fees", "priority_fees", "mev", "total_reward"):
+        net_agg   = _time_agg_metric(summaries, metric_key, "network")
+        s50_agg   = _time_agg_metric(summaries, metric_key, "top_50_by_stake")
+        m50_agg   = _time_agg_metric(summaries, metric_key, "top_50_by_mev")
+        net_mean_agg = _time_agg_network_mean(summaries, metric_key)
+
         metrics_out[metric_key] = {
             "network": {
-                "mean":   _time_agg_network_mean(summaries, metric_key)["mean"],
-                "median": _time_agg_metric(summaries, metric_key, "network")["median"],
-                "p25":    _time_agg_metric(summaries, metric_key, "network")["p25"],
-                "p75":    _time_agg_metric(summaries, metric_key, "network")["p75"],
+                "mean":   net_mean_agg["mean"],
+                "median": net_agg["median_of_epoch_medians"],
+                "p25":    net_agg["p25"],
+                "p75":    net_agg["p75"],
             },
             "top_50_by_stake": {
-                "median": _time_agg_metric(summaries, metric_key, "top_50_by_stake")["median"],
+                # canonical: median of epoch-level cohort medians
+                "median":              s50_agg["median_of_epoch_medians"],
+                # secondary: mean of epoch-level cohort medians
+                "mean_of_medians":     s50_agg["mean_of_epoch_medians"],
+                # proxy pooled mean: mean of per-epoch cohort means (equal-weight epochs)
+                "mean_of_means":       s50_agg["mean_of_epoch_means"],
             },
             "top_50_by_mev": {
-                "median": _time_agg_metric(summaries, metric_key, "top_50_by_mev")["median"],
+                # canonical: median of epoch-level cohort medians
+                "median":              m50_agg["median_of_epoch_medians"],
+                # secondary: mean of epoch-level cohort medians
+                "mean_of_medians":     m50_agg["mean_of_epoch_medians"],
+                # proxy pooled mean: mean of per-epoch cohort means (equal-weight epochs)
+                "mean_of_means":       m50_agg["mean_of_epoch_means"],
             },
         }
     return {"metrics": metrics_out}
@@ -687,6 +727,28 @@ def main():
             ),
             "regime_source": "solana_epoch_database.csv volatility_tag",
             "data_source":   "Trillium API /validator_rewards/{epoch}",
+            "temporal_aggregation": (
+                "For cohort statistics (top_50_by_*), each epoch's cohort is ranked "
+                "independently. The canonical benchmark is median_of_epoch_medians: "
+                "the median across per-epoch cohort medians. "
+                "mean_of_medians is the mean of those same per-epoch medians. "
+                "mean_of_means is the mean of per-epoch cohort means, which is a proxy "
+                "for the pooled mean (since each epoch contributes exactly 50 validators, "
+                "all epochs are equal-weighted). "
+                "Pooled median (true median of all 50*N individual rows) is not stored "
+                "as it would require caching 50 individual validator values per epoch."
+            ),
+            "regime_note": (
+                "Regime classification (normal/elevated/extreme) uses relative z-scores "
+                "over a rolling 30-epoch window, not absolute thresholds. "
+                "A spike in MEV relative to a low-MEV baseline still triggers elevated/extreme, "
+                "even if the absolute value is below the 12m median. "
+                "As a result, the median_of_epoch_medians for elevated+extreme epochs "
+                "can be LOWER than for all epochs when the elevated/extreme set includes "
+                "both true high-MEV spikes (early range) and relative-spike epochs in "
+                "low-MEV periods (later range). This is a valid distribution effect, "
+                "not an aggregation artifact."
+            ),
             "notes": [
                 "total_reward = base_fees + priority_fees + mev (per block)",
                 "top_50_by_stake and top_50_by_mev ranked independently per epoch",
@@ -695,8 +757,8 @@ def main():
                     "(not raw validator values)"
                 ),
                 (
-                    "median of epoch medians is the primary reference; "
-                    "mean of epoch medians is secondary"
+                    "median_of_epoch_medians is the canonical reference; "
+                    "mean_of_epoch_means is the proxy for pooled mean"
                 ),
                 (
                     "base_fees = signature fees (sig_fees from Trillium); "
