@@ -1,0 +1,727 @@
+{
+  "metadata": {
+    "epoch": 945,
+    "source_file": "data/validators_epoch_945.csv",
+    "valid_validators": 762,
+    "skipped_rows": 15,
+    "sort_basis": "actual_stake_sol = Stake_column * Leader_Slots (verified vs on-chain)",
+    "monetary_unit": "SOL per block (per leader slot produced)",
+    "stake_note": "Stake column in CSV = actual_stake_SOL / leader_slots. To recover actual SOL stake: Stake × Leader_Slots. Verified against validators-all (4).csv: error < 0.1% for top validators.",
+    "top_stake_segments_note": "Top-N segments are ordered by actual_stake_sol descending. Means and medians are simple (unweighted), not stake-weighted."
+  },
+  "inflation": {
+    "unit": "SOL per block (per leader slot)",
+    "mean": 0.32867835,
+    "median": 0.31425868,
+    "sample_size": 762,
+    "top_10": {
+      "mean": 0.3101103,
+      "median": 0.31019794,
+      "sample_size": 10
+    },
+    "top_20": {
+      "mean": 0.29597865,
+      "median": 0.30977305,
+      "sample_size": 20
+    },
+    "top_50": {
+      "mean": 0.3068872,
+      "median": 0.31241554,
+      "sample_size": 50
+    },
+    "percentiles": {
+      "p10": 0.25130619,
+      "p25": 0.28903791,
+      "p50": 0.31425868,
+      "p75": 0.34855462,
+      "p90": 0.42116294
+    }
+  },
+  "sig_fees": {
+    "unit": "SOL per block (per leader slot)",
+    "mean": 0.00341498,
+    "median": 0.003432,
+    "sample_size": 761,
+    "top_10": {
+      "mean": 0.00351747,
+      "median": 0.00349935,
+      "sample_size": 10
+    },
+    "top_20": {
+      "mean": 0.00350366,
+      "median": 0.00349945,
+      "sample_size": 20
+    },
+    "top_50": {
+      "mean": 0.00348208,
+      "median": 0.0034607,
+      "sample_size": 50
+    },
+    "percentiles": {
+      "p10": 0.0032478,
+      "p25": 0.0033567,
+      "p50": 0.003432,
+      "p75": 0.0034936,
+      "p90": 0.003581
+    }
+  },
+  "priority_fees": {
+    "unit": "SOL per block (per leader slot)",
+    "mean": 0.02247207,
+    "median": 0.0206156,
+    "sample_size": 761,
+    "top_10": {
+      "mean": 0.02441062,
+      "median": 0.0237023,
+      "sample_size": 10
+    },
+    "top_20": {
+      "mean": 0.02596017,
+      "median": 0.0244801,
+      "sample_size": 20
+    },
+    "top_50": {
+      "mean": 0.02505403,
+      "median": 0.0239583,
+      "sample_size": 50
+    },
+    "percentiles": {
+      "p10": 0.0140206,
+      "p25": 0.0169909,
+      "p50": 0.0206156,
+      "p75": 0.0250531,
+      "p90": 0.0312583
+    }
+  },
+  "mev": {
+    "unit": "SOL per block (per leader slot)",
+    "mean": 0.00567986,
+    "median": 0.0043944,
+    "sample_size": 761,
+    "top_10": {
+      "mean": 0.00715123,
+      "median": 0.0049443,
+      "sample_size": 10
+    },
+    "top_20": {
+      "mean": 0.00632207,
+      "median": 0.00433095,
+      "sample_size": 20
+    },
+    "top_50": {
+      "mean": 0.00519935,
+      "median": 0.00354095,
+      "sample_size": 50
+    },
+    "percentiles": {
+      "p10": 0.0014794,
+      "p25": 0.0022604,
+      "p50": 0.0043944,
+      "p75": 0.006914,
+      "p90": 0.0110881
+    }
+  },
+  "rev": {
+    "unit": "SOL per block (per leader slot)",
+    "mean": 0.36019182,
+    "median": 0.34747463,
+    "sample_size": 762,
+    "top_10": {
+      "mean": 0.34517674,
+      "median": 0.34706483,
+      "sample_size": 10
+    },
+    "top_20": {
+      "mean": 0.33175194,
+      "median": 0.34706483,
+      "sample_size": 20
+    },
+    "top_50": {
+      "mean": 0.34061017,
+      "median": 0.34804014,
+      "sample_size": 50
+    },
+    "percentiles": {
+      "p10": 0.28173789,
+      "p25": 0.31872787,
+      "p50": 0.34747463,
+      "p75": 0.38153356,
+      "p90": 0.45256219
+    }
+  },
+  "figment": {
+    "name": "Figment",
+    "actual_stake_sol": 13237360,
+    "leader_slots": 13480,
+    "inflation": 0.3129765074183976,
+    "sig_fees": 0.0036608,
+    "priority_fees": 0.0228737,
+    "mev": 0.0152214,
+    "rev": 0.35471950741839764,
+    "note": "Primary Figment node (Rakurai client). 'Ledger by Figment' is a separate node and not included here."
+  },
+  "consistency_checks": {
+    "rev_equals_infl_plus_mev_plus_rewards": {
+      "threshold_pct": 1.0,
+      "mismatches": 0,
+      "examples": []
+    },
+    "rewards_equals_pri_plus_sig": {
+      "threshold_pct": 1.0,
+      "mismatches": 0,
+      "examples": []
+    }
+  },
+  "top_validators_by_stake": [
+    {
+      "rank": 1,
+      "name": "Helius",
+      "actual_stake_sol": 14207928,
+      "leader_slots": 14708,
+      "rev": 0.33484888555887954,
+      "inflation": 0.3053027855588795,
+      "mev": 0.0025327,
+      "priority_fees": 0.0235961,
+      "sig_fees": 0.00343
+    },
+    {
+      "rank": 2,
+      "name": "Figment",
+      "actual_stake_sol": 13237360,
+      "leader_slots": 13480,
+      "rev": 0.35471950741839764,
+      "inflation": 0.3129765074183976,
+      "mev": 0.0152214,
+      "priority_fees": 0.0228737,
+      "sig_fees": 0.0036608
+    },
+    {
+      "rank": 3,
+      "name": "binance staking",
+      "actual_stake_sol": 13032120,
+      "leader_slots": 13380,
+      "rev": 0.34270859446935725,
+      "inflation": 0.30915579446935726,
+      "mev": 0.0053046,
+      "priority_fees": 0.0248521,
+      "sig_fees": 0.0034078
+    },
+    {
+      "rank": 4,
+      "name": "Jupiter",
+      "actual_stake_sol": 12225820,
+      "leader_slots": 12412,
+      "rev": 0.3522230669029971,
+      "inflation": 0.3140483669029971,
+      "mev": 0.004584,
+      "priority_fees": 0.0300637,
+      "sig_fees": 0.0035393
+    },
+    {
+      "rank": 5,
+      "name": "Ledger by Figment",
+      "actual_stake_sol": 8576040,
+      "leader_slots": 8760,
+      "rev": 0.3342222493150685,
+      "inflation": 0.3069778493150685,
+      "mev": 0.0020903,
+      "priority_fees": 0.0217135,
+      "sig_fees": 0.0034531
+    },
+    {
+      "rank": 6,
+      "name": "Everstake",
+      "actual_stake_sol": 7372856,
+      "leader_slots": 7508,
+      "rev": 0.34636696521044225,
+      "inflation": 0.31292386521044224,
+      "mev": 0.0071911,
+      "priority_fees": 0.0227371,
+      "sig_fees": 0.0035279
+    },
+    {
+      "rank": 7,
+      "name": "Bitwise Onchain Solutions",
+      "actual_stake_sol": 7061084,
+      "leader_slots": 7012,
+      "rev": 0.34852846930975473,
+      "inflation": 0.32113956930975474,
+      "mev": 0.0015481,
+      "priority_fees": 0.0224121,
+      "sig_fees": 0.0034416
+    },
+    {
+      "rank": 8,
+      "name": "Galaxy",
+      "actual_stake_sol": 6981216,
+      "leader_slots": 7212,
+      "rev": 0.34776270122018854,
+      "inflation": 0.30426760122018853,
+      "mev": 0.0128528,
+      "priority_fees": 0.0270385,
+      "sig_fees": 0.003618
+    },
+    {
+      "rank": 9,
+      "name": "Forward Industries",
+      "actual_stake_sol": 6849720,
+      "leader_slots": 7180,
+      "rev": 0.34961856406685243,
+      "inflation": 0.3030705640668524,
+      "mev": 0.0179259,
+      "priority_fees": 0.0250109,
+      "sig_fees": 0.0036254
+    },
+    {
+      "rank": 10,
+      "name": "Staking Facilities | MEV 🔥",
+      "actual_stake_sol": 6604000,
+      "leader_slots": 6604,
+      "rev": 0.34076839388249547,
+      "inflation": 0.31124009388249546,
+      "mev": 0.0022614,
+      "priority_fees": 0.0238085,
+      "sig_fees": 0.0034708
+    },
+    {
+      "rank": 11,
+      "name": "Kiln1",
+      "actual_stake_sol": 6518568,
+      "leader_slots": 6748,
+      "rev": 0.3502284721991702,
+      "inflation": 0.30795867219917017,
+      "mev": 0.0188201,
+      "priority_fees": 0.0200526,
+      "sig_fees": 0.0034092
+    },
+    {
+      "rank": 12,
+      "name": "Kraken 2",
+      "actual_stake_sol": 6193440,
+      "leader_slots": 6256,
+      "rev": 0.35149909571611254,
+      "inflation": 0.31039029571611254,
+      "mev": 0.0060861,
+      "priority_fees": 0.031459,
+      "sig_fees": 0.0035761
+    },
+    {
+      "rank": 13,
+      "name": "",
+      "actual_stake_sol": 5070624,
+      "leader_slots": 5304,
+      "rev": 0.33493560942684764,
+      "inflation": 0.30479750942684763,
+      "mev": 0.0026028,
+      "priority_fees": 0.0241081,
+      "sig_fees": 0.0034395
+    },
+    {
+      "rank": 14,
+      "name": "Upbit Staking",
+      "actual_stake_sol": 4919600,
+      "leader_slots": 4900,
+      "rev": 0.345580412244898,
+      "inflation": 0.319976312244898,
+      "mev": 0.0,
+      "priority_fees": 0.022209,
+      "sig_fees": 0.0034071
+    },
+    {
+      "rank": 15,
+      "name": "",
+      "actual_stake_sol": 4619160,
+      "leader_slots": 4680,
+      "rev": 0.3409185064102564,
+      "inflation": 0.3125290064102564,
+      "mev": 0.0017318,
+      "priority_fees": 0.0231994,
+      "sig_fees": 0.003471
+    },
+    {
+      "rank": 16,
+      "name": "",
+      "actual_stake_sol": 3950192,
+      "leader_slots": 4132,
+      "rev": 0.3485648226524685,
+      "inflation": 0.30478522265246855,
+      "mev": 0.0062828,
+      "priority_fees": 0.033976,
+      "sig_fees": 0.0035334
+    },
+    {
+      "rank": 17,
+      "name": "",
+      "actual_stake_sol": 3933000,
+      "leader_slots": 3800,
+      "rev": 0.3669969236842105,
+      "inflation": 0.3300444236842105,
+      "mev": 0.0038115,
+      "priority_fees": 0.029618,
+      "sig_fees": 0.0035352
+    },
+    {
+      "rank": 18,
+      "name": "",
+      "actual_stake_sol": 3883752,
+      "leader_slots": 4008,
+      "rev": 0.3435478673652695,
+      "inflation": 0.3088825673652695,
+      "mev": 0.0032857,
+      "priority_fees": 0.0278586,
+      "sig_fees": 0.0035335
+    },
+    {
+      "rank": 19,
+      "name": "",
+      "actual_stake_sol": 3867408,
+      "leader_slots": 3852,
+      "rev": 0.0410135,
+      "inflation": 0.0,
+      "mev": 0.0082305,
+      "priority_fees": 0.0293361,
+      "sig_fees": 0.003459
+    },
+    {
+      "rank": 20,
+      "name": "",
+      "actual_stake_sol": 3815812,
+      "leader_slots": 3812,
+      "rev": 0.3599862129066107,
+      "inflation": 0.3191059129066107,
+      "mev": 0.0040779,
+      "priority_fees": 0.0332804,
+      "sig_fees": 0.0035345
+    },
+    {
+      "rank": 21,
+      "name": "",
+      "actual_stake_sol": 3741624,
+      "leader_slots": 3768,
+      "rev": 0.3553823529723992,
+      "inflation": 0.3166603529723992,
+      "mev": 0.0058631,
+      "priority_fees": 0.0293341,
+      "sig_fees": 0.0035374
+    },
+    {
+      "rank": 22,
+      "name": "",
+      "actual_stake_sol": 3738592,
+      "leader_slots": 3784,
+      "rev": 0.34154910105708247,
+      "inflation": 0.3136140010570825,
+      "mev": 0.0021811,
+      "priority_fees": 0.0223044,
+      "sig_fees": 0.0034625
+    },
+    {
+      "rank": 23,
+      "name": "",
+      "actual_stake_sol": 3594332,
+      "leader_slots": 3748,
+      "rev": 0.3401825990394878,
+      "inflation": 0.30579319903948776,
+      "mev": 0.0086654,
+      "priority_fees": 0.0223418,
+      "sig_fees": 0.0033938
+    },
+    {
+      "rank": 24,
+      "name": "",
+      "actual_stake_sol": 3592404,
+      "leader_slots": 3596,
+      "rev": 0.3639117817575083,
+      "inflation": 0.31838858175750834,
+      "mev": 0.01315,
+      "priority_fees": 0.0288593,
+      "sig_fees": 0.0035264
+    },
+    {
+      "rank": 25,
+      "name": "P2P.org",
+      "actual_stake_sol": 3577520,
+      "leader_slots": 3632,
+      "rev": 0.35138131002202644,
+      "inflation": 0.30874731002202643,
+      "mev": 0.0147635,
+      "priority_fees": 0.0243352,
+      "sig_fees": 0.0035483
+    },
+    {
+      "rank": 26,
+      "name": "",
+      "actual_stake_sol": 3516672,
+      "leader_slots": 3856,
+      "rev": 0.32553456441908707,
+      "inflation": 0.2902736644190871,
+      "mev": 0.003406,
+      "priority_fees": 0.0283423,
+      "sig_fees": 0.003525
+    },
+    {
+      "rank": 27,
+      "name": "Coinbase 04",
+      "actual_stake_sol": 3287168,
+      "leader_slots": 3368,
+      "rev": 0.34831758812351543,
+      "inflation": 0.31103748812351545,
+      "mev": 0.0041186,
+      "priority_fees": 0.0296397,
+      "sig_fees": 0.0035344
+    },
+    {
+      "rank": 28,
+      "name": "blueshift",
+      "actual_stake_sol": 3194880,
+      "leader_slots": 3120,
+      "rev": 0.3519640807692308,
+      "inflation": 0.3264879807692308,
+      "mev": 0.0017981,
+      "priority_fees": 0.0202329,
+      "sig_fees": 0.0034578
+    },
+    {
+      "rank": 29,
+      "name": "Twinstake",
+      "actual_stake_sol": 3069400,
+      "leader_slots": 2980,
+      "rev": 0.35819321946308724,
+      "inflation": 0.32377941946308725,
+      "mev": 0.0032402,
+      "priority_fees": 0.027698,
+      "sig_fees": 0.0034875
+    },
+    {
+      "rank": 30,
+      "name": "",
+      "actual_stake_sol": 2914368,
+      "leader_slots": 2824,
+      "rev": 0.35546451331444756,
+      "inflation": 0.32910261331444757,
+      "mev": 0.0018675,
+      "priority_fees": 0.021072,
+      "sig_fees": 0.003435
+    },
+    {
+      "rank": 31,
+      "name": "Drift",
+      "actual_stake_sol": 2750484,
+      "leader_slots": 2948,
+      "rev": 0.3283427293080054,
+      "inflation": 0.2967882293080054,
+      "mev": 0.0051802,
+      "priority_fees": 0.0230201,
+      "sig_fees": 0.0033662
+    },
+    {
+      "rank": 32,
+      "name": "Kraken",
+      "actual_stake_sol": 2747920,
+      "leader_slots": 2804,
+      "rev": 0.3417807649072753,
+      "inflation": 0.3123020649072753,
+      "mev": 0.0057677,
+      "priority_fees": 0.0202655,
+      "sig_fees": 0.0034578
+    },
+    {
+      "rank": 33,
+      "name": "Blockdaemon 🧱👿 Validator",
+      "actual_stake_sol": 2739464,
+      "leader_slots": 2756,
+      "rev": 0.354320435413643,
+      "inflation": 0.31126293541364297,
+      "mev": 0.01466,
+      "priority_fees": 0.0247295,
+      "sig_fees": 0.0036817
+    },
+    {
+      "rank": 34,
+      "name": "Coinbase 03",
+      "actual_stake_sol": 2701728,
+      "leader_slots": 2832,
+      "rev": 0.3391203028248588,
+      "inflation": 0.3020885028248588,
+      "mev": 0.004184,
+      "priority_fees": 0.029497,
+      "sig_fees": 0.0033629
+    },
+    {
+      "rank": 35,
+      "name": "Bitwise Onchain Solutions | Jito BAM",
+      "actual_stake_sol": 2648612,
+      "leader_slots": 2564,
+      "rev": 0.36216805975039,
+      "inflation": 0.32923875975039,
+      "mev": 0.0043944,
+      "priority_fees": 0.0252251,
+      "sig_fees": 0.0033213
+    },
+    {
+      "rank": 36,
+      "name": "Nansen | Stake to Stack Points",
+      "actual_stake_sol": 2589600,
+      "leader_slots": 2600,
+      "rev": 0.3463766,
+      "inflation": 0.3173279,
+      "mev": 0.0044681,
+      "priority_fees": 0.0211651,
+      "sig_fees": 0.0034276
+    },
+    {
+      "rank": 37,
+      "name": "Luganodes",
+      "actual_stake_sol": 2505140,
+      "leader_slots": 2596,
+      "rev": 0.33947632758089363,
+      "inflation": 0.30556292758089365,
+      "mev": 0.0081031,
+      "priority_fees": 0.0224014,
+      "sig_fees": 0.0034208
+    },
+    {
+      "rank": 38,
+      "name": "",
+      "actual_stake_sol": 2501968,
+      "leader_slots": 2492,
+      "rev": 0.3488098711075442,
+      "inflation": 0.31997597110754417,
+      "mev": 0.0017884,
+      "priority_fees": 0.0236223,
+      "sig_fees": 0.0034357
+    },
+    {
+      "rank": 39,
+      "name": "",
+      "actual_stake_sol": 2501772,
+      "leader_slots": 2436,
+      "rev": 0.35711638177339905,
+      "inflation": 0.32733538177339905,
+      "mev": 0.0021465,
+      "priority_fees": 0.0241899,
+      "sig_fees": 0.0034574
+    },
+    {
+      "rank": 40,
+      "name": "",
+      "actual_stake_sol": 2501244,
+      "leader_slots": 2412,
+      "rev": 0.36299509170812605,
+      "inflation": 0.33058249170812604,
+      "mev": 0.0016606,
+      "priority_fees": 0.0273078,
+      "sig_fees": 0.003457
+    },
+    {
+      "rank": 41,
+      "name": "",
+      "actual_stake_sol": 2500960,
+      "leader_slots": 2464,
+      "rev": 0.34977869512987014,
+      "inflation": 0.32357549512987016,
+      "mev": 0.0015959,
+      "priority_fees": 0.021161,
+      "sig_fees": 0.0034577
+    },
+    {
+      "rank": 42,
+      "name": "",
+      "actual_stake_sol": 2500476,
+      "leader_slots": 2508,
+      "rev": 0.3448898303030303,
+      "inflation": 0.3179430303030303,
+      "mev": 0.0015962,
+      "priority_fees": 0.0219197,
+      "sig_fees": 0.0034434
+    },
+    {
+      "rank": 43,
+      "name": "",
+      "actual_stake_sol": 2500000,
+      "leader_slots": 2500,
+      "rev": 0.35116236,
+      "inflation": 0.31864966,
+      "mev": 0.0021014,
+      "priority_fees": 0.0269619,
+      "sig_fees": 0.0034624
+    },
+    {
+      "rank": 44,
+      "name": "",
+      "actual_stake_sol": 2498928,
+      "leader_slots": 2636,
+      "rev": 0.3300819147192716,
+      "inflation": 0.30220671471927163,
+      "mev": 0.0020557,
+      "priority_fees": 0.022362,
+      "sig_fees": 0.00347
+    },
+    {
+      "rank": 45,
+      "name": "",
+      "actual_stake_sol": 2498704,
+      "leader_slots": 2344,
+      "rev": 0.36912832047781563,
+      "inflation": 0.33981552047781566,
+      "mev": 0.0023262,
+      "priority_fees": 0.0235043,
+      "sig_fees": 0.0034935
+    },
+    {
+      "rank": 46,
+      "name": "",
+      "actual_stake_sol": 2498580,
+      "leader_slots": 2644,
+      "rev": 0.32612423025718607,
+      "inflation": 0.30129253025718605,
+      "mev": 0.001666,
+      "priority_fees": 0.0197286,
+      "sig_fees": 0.0034497
+    },
+    {
+      "rank": 47,
+      "name": "",
+      "actual_stake_sol": 2498176,
+      "leader_slots": 2692,
+      "rev": 0.3224803811292719,
+      "inflation": 0.29588738112927193,
+      "mev": 0.0020099,
+      "priority_fees": 0.0211381,
+      "sig_fees": 0.0034567
+    },
+    {
+      "rank": 48,
+      "name": "",
+      "actual_stake_sol": 2408832,
+      "leader_slots": 2448,
+      "rev": 0.34690616928104573,
+      "inflation": 0.31362986928104575,
+      "mev": 0.0017305,
+      "priority_fees": 0.0280909,
+      "sig_fees": 0.0034678
+    },
+    {
+      "rank": 49,
+      "name": "Coinbase 02",
+      "actual_stake_sol": 2324856,
+      "leader_slots": 2468,
+      "rev": 0.33225661896272285,
+      "inflation": 0.29532491896272284,
+      "mev": 0.0036759,
+      "priority_fees": 0.0296891,
+      "sig_fees": 0.0035794
+    },
+    {
+      "rank": 50,
+      "name": "",
+      "actual_stake_sol": 2321248,
+      "leader_slots": 2312,
+      "rev": 0.3502735679930796,
+      "inflation": 0.3201119679930796,
+      "mev": 0.0033618,
+      "priority_fees": 0.0233589,
+      "sig_fees": 0.0034536
+    }
+  ]
+}
